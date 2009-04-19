@@ -1,0 +1,19 @@
+#include "resource.h"
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+IDB_BITMAP1             BITMAP                  ".\\resources\\graphics\\bmp10001.bmp"
+IDB_BITMAP2             BITMAP                  ".\\resources\\graphics\\bmp10002.bmp"
+IDB_BITMAP3             BITMAP                  ".\\resources\\graphics\\bmp10003.bmp"
+IDB_BITMAP4             BITMAP                  ".\\resources\\graphics\\bmp10004.bmp"
+IDB_BITMAP5             BITMAP                  ".\\resources\\graphics\\bmp10005.bmp"
+IDB_BITMAP6             BITMAP                  ".\\resources\\graphics\\bmp10006.bmp"

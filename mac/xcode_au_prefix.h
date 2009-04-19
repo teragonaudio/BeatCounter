@@ -23,3 +23,5 @@
 #include <AudioUnit/AudioUnit.h>
 #include <AvailabilityMacros.h>
 #include "vstgui.h"
+
+#include "defaults.h"

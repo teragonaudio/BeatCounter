@@ -9,7 +9,7 @@
 
 #define DEF_PRODUCT "BeatCounter"
 #define MAJ_VERSION 1
-#define MIN_VERSION 4
+#define MIN_VERSION 5
 #define REL_BRANCH 'r'
 #define VERSION ((MAJ_VERSION * 1000) + (MIN_VERSION * 10))
 
@@ -58,6 +58,9 @@ enum {
 #define MIN_AMPLITUDE 0.1 // Used to filter noise
 #define MIN_BPM 60
 #define MAX_BPM 180 // Helps to improve accuracy
+
+// PluginCore features
+#define USE_PC_EVENTS 0
 
 #ifdef USE_PC_AU
 #define BeatCounter_COMP_SUBTYPE 'BtCt'

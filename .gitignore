@@ -1,1 +1,4 @@
+build
+*.pbxuser
+*.perspectivev3
 vstsdk2.4/*

@@ -1,0 +1,3 @@
+[submodule "plugincore"]
+	path = plugincore
+	url = git://github.com/teragonaudio/plugincore.git

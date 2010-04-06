@@ -8,8 +8,8 @@
 #define __defaults_H
 
 #define DEF_PRODUCT "BeatCounter"
-#define MAJ_VERSION 1
-#define MIN_VERSION 5
+#define MAJ_VERSION 2
+#define MIN_VERSION 0
 #define REL_BRANCH 'r'
 #define VERSION ((MAJ_VERSION * 1000) + (MIN_VERSION * 10))
 

@@ -14,12 +14,12 @@
 
 #ifdef VST
 #ifndef __audioeffectx__
-#include "audioeffectx.h"
+#include "public.sdk/source/vst2.x/audioeffectx.h"
 #endif
 #endif
 
 #include <math.h>
-
+/*
 BeatCounterCore::BeatCounterCore(int num_params, int version, char *name) : pluginCore(num_params, VERSION, name) {
   init();
 }
@@ -227,3 +227,4 @@ void BeatCounterCore::process(float **inputs, float **outputs, long frames) {
 void BeatCounterCore::setEditor(BeatCounterEditor *e) {
   editor = e;
 }
+*/

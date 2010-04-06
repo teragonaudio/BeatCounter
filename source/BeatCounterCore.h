@@ -12,17 +12,14 @@
 #include "BeatCounterEditor.h"
 #endif
 
-#ifndef __pluginCore_H
-#include "pluginCore.h"
-#endif
-
 #ifndef __defaults_H
 #include "defaults.h"
 #endif
 
 #include <vector>
 
-class BeatCounterCore : public pluginCore {
+class BeatCounterCore {
+  /*
   public:
     BeatCounterCore(int num_params, int version, char *name);
     ~BeatCounterCore();
@@ -65,6 +62,7 @@ class BeatCounterCore : public pluginCore {
     unsigned long m_num_samples_processed;
     unsigned long m_dupe_interval;
     unsigned long m_beat_samples;
+    */
 };
 
 #endif

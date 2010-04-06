@@ -4,6 +4,8 @@
  *  Copyright (c) 2006 Teragon Audio, All rights reserved
  */
 
+#if 0
+
 #ifndef __BeatCounterEditor_H
 #define __BeatCounterEditor_H
 
@@ -76,6 +78,8 @@ class BeatCounterView : public AUCarbonViewBase  {
   
   private:
 };
+#endif
+
 #endif
 
 #endif

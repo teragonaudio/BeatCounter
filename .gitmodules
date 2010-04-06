@@ -1,0 +1,3 @@
+[submodule "third-party/juce"]
+	path = third-party/juce
+	url = git://juce.git.sourceforge.net/gitroot/juce/juce

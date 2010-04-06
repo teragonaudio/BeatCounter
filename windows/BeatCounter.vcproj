@@ -4,6 +4,7 @@
 	Version="9,00"
 	Name="BeatCounter"
 	ProjectGUID="{937C233A-C3C1-440C-B28E-CEBC38CDF779}"
+	RootNamespace="BeatCounter"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -16,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory="$(SolutionDir)\build\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -50,14 +51,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\libvst\trunk\source;..\..\libvst\trunk\source\public.sdk\source\vst2.x\;..\..\libvst\trunk\source\vstgui.sf\vstgui\;..\..\PluginCore\trunk\source\;&quot;C:\Program Files\Microsoft Platform SDK\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_USE_MATH_DEFINES;WINDOWS;_WINDOWS;WIN32;_USRDLL;VST;NO_MIDI;NO_PRESET"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release/BeatCounter.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				AssemblerListingLocation="$(OutDir)"
+				ObjectFile="$(OutDir)"
+				ProgramDataBaseFileName="$(OutDir)"
+				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				CompileAs="0"
@@ -75,17 +77,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib uuid.lib shell32.lib ole32.lib gdi32.lib User32.lib advapi32.lib"
-				OutputFile="Release/BeatCounter.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK\Lib&quot;"
-				ModuleDefinitionFile=".\windows\BeatCounter.def"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\third-party\zlib&quot;"
+				ModuleDefinitionFile="$(ProjectDir)\BeatCounter.def"
 				ProgramDatabaseFile=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Release/BeatCounter.lib"
+				ImportLibrary="$(OutDir)/BeatCounter.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -112,8 +113,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory="$(SolutionDir)\build\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -145,15 +146,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\libvst\trunk\source;..\..\libvst\trunk\source\public.sdk\source\vst2.x\;..\..\libvst\trunk\source\vstgui.sf\vstgui\;..\..\PluginCore\trunk\source\;&quot;C:\Program Files\Microsoft Platform SDK\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_USE_MATH_DEFINES;WINDOWS;_WINDOWS;WIN32;_USRDLL;VST;DEBUG;NO_MIDI;NO_PRESET"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug/BeatCounter.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
-				BrowseInformation="1"
+				PrecompiledHeaderFile=""
+				AssemblerListingLocation="$(OutDir)"
+				ObjectFile="$(OutDir)"
+				ProgramDataBaseFileName="$(OutDir)"
+				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -172,18 +173,17 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shell32.lib zlib.lib libpng.lib ole32.lib gdi32.lib User32.lib advapi32.lib"
-				OutputFile=".\Debug\BeatCounter.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK\Lib&quot;"
-				ModuleDefinitionFile=".\windows\BeatCounter.def"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\third-party\zlib&quot;"
+				ModuleDefinitionFile="$(ProjectDir)\BeatCounter.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug\BeatCounter.pdb"
+				ProgramDatabaseFile="$(OutDir)\BeatCounter.pdb"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Debug\BeatCounter.lib"
+				ImportLibrary="$(OutDir)/BeatCounter.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -216,59 +216,43 @@
 			Name="Source Files"
 			>
 			<File
-				RelativePath=".\source\BeatCounterCore.cpp"
+				RelativePath="..\source\BeatCounterCore.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\source\BeatCounterCore.h"
+				RelativePath="..\source\BeatCounterCore.h"
 				>
 			</File>
 			<File
-				RelativePath=".\source\BeatCounterEditor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\BeatCounterEditor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\BeatCounterVST.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\BeatCounterVST.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\defaults.h"
+				RelativePath="..\source\defaults.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="VST Source"
+			Name="VST SDK"
 			>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\aeffeditor.h"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\aeffeditor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\audioeffect.cpp"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\audioeffect.h"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\audioeffectx.cpp"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\audioeffectx.h"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libvst\trunk\source\public.sdk\source\vst2.x\vstplugmain.cpp"
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\vstplugmain.cpp"
 				>
 			</File>
 		</Filter>
@@ -276,83 +260,15 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath=".\windows\BeatCounter.rc"
+				RelativePath=".\BeatCounter.def"
 				>
 			</File>
 			<File
-				RelativePath=".\windows\resource.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Teralib"
-			>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\binaryLogger.cpp"
+				RelativePath=".\BeatCounter.rc"
 				>
 			</File>
 			<File
-				RelativePath="..\..\PluginCore\trunk\source\binaryLogger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\effectCore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\effectCore.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\eventManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\eventManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\pluginCore.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\productDir.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\PluginCore\trunk\source\productDir.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="VSTGUI Source"
-			>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\aeffguieditor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\aeffguieditor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\vstcontrols.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\vstcontrols.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\vstgui.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\vstgui.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libvst\trunk\source\vstgui.sf\vstgui\vstkeycode.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 		</Filter>

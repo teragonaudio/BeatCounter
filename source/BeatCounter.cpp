@@ -1,24 +1,66 @@
 /*
- *  BeatCounter - BeatCounterCore.cpp
+ *  BeatCounter - BeatCounter.cpp
  *  Created by Nik Reiman on 22.01.06
  *  Copyright (c) 2006 Teragon Audio, All rights reserved
  */
 
 #ifndef __BeatCounterCore_H
-#include "BeatCounterCore.h"
+#include "BeatCounter.h"
 #endif
 
-#ifndef __defaults_H
-#include "defaults.h"
-#endif
-
-#ifdef VST
+/*
 #ifndef __audioeffectx__
 #include "public.sdk/source/vst2.x/audioeffectx.h"
 #endif
-#endif
+*/
 
 #include <math.h>
+
+AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
+  return new teragon::BeatCounter();
+}
+
+namespace teragon {
+  const String BeatCounter::getParameterName(int parameterIndex) {
+    switch(parameterIndex) {
+      case kParamReset: return "Reset";
+      case kParamTolerance: return "Tolerance";
+      case kParamPeriod: return "Period";
+      case kParamAutofilterEnabled: return "Autofilter Enabled";
+      case kParamAutofilterFrequency: return "Autofilter Frequency";
+      case kParamLinkToHostTempo: return "Link to Host Tempo";
+      default: return String::empty;
+    }
+  }
+
+  float BeatCounter::getParameter(int parameterIndex) {
+    return 0.0f;
+  }
+
+  const String BeatCounter::getParameterText(int parameterIndex) {
+    return String::empty;
+  }
+
+  void BeatCounter::setParameter(int parameterIndex, float newValue) {
+  }
+
+  void BeatCounter::prepareToPlay(double sampleRate, int estimatedSamplesPerBlock) {
+  }
+
+  void BeatCounter::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+  }
+
+  void BeatCounter::releaseResources() {
+  }
+
+  void BeatCounter::reset() {
+  }
+
+  AudioProcessorEditor* BeatCounter::createEditor() {
+    return 0;
+  }
+}
+
 /*
 BeatCounterCore::BeatCounterCore(int num_params, int version, char *name) : pluginCore(num_params, VERSION, name) {
   init();

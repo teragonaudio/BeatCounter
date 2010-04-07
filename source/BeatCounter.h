@@ -9,10 +9,29 @@
 #define __BeatCounter_h__
 
 #include "juce_amalgamated.h"
+#include <vector>
 
 namespace teragon {
   const double kMaxAutofilterFrequency = 400.0f;
   const double kMinAutofilterFrequency = 50.0f;
+  // TODO: Change to use downsampling factor
+  const long kDownsampleRate = 1000;
+  const float kSilenceThreshold = 0.1;
+  const float kDefaultTempo = 120.0f;
+  const float kMinimumTempo = 60.0f;
+  const float kMaximumTempo = 180.0f;
+  const float kHostTempoLinkToleranceInBpm = 16.0f;
+  
+  enum Parameters {
+    kParamReset,
+    kParamTolerance,
+    kParamPeriod,
+    kParamAutofilterEnabled,
+    kParamAutofilterFrequency,
+    kParamLinkToHostTempo,
+    
+    kNumParams
+  };
 
   class BeatCounter : public AudioProcessor {
   public:
@@ -62,26 +81,19 @@ namespace teragon {
 
   private:
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
+    double getHostTempo() const;
 
     bool autofilterEnabled;
     double autofilterOutput;
     double autofilterConstant;
     double autofilterFrequency;
-  /*
-  public:
-    BeatCounterCore(int num_params, int version, char *name);
-    ~BeatCounterCore();
     
-    const float fabs(float f) const;
-    void process(float **inputs, float **outputs, long frames);
-    void setEditor(BeatCounterEditor *e);
-    void reset();
+    double tolerance;
+    double currentTempo;
+    long periodSizeInSamples;
+    bool linkWithHostTempo;
     
-  protected:
-  private:    
-    void init();
-    
-    BeatCounterEditor *editor;
+    // OLD MEMBER VARIABLES
     std::vector<float> m_bpm_history;
     
     bool m_beat_state;
@@ -110,7 +122,6 @@ namespace teragon {
     unsigned long m_num_samples_processed;
     unsigned long m_dupe_interval;
     unsigned long m_beat_samples;
-    */
   };
 }
 

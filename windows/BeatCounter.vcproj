@@ -29,6 +29,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description="Installing Plugin"
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;%PROGRAMFILES%\VstPlugins&quot;&#x0D;&#x0A;"
 				Outputs="$(TargetFileName)"
 			/>
@@ -124,6 +125,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description="Installing Plugin"
 				CommandLine="copy &quot;$(TargetPath)&quot; &quot;%PROGRAMFILES%\VstPlugins&quot;&#x0D;&#x0A;"
 				Outputs="$(TargetFileName)"
 			/>
@@ -222,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\source\JucePluginCharacteristics.h"
+				>
+			</File>
+			<File
 				RelativePath="..\source\PrefixCommon.h"
 				>
 			</File>
@@ -259,10 +265,6 @@
 			</File>
 			<File
 				RelativePath="..\source\JuceLibrarySource.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\source\JucePluginCharacteristics.h"
 				>
 			</File>
 		</Filter>

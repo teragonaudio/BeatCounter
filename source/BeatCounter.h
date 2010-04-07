@@ -8,19 +8,7 @@
 #ifndef __BeatCounter_h__
 #define __BeatCounter_h__
 
-/*
-#ifndef __BeatCounterEditor_H
-#include "BeatCounterEditor.h"
-#endif
-
-#ifndef __defaults_H
-#include "defaults.h"
-#endif
-*/
-
 #include "juce_amalgamated.h"
-
-#include <vector>
 
 namespace teragon {
   const double kMaxAutofilterFrequency = 400.0f;
@@ -69,7 +57,7 @@ namespace teragon {
     AudioProcessorEditor* createEditor();
 
     // Save/restore
-    void getStateInformation(JUCE_NAMESPACE::MemoryBlock& destData) {}
+    void getStateInformation(MemoryBlock& destData) {}
     void setStateInformation(const void* data, int sizeInBytes) {}
 
   private:

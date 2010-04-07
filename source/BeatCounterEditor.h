@@ -4,11 +4,20 @@
  *  Copyright (c) 2006 Teragon Audio, All rights reserved
  */
 
-#if 0
+#ifndef __BeatCounterEditor_h__
+#define __BeatCounterEditor_h__
 
-#ifndef __BeatCounterEditor_H
-#define __BeatCounterEditor_H
+#include "juce_amalgamated.h"
 
+namespace teragon {
+  class BeatCounterEditor : public AudioProcessorEditor {
+  public:
+    BeatCounterEditor(AudioProcessor* audioProcessor);
+    ~BeatCounterEditor();
+  };
+}
+
+/*
 #ifdef USE_PC_AU
 #include <Carbon/Carbon.h>
 #include "AUCarbonViewBase.h"
@@ -79,7 +88,7 @@ class BeatCounterView : public AUCarbonViewBase  {
   private:
 };
 #endif
-
 #endif
+*/
 
 #endif

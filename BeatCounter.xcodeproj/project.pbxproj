@@ -51,6 +51,7 @@
 		2407D9E1116CF57A00E76385 /* CAMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D98D116CF02800E76385 /* CAMutex.cpp */; };
 		2407D9E2116CF57A00E76385 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D98F116CF02800E76385 /* CAStreamBasicDescription.cpp */; };
 		2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D991116CF02800E76385 /* CAVectorUnit.cpp */; };
+		2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D499116CE85300E76385 /* BeatCounterEditor.cpp */; };
 		24E44F610F9B4722008F34CE /* bmp10001.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5B0F9B4722008F34CE /* bmp10001.bmp */; };
 		24E44F620F9B4722008F34CE /* bmp10002.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5C0F9B4722008F34CE /* bmp10002.bmp */; };
 		24E44F630F9B4722008F34CE /* bmp10003.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5D0F9B4722008F34CE /* bmp10003.bmp */; };
@@ -515,6 +516,7 @@
 				2407D9E1116CF57A00E76385 /* CAMutex.cpp in Sources */,
 				2407D9E2116CF57A00E76385 /* CAStreamBasicDescription.cpp in Sources */,
 				2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */,
+				2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

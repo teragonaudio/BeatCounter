@@ -8,6 +8,10 @@
 #include "BeatCounter.h"
 #endif
 
+#ifndef __BeatCounterEditor_h__
+#include "BeatCounterEditor.h"
+#endif
+
 #include <math.h>
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
@@ -184,7 +188,7 @@ namespace teragon {
   }
 
   AudioProcessorEditor* BeatCounter::createEditor() {
-    return 0;
+    return new BeatCounterEditor(this);
   }
 }
 

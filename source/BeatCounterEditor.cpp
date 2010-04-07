@@ -4,10 +4,19 @@
  *  Copyright (c) 2006 Teragon Audio, All rights reserved
  */
 
-#ifndef __BeatCounterEditor_H
+#ifndef __BeatCounterEditor_h__
 #include "BeatCounterEditor.h"
 #endif
 
+namespace teragon {
+  BeatCounterEditor::BeatCounterEditor(AudioProcessor* audioProcessor) : AudioProcessorEditor(audioProcessor) {
+  }
+  
+  BeatCounterEditor::~BeatCounterEditor() {
+  }
+}
+
+/*
 // VSTGUI implementation //////////////////////////////////////////////////////////////
 
 #if PLUGGUI
@@ -236,3 +245,5 @@ OSStatus BeatCounterView::CreateUI(Float32 xoffset, Float32 yoffset) {
   return noErr;
 }
 #endif
+
+*/

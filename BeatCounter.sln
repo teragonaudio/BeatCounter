@@ -2,6 +2,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BeatCounter", "windows\BeatCounter.vcproj", "{937C233A-C3C1-440C-B28E-CEBC38CDF779}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JUCE", "third-party\juce\build\win32\vc8\JUCE.vcproj", "{AE232C11-D91C-4CA1-B24E-8B11A52EFF26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -12,6 +14,8 @@ Global
 		{937C233A-C3C1-440C-B28E-CEBC38CDF779}.Debug|Win32.Build.0 = Debug|Win32
 		{937C233A-C3C1-440C-B28E-CEBC38CDF779}.Release|Win32.ActiveCfg = Release|Win32
 		{937C233A-C3C1-440C-B28E-CEBC38CDF779}.Release|Win32.Build.0 = Release|Win32
+		{AE232C11-D91C-4CA1-B24E-8B11A52EFF26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE232C11-D91C-4CA1-B24E-8B11A52EFF26}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

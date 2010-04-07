@@ -29,8 +29,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;C:\documents and settings\nik\my documents\testbed&quot;&#x0D;&#x0A;"
-				Outputs="BeatCounter.dll"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;%PROGRAMFILES%\VstPlugins&quot;&#x0D;&#x0A;"
+				Outputs="$(TargetFileName)"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -51,18 +51,17 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\source&quot;;&quot;$(SolutionDir)\third-party\juce&quot;;&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_USE_MATH_DEFINES;WINDOWS;_WINDOWS;WIN32;_USRDLL;VST;NO_MIDI;NO_PRESET"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release/BeatCounter.pch"
-				AssemblerListingLocation="$(OutDir)"
-				ObjectFile="$(OutDir)"
-				ProgramDataBaseFileName="$(OutDir)"
+				PrecompiledHeaderThrough=""
+				PrecompiledHeaderFile=""
 				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				ForcedIncludeFiles="&quot;$(ProjectDir)\PrefixWindows.h&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -125,8 +124,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="copy &quot;$(TargetPath)&quot; &quot;C:\documents and settings\nik\my documents\testbed&quot;&#x0D;&#x0A;"
-				Outputs="BeatCounter.dll"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;%PROGRAMFILES%\VstPlugins&quot;&#x0D;&#x0A;"
+				Outputs="$(TargetFileName)"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -146,19 +145,18 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\source&quot;;&quot;$(SolutionDir)\third-party\juce&quot;;&quot;$(SolutionDir)\third-party\vstsdk2.4&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_USE_MATH_DEFINES;WINDOWS;_WINDOWS;WIN32;_USRDLL;VST;DEBUG;NO_MIDI;NO_PRESET"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
-				AssemblerListingLocation="$(OutDir)"
-				ObjectFile="$(OutDir)"
-				ProgramDataBaseFileName="$(OutDir)"
 				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				ForcedIncludeFiles="&quot;$(ProjectDir)\PrefixWindows.h&quot;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -216,43 +214,19 @@
 			Name="Source Files"
 			>
 			<File
-				RelativePath="..\source\BeatCounterCore.cpp"
+				RelativePath="..\source\BeatCounter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\source\BeatCounterCore.h"
+				RelativePath="..\source\BeatCounter.h"
 				>
 			</File>
 			<File
 				RelativePath="..\source\defaults.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="VST SDK"
-			>
 			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\aeffeditor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\vstplugmain.cpp"
+				RelativePath="..\source\PrefixCommon.h"
 				>
 			</File>
 		</Filter>
@@ -268,7 +242,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PrefixWindows.h"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Juce"
+			>
+			<File
+				RelativePath="..\third-party\juce\extras\audio plugins\wrapper\VST\juce_VST_Wrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\source\JuceLibraryConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\source\JuceLibrarySource.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\source\JucePluginCharacteristics.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="VST SDK"
+			>
+			<File
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\aeffeditor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\third-party\vstsdk2.4\public.sdk\source\vst2.x\audioeffectx.h"
 				>
 			</File>
 		</Filter>

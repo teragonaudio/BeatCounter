@@ -5,11 +5,11 @@
 #define JucePlugin_Build_AU     1
 #define JucePlugin_Build_RTAS   0
 
-#define JucePlugin_Name                 PLUGIN_NAME
-#define JucePlugin_Desc                 PLUGIN_NAME
-#define JucePlugin_Manufacturer         PLUGIN_MANUFACTURER
-#define JucePlugin_ManufacturerCode     PLUGIN_NAME_FOURCC
-#define JucePlugin_PluginCode           PLUGIN_MANUFACTURER_FOURCC
+#define JucePlugin_Name                 "BeatCounter"
+#define JucePlugin_Desc                 "BeatCounter"
+#define JucePlugin_Manufacturer         "Teragon Audio"
+#define JucePlugin_ManufacturerCode     'Tera'
+#define JucePlugin_PluginCode           'BtCt'
 #define JucePlugin_MaxNumInputChannels  2
 #define JucePlugin_MaxNumOutputChannels 2
 #define JucePlugin_PreferredChannelConfigurations   {1, 1}, {2, 2}
@@ -20,8 +20,8 @@
 #define JucePlugin_SilenceInProducesSilenceOut  0
 #define JucePlugin_TailLengthSeconds    0
 #define JucePlugin_EditorRequiresKeyboardFocus  0
-#define JucePlugin_VersionCode          VERSION_NUMBER
-#define JucePlugin_VersionString        VERSION_STRING
+#define JucePlugin_VersionCode          0x020000
+#define JucePlugin_VersionString        "2.0.0"
 #define JucePlugin_VSTUniqueID          JucePlugin_PluginCode
 #define JucePlugin_VSTCategory          kPlugCategEffect
 #define JucePlugin_AUMainType           kAudioUnitType_Effect
@@ -35,6 +35,7 @@
 #define JucePlugin_RTASManufacturerCode JucePlugin_ManufacturerCode
 #define JucePlugin_RTASProductId        JucePlugin_PluginCode
 
+#define JUCE_ObjCExtraSuffix            201004071913
 #define JUCE_USE_VSTSDK_2_4             1
 
 #endif

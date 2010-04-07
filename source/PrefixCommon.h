@@ -1,14 +1,3 @@
-#define PLUGIN_NAME "BeatCounter"
-#define PLUGIN_NAME_FOURCC 'BtCt'
-#define PLUGIN_MANUFACTURER "Teragon Audio"
-#define PLUGIN_MANUFACTURER_FOURCC 'Tera'
-
-#define VERSION_MAJOR 2
-#define VERSION_MINOR 0
-#define VERSION_PATCH 0
-#define VERSION_STRING "2.0.0"
-#define VERSION_NUMBER ((VERSION_MAJOR * 10000) + (VERSION_MINOR * 100) + VERSION_PATCH)
-
 enum Parameters {
   kParamReset,
   kParamTolerance,

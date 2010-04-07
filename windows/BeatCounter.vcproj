@@ -222,10 +222,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\source\defaults.h"
-				>
-			</File>
-			<File
 				RelativePath="..\source\PrefixCommon.h"
 				>
 			</File>

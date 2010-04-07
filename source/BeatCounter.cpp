@@ -4,15 +4,9 @@
  *  Copyright (c) 2006 Teragon Audio, All rights reserved
  */
 
-#ifndef __BeatCounterCore_H
+#ifndef __BeatCounter_h__
 #include "BeatCounter.h"
 #endif
-
-/*
-#ifndef __audioeffectx__
-#include "public.sdk/source/vst2.x/audioeffectx.h"
-#endif
-*/
 
 #include <math.h>
 
@@ -21,6 +15,16 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
 }
 
 namespace teragon {
+  BeatCounter::BeatCounter() : AudioProcessor() {
+    this->autofilterEnabled = false;
+    this->autofilterFrequency = kMaxAutofilterFrequency;
+
+    reset();
+  }
+
+  BeatCounter::~BeatCounter() {
+  }
+
   const String BeatCounter::getParameterName(int parameterIndex) {
     switch(parameterIndex) {
       case kParamReset: return "Reset";
@@ -48,12 +52,31 @@ namespace teragon {
   }
 
   void BeatCounter::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+    for(int i = 0; i < buffer.getNumSamples(); ++i) {
+      float* currentSamplePtr = buffer.getSampleData(0, i);
+      double currentSampleAmplitude = 0.0f;
+
+      if(this->autofilterEnabled) {
+        // Basic lowpass filter (feedback)
+        this->autofilterOutput += (*currentSamplePtr - this->autofilterOutput) / this->autofilterConstant;
+        currentSampleAmplitude = fabs(this->autofilterOutput);
+      }
+      else {
+        currentSampleAmplitude = fabs(*currentSamplePtr);
+      }
+    }
   }
 
   void BeatCounter::releaseResources() {
   }
 
   void BeatCounter::reset() {
+    this->autofilterOutput = 0.0f;
+    this->autofilterConstant = calculateAutofilterConstant(getSampleRate(), this->autofilterFrequency);
+  }
+
+  double BeatCounter::calculateAutofilterConstant(double sampleRate, double frequency) const {
+    return sampleRate / (2.0f * M_PI * frequency);
   }
 
   AudioProcessorEditor* BeatCounter::createEditor() {

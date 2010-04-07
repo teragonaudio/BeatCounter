@@ -5,8 +5,8 @@
  */
 
 
-#ifndef __BeatCounterCore_H
-#define __BeatCounterCore_H
+#ifndef __BeatCounter_h__
+#define __BeatCounter_h__
 
 /*
 #ifndef __BeatCounterEditor_H
@@ -23,8 +23,14 @@
 #include <vector>
 
 namespace teragon {
+  const double kMaxAutofilterFrequency = 400.0f;
+  const double kMinAutofilterFrequency = 50.0f;
+
   class BeatCounter : public AudioProcessor {
   public:
+    BeatCounter();
+    ~BeatCounter();
+
     // Plugin name
     const String getName() const { return JucePlugin_Name; }
     
@@ -67,7 +73,12 @@ namespace teragon {
     void setStateInformation(const void* data, int sizeInBytes) {}
 
   private:
+    double calculateAutofilterConstant(double sampleRate, double frequency) const;
 
+    bool autofilterEnabled;
+    double autofilterOutput;
+    double autofilterConstant;
+    double autofilterFrequency;
   /*
   public:
     BeatCounterCore(int num_params, int version, char *name);

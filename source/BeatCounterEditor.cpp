@@ -90,6 +90,9 @@ BeatCounterEditor::BeatCounterEditor (teragon::BeatCounter* beatCounter)
     //[Constructor] You can add your own custom stuff here..
   this->refreshBpmDisplayTimer = new teragon::RefreshTextLabelsTimer(this);
   this->refreshBpmDisplayTimer->startTimer(250);
+  
+  filterButton->setClickingTogglesState(true);
+  linkButton->setClickingTogglesState(true);
     //[/Constructor]
 }
 
@@ -162,17 +165,20 @@ void BeatCounterEditor::buttonClicked (Button* buttonThatWasClicked)
 
     if (buttonThatWasClicked == filterButton)
     {
-        //[UserButtonCode_filterButton] -- add your button handler code here..
+        //[UserButtonCode_filterButton] -- add your button handler code..
+      this->beatCounterModel->setAutofilter(filterButton->getToggleState());
         //[/UserButtonCode_filterButton]
     }
     else if (buttonThatWasClicked == resetButton)
     {
         //[UserButtonCode_resetButton] -- add your button handler code here..
+        getAudioProcessor()->reset();
         //[/UserButtonCode_resetButton]
     }
     else if (buttonThatWasClicked == linkButton)
     {
         //[UserButtonCode_linkButton] -- add your button handler code here..
+      this->beatCounterModel->setHostLink(linkButton->getToggleState());
         //[/UserButtonCode_linkButton]
     }
 

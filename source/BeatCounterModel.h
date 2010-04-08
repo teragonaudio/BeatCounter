@@ -18,6 +18,9 @@ namespace teragon {
     
     virtual const float getCurrentBpm() const = 0;
     virtual const float getRunningBpm() const = 0;
+    
+    virtual void setHostLink(bool isEnabled) = 0;
+    virtual void setAutofilter(bool isEnabled) = 0;
   };
 }
 

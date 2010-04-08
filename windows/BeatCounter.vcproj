@@ -224,6 +224,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\source\BeatCounterEditor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\source\BeatCounterEditor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\source\JucePluginCharacteristics.h"
 				>
 			</File>
@@ -244,6 +252,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JuceLibrarySource.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PrefixWindows.h"
 				>
 			</File>
@@ -261,10 +273,6 @@
 			</File>
 			<File
 				RelativePath="..\source\JuceLibraryConfig.h"
-				>
-			</File>
-			<File
-				RelativePath="..\source\JuceLibrarySource.cpp"
 				>
 			</File>
 		</Filter>

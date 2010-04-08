@@ -16,11 +16,11 @@ namespace teragon {
   const double kMinAutofilterFrequency = 50.0f;
   // TODO: Change to use downsampling factor
   const long kDownsampleRate = 1000;
-  const float kSilenceThreshold = 0.1;
-  const float kDefaultTempo = 120.0f;
-  const float kMinimumTempo = 60.0f;
-  const float kMaximumTempo = 180.0f;
-  const float kHostTempoLinkToleranceInBpm = 16.0f;
+  const double kSilenceThreshold = 0.1;
+  const double kDefaultTempo = 120.0;
+  const double kMinimumTempo = 60.0;
+  const double kMaximumTempo = 180.0;
+  const double kHostTempoLinkToleranceInBpm = 16.0;
   
   enum Parameters {
     kParamReset,
@@ -94,23 +94,23 @@ namespace teragon {
     bool linkWithHostTempo;
     
     // OLD MEMBER VARIABLES
-    std::vector<float> m_bpm_history;
+    std::vector<double> m_bpm_history;
     
     bool m_beat_state;
     
-    float *m_downsampled;
-    float m_high_point;
-    float m_bar_high_point;
-    float m_bar_high_avg;
-    float m_bar_samp_avg;
-    float m_total_seconds_running;
-    float m_last_avg;
-    float m_min_bpm;
-    float m_max_bpm;
+    double *m_downsampled;
+    double m_high_point;
+    double m_bar_high_point;
+    double m_bar_high_avg;
+    double m_bar_samp_avg;
+    double m_total_seconds_running;
+    double m_last_avg;
+    double m_min_bpm;
+    double m_max_bpm;
     
-    float m_autofilter_const;
-    float m_autofilter_freq;
-    float m_autofilter_out1;
+    double m_autofilter_const;
+    double m_autofilter_freq;
+    double m_autofilter_out1;
     
     int m_downsampled_index;
     int m_beat_marks_index;

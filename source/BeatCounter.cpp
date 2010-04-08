@@ -92,10 +92,10 @@ namespace teragon {
           // First bar in a beat?
           if(!m_beat_state && m_beat_samples > m_dupe_interval) {
             m_beat_state = true;
-            float bpm = (getSampleRate() * 60.0f) / ((m_last_avg + m_beat_samples) / 2);
+            double bpm = (getSampleRate() * 60.0f) / ((m_last_avg + m_beat_samples) / 2);
             
             // Check for half-beat patterns
-            float hbpm = bpm * 2.0;
+            double hbpm = bpm * 2.0;
             if(hbpm > m_min_bpm && hbpm < m_max_bpm) {
               bpm = hbpm;
             }
@@ -119,7 +119,7 @@ namespace teragon {
                   m_dupe_interval = (long)(getSampleRate() * (float)(60.0f / (float)m_max_bpm));
                 }
                 
-                float total = 0.0f;
+                double total = 0.0f;
                 unsigned int i;
                 for(i = 0; i < m_bpm_history.size(); ++i) {
                   total += m_bpm_history.at(i);

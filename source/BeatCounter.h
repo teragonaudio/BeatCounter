@@ -11,6 +11,10 @@
 #include "juce_amalgamated.h"
 #include <vector>
 
+#ifndef __BeatCounterModel_h__
+#include "BeatCounterModel.h"
+#endif
+
 namespace teragon {
   const double kMaxAutofilterFrequency = 400.0f;
   const double kMinAutofilterFrequency = 50.0f;
@@ -33,7 +37,7 @@ namespace teragon {
     kNumParams
   };
 
-  class BeatCounter : public AudioProcessor {
+  class BeatCounter : public AudioProcessor, public BeatCounterModel {
   public:
     BeatCounter();
     ~BeatCounter();
@@ -78,6 +82,10 @@ namespace teragon {
     // Save/restore
     void getStateInformation(MemoryBlock& destData) {}
     void setStateInformation(const void* data, int sizeInBytes) {}
+    
+    // Model interface implementation
+    const float getCurrentBpm() const;
+    const float getRunningBpm() const;
 
   private:
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
@@ -89,7 +97,8 @@ namespace teragon {
     double autofilterFrequency;
     
     double tolerance;
-    double currentTempo;
+    double currentBpm;
+    double runningBpm;
     long periodSizeInSamples;
     bool linkWithHostTempo;
     

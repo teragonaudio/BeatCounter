@@ -53,6 +53,14 @@ namespace teragon {
   }
 
   void BeatCounter::prepareToPlay(double sampleRate, int estimatedSamplesPerBlock) {
+    m_min_bpm = kMinimumTempo;
+    m_max_bpm = kMaximumTempo;
+    m_dupe_interval = (long)(44100 * (float)(60.0f / (float)m_max_bpm));  
+    m_downsample_rate = kDownsampleRate;
+    m_skip_count = m_downsample_rate;
+    m_downsampled = new double[(int)((44100 * 20) / m_downsample_rate)];
+    this->currentBpm = 0.0f;
+    this->runningBpm = 0.0f;
   }
 
   void BeatCounter::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
@@ -102,9 +110,8 @@ namespace teragon {
             
             // See if we're inside the threshhold
             if(bpm > m_min_bpm && bpm < m_max_bpm) {
-              this->currentTempo = bpm;
-              // TODO: Set the running bpm in the editor window & turn on light
-              
+              this->currentBpm = bpm;
+
               m_last_avg += m_beat_samples;
               m_last_avg /= 2;
               m_beat_samples = 0;
@@ -119,12 +126,11 @@ namespace teragon {
                   m_dupe_interval = (long)(getSampleRate() * (float)(60.0f / (float)m_max_bpm));
                 }
                 
-                double total = 0.0f;
+                this->runningBpm = 0.0;
                 unsigned int i;
                 for(i = 0; i < m_bpm_history.size(); ++i) {
-                  total += m_bpm_history.at(i);
+                  this->runningBpm += m_bpm_history.at(i);
                 }
-                // TODO: Show accumulated BPM in GUI
                 m_bpm_history.clear();
                 m_num_samples_processed = 0;
               }
@@ -190,6 +196,14 @@ namespace teragon {
   AudioProcessorEditor* BeatCounter::createEditor() {
     return new BeatCounterEditor(this);
   }
+  
+  const float BeatCounter::getCurrentBpm() const {
+    return this->currentBpm;
+  }
+  
+  const float BeatCounter::getRunningBpm() const {
+    return this->runningBpm;
+  }
 }
 
 /*
@@ -213,12 +227,7 @@ void BeatCounterCore::init() {
   
   editor = 0;
   reset();
-  m_min_bpm = MIN_BPM;
-  m_max_bpm = MAX_BPM;
-  m_dupe_interval = (long)(44100 * (float)(60.0f / (float)m_max_bpm));  
-  m_downsample_rate = DEF_DOWNSAMPLE;
-  m_skip_count = m_downsample_rate;
-  m_downsampled = new float[(int)((44100 * 20) / m_downsample_rate)];
+
 }
 
 BeatCounterCore::~BeatCounterCore() {

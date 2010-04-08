@@ -20,7 +20,7 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
 
 namespace teragon {
   BeatCounter::BeatCounter() : AudioProcessor() {
-    this->autofilterEnabled = false;
+    this->isAutofilterEnabled = false;
     this->autofilterFrequency = kMaxAutofilterFrequency;
 
     reset();
@@ -34,22 +34,34 @@ namespace teragon {
       case kParamReset: return "Reset";
       case kParamTolerance: return "Tolerance";
       case kParamPeriod: return "Period";
-      case kParamAutofilterEnabled: return "Autofilter Enabled";
-      case kParamAutofilterFrequency: return "Autofilter Frequency";
+      case kParamAutofilterEnabled: return "Autofilter On";
+      case kParamAutofilterFrequency: return "Autofilter Freq.";
       case kParamLinkToHostTempo: return "Link to Host Tempo";
       default: return String::empty;
     }
   }
 
   float BeatCounter::getParameter(int parameterIndex) {
-    return 0.0f;
+    switch(parameterIndex) {
+      case kParamAutofilterEnabled: return this->isAutofilterEnabled;
+      default: return 0.0f;
+    }
   }
 
   const String BeatCounter::getParameterText(int parameterIndex) {
-    return String::empty;
+    switch(parameterIndex) {
+      case kParamAutofilterEnabled: return String(this->isAutofilterEnabled ? "yes" : "no");
+      default: return String::empty;
+    }
   }
 
   void BeatCounter::setParameter(int parameterIndex, float newValue) {
+    switch(parameterIndex) {
+      case kParamAutofilterEnabled:
+        this->isAutofilterEnabled = (newValue > 0.5);
+        break;
+      default: break;
+    }
   }
 
   void BeatCounter::prepareToPlay(double sampleRate, int estimatedSamplesPerBlock) {
@@ -68,7 +80,7 @@ namespace teragon {
       float* currentSample = buffer.getSampleData(0, i);
       double currentSampleAmplitude = 0.0f;
 
-      if(this->autofilterEnabled) {
+      if(this->isAutofilterEnabled) {
         // Basic lowpass filter (feedback)
         this->autofilterOutput += (*currentSample - this->autofilterOutput) / this->autofilterConstant;
         currentSampleAmplitude = fabs(this->autofilterOutput);
@@ -187,6 +199,18 @@ namespace teragon {
   void BeatCounter::reset() {
     this->autofilterOutput = 0.0f;
     this->autofilterConstant = calculateAutofilterConstant(getSampleRate(), this->autofilterFrequency);
+    m_num_samples_processed = 0;
+    m_high_point = 0.0;
+    m_bar_high_point = 0.0;
+    m_bar_high_avg = 0.0;
+    m_bar_samp_avg = 0.0;
+    m_beat_state = false;
+    m_downsampled_index = 0;
+    m_last_avg = 0;
+    m_beat_samples = 0;
+    m_autofilter_out1 = 0.0;
+    this->currentBpm = 0.0;
+    this->runningBpm = 0.0;
   }
 
   double BeatCounter::calculateAutofilterConstant(double sampleRate, double frequency) const {
@@ -203,6 +227,14 @@ namespace teragon {
   
   const float BeatCounter::getRunningBpm() const {
     return this->runningBpm;
+  }
+  
+  void BeatCounter::setHostLink(bool isEnabled) {
+    setParameter(kParamLinkToHostTempo, isEnabled ? 1.0 : 0.0);
+  }
+  
+  void BeatCounter::setAutofilter(bool isEnabled) {
+    setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
   }
 }
 
@@ -243,16 +275,7 @@ const inline float BeatCounterCore::fabs(float f) const {
 }
 
 void BeatCounterCore::reset() {
-  m_num_samples_processed = 0;
-  m_high_point = 0.0;
-  m_bar_high_point = 0.0;
-  m_bar_high_avg = 0.0;
-  m_bar_samp_avg = 0.0;
-  m_beat_state = false;
-  m_downsampled_index = 0;
-  m_last_avg = 0;
-  m_beat_samples = 0;
-  m_autofilter_out1 = 0.0;
+
 }
 
 */

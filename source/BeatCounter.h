@@ -26,6 +26,8 @@ namespace teragon {
   const double kMaximumTempo = 180.0;
   const double kHostTempoLinkToleranceInBpm = 16.0;
   
+  const int kDecimalDisplayPrecision = 2;
+  
   enum Parameters {
     kParamReset,
     kParamTolerance,
@@ -86,12 +88,14 @@ namespace teragon {
     // Model interface implementation
     const float getCurrentBpm() const;
     const float getRunningBpm() const;
+    void setHostLink(bool isEnabled);
+    void setAutofilter(bool isEnabled);
 
   private:
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 
-    bool autofilterEnabled;
+    bool isAutofilterEnabled;
     double autofilterOutput;
     double autofilterConstant;
     double autofilterFrequency;

@@ -12,8 +12,6 @@
 		2407D4CE116CEE4500E76385 /* juce_AU_Wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2407D4CC116CEE4500E76385 /* juce_AU_Wrapper.mm */; };
 		2407D4D1116CEE5C00E76385 /* juce_VST_Wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D4CF116CEE5C00E76385 /* juce_VST_Wrapper.cpp */; };
 		2407D4D2116CEE5C00E76385 /* juce_VST_Wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2407D4D0116CEE5C00E76385 /* juce_VST_Wrapper.mm */; };
-		2407D50C116CEF6200E76385 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2407D4FE116CEF6200E76385 /* AudioUnit.framework */; };
-		2407D50F116CEF6200E76385 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2407D501116CEF6200E76385 /* CoreAudio.framework */; };
 		2407D978116CEF7D00E76385 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2407D96A116CEF7D00E76385 /* AudioToolbox.framework */; };
 		2407D979116CEF7D00E76385 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2407D96B116CEF7D00E76385 /* AudioUnit.framework */; };
 		2407D97A116CEF7D00E76385 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2407D96C116CEF7D00E76385 /* Carbon.framework */; };
@@ -52,12 +50,7 @@
 		2407D9E2116CF57A00E76385 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D98F116CF02800E76385 /* CAStreamBasicDescription.cpp */; };
 		2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D991116CF02800E76385 /* CAVectorUnit.cpp */; };
 		2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D499116CE85300E76385 /* BeatCounterEditor.cpp */; };
-		24E44F610F9B4722008F34CE /* bmp10001.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5B0F9B4722008F34CE /* bmp10001.bmp */; };
-		24E44F620F9B4722008F34CE /* bmp10002.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5C0F9B4722008F34CE /* bmp10002.bmp */; };
-		24E44F630F9B4722008F34CE /* bmp10003.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5D0F9B4722008F34CE /* bmp10003.bmp */; };
-		24E44F640F9B4722008F34CE /* bmp10004.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5E0F9B4722008F34CE /* bmp10004.bmp */; };
-		24E44F650F9B4722008F34CE /* bmp10005.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F5F0F9B4722008F34CE /* bmp10005.bmp */; };
-		24E44F660F9B4722008F34CE /* bmp10006.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 24E44F600F9B4722008F34CE /* bmp10006.bmp */; };
+		240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,8 +107,6 @@
 		2407D4CC116CEE4500E76385 /* juce_AU_Wrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_AU_Wrapper.mm; path = "extras/audio plugins/wrapper/AU/juce_AU_Wrapper.mm"; sourceTree = "<group>"; };
 		2407D4CF116CEE5C00E76385 /* juce_VST_Wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = juce_VST_Wrapper.cpp; path = "extras/audio plugins/wrapper/VST/juce_VST_Wrapper.cpp"; sourceTree = "<group>"; };
 		2407D4D0116CEE5C00E76385 /* juce_VST_Wrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_VST_Wrapper.mm; path = "extras/audio plugins/wrapper/VST/juce_VST_Wrapper.mm"; sourceTree = "<group>"; };
-		2407D4FE116CEF6200E76385 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
-		2407D501116CEF6200E76385 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		2407D96A116CEF7D00E76385 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		2407D96B116CEF7D00E76385 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		2407D96C116CEF7D00E76385 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -143,13 +134,11 @@
 		2407D992116CF02800E76385 /* CAVectorUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAVectorUnit.h; path = Extras/CoreAudio/PublicUtility/CAVectorUnit.h; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		2407D993116CF02800E76385 /* CAVectorUnitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAVectorUnitTypes.h; path = Extras/CoreAudio/PublicUtility/CAVectorUnitTypes.h; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		2407D99D116CF10000E76385 /* JuceLibrarySource.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JuceLibrarySource.mm; path = ../../mac/JuceLibrarySource.mm; sourceTree = "<group>"; };
+		240CE09A116E6C9F00015E9C /* BeatCounterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BeatCounterModel.h; path = source/BeatCounterModel.h; sourceTree = "<group>"; };
+		240CE0B9116E71CA00015E9C /* RefreshTextLabelsTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshTextLabelsTimer.h; path = source/RefreshTextLabelsTimer.h; sourceTree = "<group>"; };
+		240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefreshTextLabelsTimer.cpp; path = source/RefreshTextLabelsTimer.cpp; sourceTree = "<group>"; };
+		240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshTextLabelsTimerResponder.h; path = source/RefreshTextLabelsTimerResponder.h; sourceTree = "<group>"; };
 		246AF1EF0981856000CC729E /* BeatCounter.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeatCounter.component; sourceTree = BUILT_PRODUCTS_DIR; };
-		24E44F5B0F9B4722008F34CE /* bmp10001.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10001.bmp; path = graphics/bmp10001.bmp; sourceTree = "<group>"; };
-		24E44F5C0F9B4722008F34CE /* bmp10002.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10002.bmp; path = graphics/bmp10002.bmp; sourceTree = "<group>"; };
-		24E44F5D0F9B4722008F34CE /* bmp10003.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10003.bmp; path = graphics/bmp10003.bmp; sourceTree = "<group>"; };
-		24E44F5E0F9B4722008F34CE /* bmp10004.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10004.bmp; path = graphics/bmp10004.bmp; sourceTree = "<group>"; };
-		24E44F5F0F9B4722008F34CE /* bmp10005.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10005.bmp; path = graphics/bmp10005.bmp; sourceTree = "<group>"; };
-		24E44F600F9B4722008F34CE /* bmp10006.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = bmp10006.bmp; path = graphics/bmp10006.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,8 +146,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2407D50C116CEF6200E76385 /* AudioUnit.framework in Frameworks */,
-				2407D50F116CEF6200E76385 /* CoreAudio.framework in Frameworks */,
 				2407D978116CEF7D00E76385 /* AudioToolbox.framework in Frameworks */,
 				2407D979116CEF7D00E76385 /* AudioUnit.framework in Frameworks */,
 				2407D97A116CEF7D00E76385 /* Carbon.framework in Frameworks */,
@@ -184,7 +171,6 @@
 			children = (
 				24B6483C0A8347CE003CD819 /* AudioUnits */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
-				243472890983D0AD0063BBF1 /* Graphics */,
 				2407D4C6116CEDFA00E76385 /* Juce */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -229,10 +215,14 @@
 			children = (
 				2407D497116CE85300E76385 /* BeatCounter.cpp */,
 				2407D499116CE85300E76385 /* BeatCounterEditor.cpp */,
+				240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */,
 				2407D498116CE85300E76385 /* BeatCounter.h */,
 				2407D49A116CE85300E76385 /* BeatCounterEditor.h */,
+				240CE09A116E6C9F00015E9C /* BeatCounterModel.h */,
 				2407D49B116CE85300E76385 /* JuceLibraryConfig.h */,
 				2407D49D116CE85300E76385 /* JucePluginCharacteristics.h */,
+				240CE0B9116E71CA00015E9C /* RefreshTextLabelsTimer.h */,
+				240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -356,19 +346,6 @@
 			path = "third-party/juce";
 			sourceTree = "<group>";
 		};
-		243472890983D0AD0063BBF1 /* Graphics */ = {
-			isa = PBXGroup;
-			children = (
-				24E44F5B0F9B4722008F34CE /* bmp10001.bmp */,
-				24E44F5C0F9B4722008F34CE /* bmp10002.bmp */,
-				24E44F5D0F9B4722008F34CE /* bmp10003.bmp */,
-				24E44F5E0F9B4722008F34CE /* bmp10004.bmp */,
-				24E44F5F0F9B4722008F34CE /* bmp10005.bmp */,
-				24E44F600F9B4722008F34CE /* bmp10006.bmp */,
-			);
-			name = Graphics;
-			sourceTree = "<group>";
-		};
 		24B6483C0A8347CE003CD819 /* AudioUnits */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,12 +422,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24E44F610F9B4722008F34CE /* bmp10001.bmp in Resources */,
-				24E44F620F9B4722008F34CE /* bmp10002.bmp in Resources */,
-				24E44F630F9B4722008F34CE /* bmp10003.bmp in Resources */,
-				24E44F640F9B4722008F34CE /* bmp10004.bmp in Resources */,
-				24E44F650F9B4722008F34CE /* bmp10005.bmp in Resources */,
-				24E44F660F9B4722008F34CE /* bmp10006.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +488,7 @@
 				2407D9E2116CF57A00E76385 /* CAStreamBasicDescription.cpp in Sources */,
 				2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */,
 				2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */,
+				240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

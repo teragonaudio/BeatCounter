@@ -1,94 +1,111 @@
 /*
- *  BeatCounter - BeatCounterEditor.h
- *  Created by Nik Reiman on 22.01.06
- *  Copyright (c) 2006 Teragon Audio, All rights reserved
- */
+  ==============================================================================
 
-#ifndef __BeatCounterEditor_h__
-#define __BeatCounterEditor_h__
+  This is an automatically generated file created by the Jucer!
 
-#include "juce_amalgamated.h"
+  Creation date:  8 Apr 2010 10:31:18 pm
 
-namespace teragon {
-  class BeatCounterEditor : public AudioProcessorEditor {
-  public:
-    BeatCounterEditor(AudioProcessor* audioProcessor);
-    ~BeatCounterEditor();
-  };
-}
+  Be careful when adding custom code to these files, as only the code within
+  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
+  and re-saved.
 
-/*
-#ifdef USE_PC_AU
-#include <Carbon/Carbon.h>
-#include "AUCarbonViewBase.h"
-#include "AUEffectBase.h"
-#endif
+  Jucer version: 1.12
 
-#ifndef __vstcontrols__
-#include "vstcontrols.h"
-#endif
+  ------------------------------------------------------------------------------
 
-#ifndef __vstgui__
-#include "vstgui.h"
-#endif
+  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright 2004-6 by Raw Material Software ltd.
 
-#ifndef __defaults_H
-#include "defaults.h"
-#endif
-
-class BeatCounterEditor : public AEffGUIEditor, public CControlListener {
-  public:
-#if PLUGGUI
-    BeatCounterEditor(void *effect);
-#else
-    BeatCounterEditor(AudioEffect *effect);
-#endif
-    ~BeatCounterEditor();
-    
-    virtual void close();
-    virtual void idle();
-    virtual bool open(void *ptr);
-    void setBeatLight();
-    void setBPMDisplay(float c_bpm, float a_bpm);
-    virtual void valueChanged(CDrawContext* context, CControl* control);
-    
-  protected:
-      
-  private:
-    CBitmap *mBackground;
-    CParamDisplay *m_current_bpm;
-    CParamDisplay *m_accum_bpm;
-    CKickButton *m_reset_button;
-    COnOffButton *m_filter_button;
-    COnOffButton *m_link_button;
-    CSplashScreen *m_splashscreen;
-    CMovieBitmap *m_beat_button;
-        
-    bool mOpened;
-    bool m_animate_up;
-    bool m_animate_down;
-    int m_animate_count;
-    int m_beat_ticks;
-};
-
-#ifdef USE_PC_AU
-class BeatCounterView : public AUCarbonViewBase  {
-  public:
-    BeatCounterView(AudioUnitCarbonView auv);  
-    virtual ~BeatCounterView();
-    
-    void RespondToEventTimer(EventLoopTimerRef inTimer);
-    virtual OSStatus CreateUI(Float32 xoffset, Float32 yoffset);  
-    
-    Float32 xOffset;
-    Float32 yOffset;
-  protected:
-    BeatCounterEditor* editor;
-  
-  private:
-};
-#endif
-#endif
+  ==============================================================================
 */
 
+#ifndef __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__
+#define __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__
+
+//[Headers]     -- You can add your own extra header files here --
+#include "juce.h"
+
+#ifndef __BeatCounter_h__
+#include "BeatCounter.h"
 #endif
+
+#ifndef __BeatCounterModel_h__
+#include "BeatCounterModel.h"
+#endif
+
+#ifndef __RefreshTextLabelsTimer_h__
+#include "RefreshTextLabelsTimer.h"
+#endif
+//[/Headers]
+
+
+
+//==============================================================================
+/**
+                                                                    //[Comments]
+    An auto-generated component, created by the Jucer.
+
+    Describe your class and how it works here!
+                                                                    //[/Comments]
+*/
+class BeatCounterEditor  : public AudioProcessorEditor,
+                           public teragon::RefreshTextLabelsTimerResponder,
+                           public ButtonListener
+{
+public:
+    //==============================================================================
+    BeatCounterEditor (teragon::BeatCounter* beatCounter);
+    ~BeatCounterEditor();
+
+    //==============================================================================
+    //[UserMethods]     -- You can add your own custom methods in this section.
+  void onTextLabelsRefresh();
+    //[/UserMethods]
+
+    void paint (Graphics& g);
+    void resized();
+    void buttonClicked (Button* buttonThatWasClicked);
+
+    // Binary resources:
+    static const char* background_png;
+    static const int background_pngSize;
+    static const char* about_png;
+    static const int about_pngSize;
+    static const char* filterButtonOff_png;
+    static const int filterButtonOff_pngSize;
+    static const char* filterButtonOn_png;
+    static const int filterButtonOn_pngSize;
+    static const char* linkButtonOff_png;
+    static const int linkButtonOff_pngSize;
+    static const char* linkButtonOn_png;
+    static const int linkButtonOn_pngSize;
+    static const char* resetButtonOff_png;
+    static const int resetButtonOff_pngSize;
+    static const char* resetButtonOn_png;
+    static const int resetButtonOn_pngSize;
+
+    //==============================================================================
+    juce_UseDebuggingNewOperator
+
+private:
+    //[UserVariables]   -- You can add your own custom variables in this section.
+  teragon::BeatCounterModel* beatCounterModel;
+  teragon::RefreshTextLabelsTimer* refreshBpmDisplayTimer;
+    //[/UserVariables]
+
+    //==============================================================================
+    ImageButton* filterButton;
+    ImageButton* resetButton;
+    ImageButton* linkButton;
+    Label* currentBpmLabel;
+    Label* runningBpmLabel;
+    Image* cachedImage_background_png;
+
+    //==============================================================================
+    // (prevent copy constructor and operator= being generated..)
+    BeatCounterEditor (const BeatCounterEditor&);
+    const BeatCounterEditor& operator= (const BeatCounterEditor&);
+};
+
+
+#endif   // __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__

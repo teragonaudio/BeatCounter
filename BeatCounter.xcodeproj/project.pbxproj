@@ -51,6 +51,8 @@
 		2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D991116CF02800E76385 /* CAVectorUnit.cpp */; };
 		2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D499116CE85300E76385 /* BeatCounterEditor.cpp */; };
 		240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */; };
+		24E0145B117A68B2002086AC /* BooleanParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24E01459117A68B2002086AC /* BooleanParameter.cpp */; };
+		24E2107D117A79AB00CF2C7E /* DecibelParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24E21079117A79AB00CF2C7E /* DecibelParameter.cpp */; };
 		24FAB10A117A3AA000DEEB7D /* FloatingPointParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */; };
 		24FAB10B117A3AA000DEEB7D /* MapParameterSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */; };
 		24FAB110117A3ACB00DEEB7D /* ParameterFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB10F117A3ACB00DEEB7D /* ParameterFactory.cpp */; };
@@ -142,6 +144,12 @@
 		240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefreshTextLabelsTimer.cpp; path = source/RefreshTextLabelsTimer.cpp; sourceTree = "<group>"; };
 		240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshTextLabelsTimerResponder.h; path = source/RefreshTextLabelsTimerResponder.h; sourceTree = "<group>"; };
 		246AF1EF0981856000CC729E /* BeatCounter.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeatCounter.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		24E01459117A68B2002086AC /* BooleanParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanParameter.cpp; path = "third-party/PluginParameters/source/BooleanParameter.cpp"; sourceTree = "<group>"; };
+		24E0145A117A68B2002086AC /* BooleanParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BooleanParameter.h; path = "third-party/PluginParameters/source/BooleanParameter.h"; sourceTree = "<group>"; };
+		24E21079117A79AB00CF2C7E /* DecibelParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DecibelParameter.cpp; path = "third-party/PluginParameters/source/DecibelParameter.cpp"; sourceTree = "<group>"; };
+		24E2107A117A79AB00CF2C7E /* DecibelParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DecibelParameter.h; path = "third-party/PluginParameters/source/DecibelParameter.h"; sourceTree = "<group>"; };
+		24E2107B117A79AB00CF2C7E /* NamedParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NamedParameter.h; path = "third-party/PluginParameters/source/NamedParameter.h"; sourceTree = "<group>"; };
+		24E2107C117A79AB00CF2C7E /* NumericParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumericParameter.h; path = "third-party/PluginParameters/source/NumericParameter.h"; sourceTree = "<group>"; };
 		24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FloatingPointParameter.cpp; path = "third-party/PluginParameters/source/FloatingPointParameter.cpp"; sourceTree = "<group>"; };
 		24FAB105117A3AA000DEEB7D /* FloatingPointParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FloatingPointParameter.h; path = "third-party/PluginParameters/source/FloatingPointParameter.h"; sourceTree = "<group>"; };
 		24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapParameterSet.cpp; path = "third-party/PluginParameters/source/MapParameterSet.cpp"; sourceTree = "<group>"; };
@@ -395,10 +403,16 @@
 		24FAB103117A3A9100DEEB7D /* PluginParameters */ = {
 			isa = PBXGroup;
 			children = (
+				24E01459117A68B2002086AC /* BooleanParameter.cpp */,
+				24E21079117A79AB00CF2C7E /* DecibelParameter.cpp */,
 				24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */,
 				24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */,
+				24E0145A117A68B2002086AC /* BooleanParameter.h */,
+				24E2107A117A79AB00CF2C7E /* DecibelParameter.h */,
 				24FAB105117A3AA000DEEB7D /* FloatingPointParameter.h */,
 				24FAB107117A3AA000DEEB7D /* MapParameterSet.h */,
+				24E2107B117A79AB00CF2C7E /* NamedParameter.h */,
+				24E2107C117A79AB00CF2C7E /* NumericParameter.h */,
 				24FAB108117A3AA000DEEB7D /* PluginParameter.h */,
 				24FAB109117A3AA000DEEB7D /* PluginParameterSet.h */,
 			);
@@ -519,6 +533,8 @@
 				24FAB10A117A3AA000DEEB7D /* FloatingPointParameter.cpp in Sources */,
 				24FAB10B117A3AA000DEEB7D /* MapParameterSet.cpp in Sources */,
 				24FAB110117A3ACB00DEEB7D /* ParameterFactory.cpp in Sources */,
+				24E0145B117A68B2002086AC /* BooleanParameter.cpp in Sources */,
+				24E2107D117A79AB00CF2C7E /* DecibelParameter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

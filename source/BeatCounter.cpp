@@ -72,17 +72,17 @@ namespace teragon {
   void BeatCounter::setParameter(int parameterIndex, float newValue) {
     pluginParameters::PluginParameter* parameter = this->parameters->getParameter(parameterIndex);
     if(parameter != NULL) {
-      return parameter->setValue(newValue);
+      return parameter->setDisplayValue(newValue);
     }
   }
 
   void BeatCounter::prepareToPlay(double sampleRate, int estimatedSamplesPerBlock) {
     m_min_bpm = kMinimumTempo;
     m_max_bpm = kMaximumTempo;
-    m_dupe_interval = (long)(44100 * (float)(60.0f / (float)m_max_bpm));  
+    m_dupe_interval = (long)(sampleRate * (float)(60.0f / (float)m_max_bpm));  
     m_downsample_rate = kDownsampleRate;
     m_skip_count = m_downsample_rate;
-    m_downsampled = new double[(int)((44100 * 20) / m_downsample_rate)];
+    m_downsampled = new double[(int)((sampleRate * 20) / m_downsample_rate)];
     this->currentBpm = 0.0f;
     this->runningBpm = 0.0f;
   }
@@ -249,45 +249,3 @@ namespace teragon {
     setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
   }
 }
-
-/*
-BeatCounterCore::BeatCounterCore(int num_params, int version, char *name) : pluginCore(num_params, VERSION, name) {
-  init();
-}
-
-void BeatCounterCore::init() {
-  addParameter(PRM_RESET, "Reset", TYP_BOOL, 0.0, 1.0, 0.0);
-  addParameter(PRM_TOLERANCE, "Tolerance", TYP_PERCENT, 0.0, 100.0, 75.0);
-  addParameter(PRM_PERIOD, "Period", TYP_SECONDS, 5.0, 20.0, 10.0);
-  addParameter(PRM_AUTOFILTER, "Autofilter On", TYP_BOOL, 0.0, 1.0, 0.0);
-  addParameter(PRM_AUTOFILTER_FREQ, "Autofilter Freq.", TYP_HZ, 60.0, 400.0, 400.0);
-  addParameter(PRM_LINK, "Link to Host", TYP_BOOL, 0.0, 1.0, 0.0);
-  addParameter(PRM_LINK_BPM, "Link Tolerance", TYP_BPM, 4.0, 12.0, 8.0);
-  addParameter(PRM_SAMPLE_RATE, "Sample Rate", TYP_HZ, 32000, 96000, 44100, true);
-  addParameter(PRM_HOST_BPM, "Host BPM", TYP_BPM, MIN_BPM, MAX_BPM, 120.0, true);
-  addParameter(PRM_ACCUM_BPM, "Accum BPM", TYP_BPM, MIN_BPM, MAX_BPM, 0.0, true);
-  addParameter(PRM_CURRENT_BPM, "Current BPM", TYP_BPM, MIN_BPM, MAX_BPM, 0.0, true);
-  addParameter(PRM_BEAT_TRIGGER, "Beat Trigger", TYP_BOOL, 0.0, 1.0, 0.0);
-  
-  editor = 0;
-  reset();
-
-}
-
-BeatCounterCore::~BeatCounterCore() {
-}
-
-const inline float BeatCounterCore::fabs(float f) const {
-  if(f >= 0.0) {
-    return f;
-  }
-  else {
-    return -f;
-  }
-}
-
-void BeatCounterCore::reset() {
-
-}
-
-*/

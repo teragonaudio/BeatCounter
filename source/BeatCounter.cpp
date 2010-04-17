@@ -12,6 +12,10 @@
 #include "BeatCounterEditor.h"
 #endif
 
+#ifndef __ParameterFactory_h__
+#include "ParameterFactory.h"
+#endif
+
 #include <math.h>
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
@@ -22,45 +26,53 @@ namespace teragon {
   BeatCounter::BeatCounter() : AudioProcessor() {
     this->isAutofilterEnabled = false;
     this->autofilterFrequency = kMaxAutofilterFrequency;
+    
+    ParameterFactory parameterFactory;
+    this->parameters = parameterFactory.createPluginParameterSet();
 
     reset();
   }
 
   BeatCounter::~BeatCounter() {
+    if(this->parameters) {
+      delete this->parameters;
+    }
   }
 
   const String BeatCounter::getParameterName(int parameterIndex) {
-    switch(parameterIndex) {
-      case kParamReset: return "Reset";
-      case kParamTolerance: return "Tolerance";
-      case kParamPeriod: return "Period";
-      case kParamAutofilterEnabled: return "Autofilter On";
-      case kParamAutofilterFrequency: return "Autofilter Freq.";
-      case kParamLinkToHostTempo: return "Link to Host Tempo";
-      default: return String::empty;
+    pluginParameters::PluginParameter* parameter = this->parameters->getParameter(parameterIndex);
+    if(parameter != NULL) {
+      return String(parameter->getName().c_str());
+    }
+    else {
+      return String::empty;
     }
   }
 
   float BeatCounter::getParameter(int parameterIndex) {
-    switch(parameterIndex) {
-      case kParamAutofilterEnabled: return this->isAutofilterEnabled;
-      default: return 0.0f;
+    pluginParameters::PluginParameter* parameter = this->parameters->getParameter(parameterIndex);
+    if(parameter != NULL) {
+      return parameter->getDisplayValue();
+    }
+    else {
+      return 0.0;
     }
   }
 
   const String BeatCounter::getParameterText(int parameterIndex) {
-    switch(parameterIndex) {
-      case kParamAutofilterEnabled: return String(this->isAutofilterEnabled ? "yes" : "no");
-      default: return String::empty;
+    pluginParameters::PluginParameter* parameter = this->parameters->getParameter(parameterIndex);
+    if(parameter != NULL) {
+      return String(parameter->getDisplayText().c_str());
+    }
+    else {
+      return String::empty;
     }
   }
 
   void BeatCounter::setParameter(int parameterIndex, float newValue) {
-    switch(parameterIndex) {
-      case kParamAutofilterEnabled:
-        this->isAutofilterEnabled = (newValue > 0.5);
-        break;
-      default: break;
+    pluginParameters::PluginParameter* parameter = this->parameters->getParameter(parameterIndex);
+    if(parameter != NULL) {
+      return parameter->setValue(newValue);
     }
   }
 

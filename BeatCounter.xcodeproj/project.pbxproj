@@ -51,6 +51,9 @@
 		2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D991116CF02800E76385 /* CAVectorUnit.cpp */; };
 		2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D499116CE85300E76385 /* BeatCounterEditor.cpp */; };
 		240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */; };
+		24FAB10A117A3AA000DEEB7D /* FloatingPointParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */; };
+		24FAB10B117A3AA000DEEB7D /* MapParameterSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */; };
+		24FAB110117A3ACB00DEEB7D /* ParameterFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB10F117A3ACB00DEEB7D /* ParameterFactory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +142,14 @@
 		240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefreshTextLabelsTimer.cpp; path = source/RefreshTextLabelsTimer.cpp; sourceTree = "<group>"; };
 		240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshTextLabelsTimerResponder.h; path = source/RefreshTextLabelsTimerResponder.h; sourceTree = "<group>"; };
 		246AF1EF0981856000CC729E /* BeatCounter.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeatCounter.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FloatingPointParameter.cpp; path = "third-party/PluginParameters/source/FloatingPointParameter.cpp"; sourceTree = "<group>"; };
+		24FAB105117A3AA000DEEB7D /* FloatingPointParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FloatingPointParameter.h; path = "third-party/PluginParameters/source/FloatingPointParameter.h"; sourceTree = "<group>"; };
+		24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapParameterSet.cpp; path = "third-party/PluginParameters/source/MapParameterSet.cpp"; sourceTree = "<group>"; };
+		24FAB107117A3AA000DEEB7D /* MapParameterSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapParameterSet.h; path = "third-party/PluginParameters/source/MapParameterSet.h"; sourceTree = "<group>"; };
+		24FAB108117A3AA000DEEB7D /* PluginParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginParameter.h; path = "third-party/PluginParameters/source/PluginParameter.h"; sourceTree = "<group>"; };
+		24FAB109117A3AA000DEEB7D /* PluginParameterSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginParameterSet.h; path = "third-party/PluginParameters/source/PluginParameterSet.h"; sourceTree = "<group>"; };
+		24FAB10E117A3ACB00DEEB7D /* ParameterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParameterFactory.h; path = source/ParameterFactory.h; sourceTree = "<group>"; };
+		24FAB10F117A3ACB00DEEB7D /* ParameterFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterFactory.cpp; path = source/ParameterFactory.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +183,7 @@
 				24B6483C0A8347CE003CD819 /* AudioUnits */,
 				089C1671FE841209C02AAC07 /* Frameworks */,
 				2407D4C6116CEDFA00E76385 /* Juce */,
+				24FAB103117A3A9100DEEB7D /* PluginParameters */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				08FB77ADFE841716C02AAC07 /* Source */,
@@ -215,12 +227,14 @@
 			children = (
 				2407D497116CE85300E76385 /* BeatCounter.cpp */,
 				2407D499116CE85300E76385 /* BeatCounterEditor.cpp */,
+				24FAB10F117A3ACB00DEEB7D /* ParameterFactory.cpp */,
 				240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */,
 				2407D498116CE85300E76385 /* BeatCounter.h */,
 				2407D49A116CE85300E76385 /* BeatCounterEditor.h */,
 				240CE09A116E6C9F00015E9C /* BeatCounterModel.h */,
 				2407D49B116CE85300E76385 /* JuceLibraryConfig.h */,
 				2407D49D116CE85300E76385 /* JucePluginCharacteristics.h */,
+				24FAB10E117A3ACB00DEEB7D /* ParameterFactory.h */,
 				240CE0B9116E71CA00015E9C /* RefreshTextLabelsTimer.h */,
 				240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */,
 			);
@@ -378,6 +392,19 @@
 			name = "VST SDK";
 			sourceTree = "<group>";
 		};
+		24FAB103117A3A9100DEEB7D /* PluginParameters */ = {
+			isa = PBXGroup;
+			children = (
+				24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */,
+				24FAB106117A3AA000DEEB7D /* MapParameterSet.cpp */,
+				24FAB105117A3AA000DEEB7D /* FloatingPointParameter.h */,
+				24FAB107117A3AA000DEEB7D /* MapParameterSet.h */,
+				24FAB108117A3AA000DEEB7D /* PluginParameter.h */,
+				24FAB109117A3AA000DEEB7D /* PluginParameterSet.h */,
+			);
+			name = PluginParameters;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -489,6 +516,9 @@
 				2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */,
 				2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */,
 				240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */,
+				24FAB10A117A3AA000DEEB7D /* FloatingPointParameter.cpp in Sources */,
+				24FAB10B117A3AA000DEEB7D /* MapParameterSet.cpp in Sources */,
+				24FAB110117A3ACB00DEEB7D /* ParameterFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

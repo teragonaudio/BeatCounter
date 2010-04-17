@@ -15,6 +15,10 @@
 #include "BeatCounterModel.h"
 #endif
 
+#ifndef __PluginParameterSet_h__
+#include "PluginParameterSet.h"
+#endif
+
 namespace teragon {
   const double kMaxAutofilterFrequency = 400.0f;
   const double kMinAutofilterFrequency = 50.0f;
@@ -94,6 +98,8 @@ namespace teragon {
   private:
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
+    
+    pluginParameters::PluginParameterSet* parameters;
 
     bool isAutofilterEnabled;
     double autofilterOutput;

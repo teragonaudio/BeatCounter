@@ -59,7 +59,7 @@ namespace teragon {
     void setParameter(int parameterIndex, float newValue);
     bool isParameterAutomatable(int parameterIndex) const { return false; }
 
-    // Programs (currently not supported)
+    // Programs (not supported)
     int getNumPrograms() { return 0; }
     int getCurrentProgram() { return 0; }
     void setCurrentProgram(int index) {}
@@ -112,8 +112,9 @@ namespace teragon {
     long periodSizeInSamples;
     bool linkWithHostTempo;
     
+    std::vector<double> bpmHistory;
+
     // OLD MEMBER VARIABLES
-    std::vector<double> m_bpm_history;
     
     bool m_beat_state;
     

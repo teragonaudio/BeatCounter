@@ -139,7 +139,7 @@ namespace teragon {
               m_last_avg += m_beat_samples;
               m_last_avg /= 2;
               m_beat_samples = 0;
-              m_bpm_history.push_back(bpm);
+              bpmHistory.push_back(bpm);
               
               // Do total BPM and Reset?
               if(m_num_samples_processed > (this->periodSizeInSamples * getSampleRate())) {
@@ -151,11 +151,10 @@ namespace teragon {
                 }
                 
                 this->runningBpm = 0.0;
-                unsigned int i;
-                for(i = 0; i < m_bpm_history.size(); ++i) {
-                  this->runningBpm += m_bpm_history.at(i);
+                for(unsigned int bpmHistoryIndex = 0; bpmHistoryIndex < bpmHistory.size(); ++bpmHistoryIndex) {
+                  this->runningBpm += bpmHistory.at(bpmHistoryIndex);
                 }
-                m_bpm_history.clear();
+                bpmHistory.clear();
                 m_num_samples_processed = 0;
               }
             }

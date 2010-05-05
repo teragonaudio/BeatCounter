@@ -109,6 +109,10 @@ BeatCounterEditor::~BeatCounterEditor()
     ImageCache::release (cachedImage_background_png);
 
     //[Destructor]. You can add your own custom destruction code here..
+  if(this->refreshBpmDisplayTimer) {
+    this->refreshBpmDisplayTimer->stopTimer();
+    delete this->refreshBpmDisplayTimer;
+  }
     //[/Destructor]
 }
 

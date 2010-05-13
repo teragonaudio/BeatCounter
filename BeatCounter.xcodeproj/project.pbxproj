@@ -51,6 +51,7 @@
 		2407D9E3116CF57A00E76385 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D991116CF02800E76385 /* CAVectorUnit.cpp */; };
 		2407DA9D116D224C00E76385 /* BeatCounterEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2407D499116CE85300E76385 /* BeatCounterEditor.cpp */; };
 		240CE0BB116E71CA00015E9C /* RefreshTextLabelsTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */; };
+		24A2736D119C45F900340E5F /* ImageAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24A2736C119C45F900340E5F /* ImageAnimation.cpp */; };
 		24E0145B117A68B2002086AC /* BooleanParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24E01459117A68B2002086AC /* BooleanParameter.cpp */; };
 		24E2107D117A79AB00CF2C7E /* DecibelParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24E21079117A79AB00CF2C7E /* DecibelParameter.cpp */; };
 		24FAB10A117A3AA000DEEB7D /* FloatingPointParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24FAB104117A3AA000DEEB7D /* FloatingPointParameter.cpp */; };
@@ -144,6 +145,11 @@
 		240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RefreshTextLabelsTimer.cpp; path = source/RefreshTextLabelsTimer.cpp; sourceTree = "<group>"; };
 		240CE0C0116E729800015E9C /* RefreshTextLabelsTimerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshTextLabelsTimerResponder.h; path = source/RefreshTextLabelsTimerResponder.h; sourceTree = "<group>"; };
 		246AF1EF0981856000CC729E /* BeatCounter.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeatCounter.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		24A2736B119C45F900340E5F /* ImageAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAnimation.h; path = source/ImageAnimation.h; sourceTree = "<group>"; };
+		24A2736C119C45F900340E5F /* ImageAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageAnimation.cpp; path = source/ImageAnimation.cpp; sourceTree = "<group>"; };
+		24C649871194358600BB47A3 /* aeffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aeffect.h; path = "third-party/vstsdk2.4/pluginterfaces/vst2.x/aeffect.h"; sourceTree = "<group>"; };
+		24C649881194358600BB47A3 /* aeffectx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aeffectx.h; path = "third-party/vstsdk2.4/pluginterfaces/vst2.x/aeffectx.h"; sourceTree = "<group>"; };
+		24C649891194358600BB47A3 /* vstfxstore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vstfxstore.h; path = "third-party/vstsdk2.4/pluginterfaces/vst2.x/vstfxstore.h"; sourceTree = "<group>"; };
 		24E01459117A68B2002086AC /* BooleanParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanParameter.cpp; path = "third-party/PluginParameters/source/BooleanParameter.cpp"; sourceTree = "<group>"; };
 		24E0145A117A68B2002086AC /* BooleanParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BooleanParameter.h; path = "third-party/PluginParameters/source/BooleanParameter.h"; sourceTree = "<group>"; };
 		24E21079117A79AB00CF2C7E /* DecibelParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DecibelParameter.cpp; path = "third-party/PluginParameters/source/DecibelParameter.cpp"; sourceTree = "<group>"; };
@@ -235,11 +241,13 @@
 			children = (
 				2407D497116CE85300E76385 /* BeatCounter.cpp */,
 				2407D499116CE85300E76385 /* BeatCounterEditor.cpp */,
+				24A2736C119C45F900340E5F /* ImageAnimation.cpp */,
 				24FAB10F117A3ACB00DEEB7D /* ParameterFactory.cpp */,
 				240CE0BA116E71CA00015E9C /* RefreshTextLabelsTimer.cpp */,
 				2407D498116CE85300E76385 /* BeatCounter.h */,
 				2407D49A116CE85300E76385 /* BeatCounterEditor.h */,
 				240CE09A116E6C9F00015E9C /* BeatCounterModel.h */,
+				24A2736B119C45F900340E5F /* ImageAnimation.h */,
 				2407D49B116CE85300E76385 /* JuceLibraryConfig.h */,
 				2407D49D116CE85300E76385 /* JucePluginCharacteristics.h */,
 				24FAB10E117A3ACB00DEEB7D /* ParameterFactory.h */,
@@ -393,9 +401,12 @@
 		24E44F5A0F9B46F5008F34CE /* VST SDK */ = {
 			isa = PBXGroup;
 			children = (
+				24C649871194358600BB47A3 /* aeffect.h */,
+				24C649881194358600BB47A3 /* aeffectx.h */,
 				2407D491116CE6D600E76385 /* aeffeditor.h */,
 				2407D492116CE6D600E76385 /* audioeffect.h */,
 				2407D493116CE6D600E76385 /* audioeffectx.h */,
+				24C649891194358600BB47A3 /* vstfxstore.h */,
 			);
 			name = "VST SDK";
 			sourceTree = "<group>";
@@ -535,6 +546,7 @@
 				24FAB110117A3ACB00DEEB7D /* ParameterFactory.cpp in Sources */,
 				24E0145B117A68B2002086AC /* BooleanParameter.cpp in Sources */,
 				24E2107D117A79AB00CF2C7E /* DecibelParameter.cpp in Sources */,
+				24A2736D119C45F900340E5F /* ImageAnimation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  8 Apr 2010 10:31:18 pm
+  Creation date:  13 May 2010 8:35:41 am
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__
-#define __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__
+#ifndef __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_F04E6779__
+#define __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_F04E6779__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
@@ -31,6 +31,10 @@
 
 #ifndef __BeatCounterModel_h__
 #include "BeatCounterModel.h"
+#endif
+
+#ifndef __ImageAnimation_h__
+#include "ImageAnimation.h"
 #endif
 
 #ifndef __RefreshTextLabelsTimer_h__
@@ -83,6 +87,16 @@ public:
     static const int resetButtonOff_pngSize;
     static const char* resetButtonOn_png;
     static const int resetButtonOn_pngSize;
+    static const char* beatlightAnimation1_png;
+    static const int beatlightAnimation1_pngSize;
+    static const char* beatlightAnimation2_png;
+    static const int beatlightAnimation2_pngSize;
+    static const char* beatlightAnimation3_png;
+    static const int beatlightAnimation3_pngSize;
+    static const char* beatlightAnimation4_png;
+    static const int beatlightAnimation4_pngSize;
+    static const char* beatlightAnimation5_png;
+    static const int beatlightAnimation5_pngSize;
 
     //==============================================================================
     juce_UseDebuggingNewOperator
@@ -99,6 +113,7 @@ private:
     ImageButton* linkButton;
     Label* currentBpmLabel;
     Label* runningBpmLabel;
+    teragon::ImageAnimation* beatLight;
     Image* cachedImage_background_png;
 
     //==============================================================================
@@ -108,4 +123,4 @@ private:
 };
 
 
-#endif   // __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_C4803B3__
+#endif   // __JUCER_HEADER_BEATCOUNTEREDITOR_BEATCOUNTEREDITOR_F04E6779__

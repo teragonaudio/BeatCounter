@@ -1,6 +1,0 @@
-[submodule "third-party/juce"]
-	path = third-party/juce
-	url = git://juce.git.sourceforge.net/gitroot/juce/juce
-[submodule "third-party/PluginParameters"]
-	path = third-party/PluginParameters
-	url = git@github.com:teragonaudio/PluginParameters.git

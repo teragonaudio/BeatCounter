@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="V8uOZ6" name="BeatCounterApp" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.teragonaudio.BeatCounter.Standalone" jucerVersion="3.0.0"
+              companyName="Teragon Audio">
+  <MAINGROUP id="nolj9K" name="BeatCounterApp">
+    <GROUP id="{CE066263-48BE-B196-A41C-653C93819D33}" name="Source">
+      <FILE id="ASUUjZ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_gui_audio" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" juceFolder="../../../sdk/juce/modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="BeatCounterApp"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="BeatCounterApp"/>
+      </CONFIGURATIONS>
+    </XCODE_MAC>
+    <LINUX_MAKE targetFolder="Builds/Linux" juceFolder="../../../sdk/juce/modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="BeatCounterApp"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="BeatCounterApp"/>
+      </CONFIGURATIONS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <JUCEOPTIONS JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="disabled"
+               JUCE_USE_OGGVORBIS="disabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
+               JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled" JUCE_PLUGINHOST_AU="disabled"/>
+</JUCERPROJECT>

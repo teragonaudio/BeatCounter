@@ -1,4 +1,0 @@
-LIBRARY			BEATCOUNTER
-EXPORTS
-	VSTPluginMain
-	main=VSTPluginMain

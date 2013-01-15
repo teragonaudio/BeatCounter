@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{1FFDA6AA-049E-1B8B-3100-8F3AF0261F36}") = "BeatCounter", "BeatCounter.vcxproj", "{AFE126A1-36FF-098E-444F-BBA367994FAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFE126A1-36FF-098E-444F-BBA367994FAC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFE126A1-36FF-098E-444F-BBA367994FAC}.Debug|Win32.Build.0 = Debug|Win32
+		{AFE126A1-36FF-098E-444F-BBA367994FAC}.Release|Win32.ActiveCfg = Release|Win32
+		{AFE126A1-36FF-098E-444F-BBA367994FAC}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

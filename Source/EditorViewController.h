@@ -13,12 +13,15 @@
 
 class EditorViewController {
 public:
-  EditorViewController() {}
-  virtual ~EditorViewController() {}
+    EditorViewController() {}
+    virtual ~EditorViewController() {}
 
-  virtual void onFilterButtonPressed() = 0;
-  virtual void onLinkButtonPressed() = 0;
-  virtual void onResetButtonPressed() = 0;
+    virtual const double getCurrentBpm() const = 0;
+    virtual const double getRunningBpm() const = 0;
+
+    virtual void onFilterButtonPressed(bool isEnabled) = 0;
+    virtual void onLinkButtonPressed(bool isEnabled) = 0;
+    virtual void onResetButtonPressed(bool isEnabled) = 0;
 };
 
 #endif  // __EDITORVIEWCONTROLLER_H_762A743D__

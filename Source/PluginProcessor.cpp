@@ -11,7 +11,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor()
 {
@@ -25,11 +24,6 @@ BeatCounterAudioProcessor::~BeatCounterAudioProcessor()
 const String BeatCounterAudioProcessor::getName() const
 {
     return JucePlugin_Name;
-}
-
-int BeatCounterAudioProcessor::getNumParameters()
-{
-    return 0;
 }
 
 float BeatCounterAudioProcessor::getParameter (int index)
@@ -51,113 +45,143 @@ const String BeatCounterAudioProcessor::getParameterText (int index)
     return String::empty;
 }
 
-const String BeatCounterAudioProcessor::getInputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
-
-const String BeatCounterAudioProcessor::getOutputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
-
-bool BeatCounterAudioProcessor::isInputChannelStereoPair (int index) const
-{
-    return true;
-}
-
-bool BeatCounterAudioProcessor::isOutputChannelStereoPair (int index) const
-{
-    return true;
-}
-
-bool BeatCounterAudioProcessor::acceptsMidi() const
-{
-   #if JucePlugin_WantsMidiInput
-    return true;
-   #else
-    return false;
-   #endif
-}
-
-bool BeatCounterAudioProcessor::producesMidi() const
-{
-   #if JucePlugin_ProducesMidiOutput
-    return true;
-   #else
-    return false;
-   #endif
-}
-
-bool BeatCounterAudioProcessor::silenceInProducesSilenceOut() const
-{
-    return false;
-}
-
-int BeatCounterAudioProcessor::getNumPrograms()
-{
-    return 0;
-}
-
-int BeatCounterAudioProcessor::getCurrentProgram()
-{
-    return 0;
-}
-
-void BeatCounterAudioProcessor::setCurrentProgram (int index)
-{
-}
-
-const String BeatCounterAudioProcessor::getProgramName (int index)
-{
-    return String::empty;
-}
-
-void BeatCounterAudioProcessor::changeProgramName (int index, const String& newName)
-{
-}
-
 //==============================================================================
 void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    m_min_bpm = kMinimumTempo;
+    m_max_bpm = kMaximumTempo;
+    m_dupe_interval = (unsigned long)(sampleRate * (60.0f / (float)m_max_bpm));
+    m_downsample_rate = kDownsampleRate;
+    m_skip_count = m_downsample_rate;
+    m_downsampled = new double[(int)((sampleRate * 20) / m_downsample_rate)];
+    this->currentBpm = 0.0f;
+    this->runningBpm = 0.0f;
 }
 
 void BeatCounterAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
 }
 
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    for (int channel = 0; channel < getNumInputChannels(); ++channel)
-    {
-        float* channelData = buffer.getSampleData (channel);
+    for(int i = 0; i < buffer.getNumSamples(); ++i) {
+        float* currentSample = buffer.getSampleData(0, i);
+        double currentSampleAmplitude = 0.0f;
 
-        // ..do something to the data...
-    }
+        if(this->isAutofilterEnabled) {
+            // Basic lowpass filter (feedback)
+            this->autofilterOutput += (*currentSample - this->autofilterOutput) / this->autofilterConstant;
+            currentSampleAmplitude = fabs(this->autofilterOutput);
+        }
+        else {
+            currentSampleAmplitude = fabs(*currentSample);
+        }
 
-    // In case we have more outputs than inputs, we'll clear any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
-    {
-        buffer.clear (i, 0, buffer.getNumSamples());
+        // Find highest peak in downsampled area ("bar")
+        if(*currentSample > m_bar_high_point) {
+            m_bar_high_point = *currentSample;
+
+            // Find highest averaging value for testing period
+            if(*currentSample > m_high_point) {
+                m_high_point = *currentSample;
+            }
+        }
+
+        // Process one "bar"
+        if(--m_skip_count <= 0) {
+            // Calculate average point
+            m_bar_samp_avg /= m_downsample_rate;
+
+            // Beat amplitude/frequency has been detected
+            if(m_bar_samp_avg >= (m_bar_high_avg * this->tolerance / 100.0) &&
+                    m_bar_high_point >= (m_high_point * this->tolerance / 100.0) &&
+                    m_bar_high_point > kSilenceThreshold) {
+
+                // First bar in a beat?
+                if(!m_beat_state && m_beat_samples > m_dupe_interval) {
+                    m_beat_state = true;
+                    double bpm = (getSampleRate() * 60.0f) / ((m_last_avg + m_beat_samples) / 2);
+
+                    // Check for half-beat patterns
+                    double hbpm = bpm * 2.0;
+                    if(hbpm > m_min_bpm && hbpm < m_max_bpm) {
+                        bpm = hbpm;
+                    }
+
+                    // See if we're inside the threshhold
+                    if(bpm > m_min_bpm && bpm < m_max_bpm) {
+                        this->currentBpm = bpm;
+
+                        m_last_avg += m_beat_samples;
+                        m_last_avg /= 2;
+                        m_beat_samples = 0;
+                        bpmHistory.push_back(bpm);
+
+                        // Do total BPM and Reset?
+                        if(m_num_samples_processed > (this->periodSizeInSamples * getSampleRate())) {
+                            // Take advantage of this trigger point to do a tempo check
+                            if(this->linkWithHostTempo) {
+                                m_min_bpm = getHostTempo() - kHostTempoLinkToleranceInBpm;
+                                m_max_bpm = getHostTempo() + kHostTempoLinkToleranceInBpm;
+                                m_dupe_interval = (unsigned long)(getSampleRate() * (60.0f / (float)m_max_bpm));
+                            }
+
+                            this->runningBpm = 0.0;
+                            for(unsigned int bpmHistoryIndex = 0; bpmHistoryIndex < bpmHistory.size(); ++bpmHistoryIndex) {
+                                this->runningBpm += bpmHistory.at(bpmHistoryIndex);
+                            }
+                            bpmHistory.clear();
+                            m_num_samples_processed = 0;
+                        }
+                    }
+                    else {
+                        // Outside of bpm threshhold
+                        // TODO: Unset BPM Display in GUI
+                        m_last_avg += m_beat_samples;
+                        m_last_avg /= 2;
+                        m_beat_samples = 0;
+                    }
+                }
+                else {
+                    // Not the first beat mark
+                    m_beat_state = false;
+                }
+            }
+            else {
+                // Were we just in a beat?
+                if(m_beat_state) {
+                    m_beat_state = false;
+                }
+            }
+
+            m_skip_count = m_downsample_rate;
+            m_bar_high_point = 0.0;
+            m_bar_samp_avg = 0.0;
+        }
+        else {
+            m_bar_samp_avg += *currentSample;
+        }
+
+        ++m_num_samples_processed;
+        ++m_beat_samples;
     }
 }
 
-//==============================================================================
-bool BeatCounterAudioProcessor::hasEditor() const
-{
-    return true; // (change this to false if you choose to not supply an editor)
+double BeatCounterAudioProcessor::calculateAutofilterConstant(double sampleRate, double frequency) const {
+    return sampleRate / (2.0f * M_PI * frequency);
 }
 
-AudioProcessorEditor* BeatCounterAudioProcessor::createEditor() {
-  return new BeatCounterEditorView(this);
+double BeatCounterAudioProcessor::getHostTempo() const {
+    double result = kDefaultTempo;
+
+    AudioPlayHead* playHead = getPlayHead();
+    if(playHead != NULL) {
+        AudioPlayHead::CurrentPositionInfo currentPosition;
+        playHead->getCurrentPosition(currentPosition);
+        result = currentPosition.bpm;
+    }
+
+    return result;
 }
 
 //==============================================================================
@@ -175,16 +199,24 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
-void BeatCounterAudioProcessor::onFilterButtonPressed() {
-
+const double BeatCounterAudioProcessor::getCurrentBpm() const {
+    return this->currentBpm;
 }
 
-void BeatCounterAudioProcessor::onLinkButtonPressed() {
-
+const double BeatCounterAudioProcessor::getRunningBpm() const {
+    return this->runningBpm;
 }
 
-void BeatCounterAudioProcessor::onResetButtonPressed() {
+void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled) {
+    setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
+}
 
+void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled) {
+    setParameter(kParamLinkToHostTempo, isEnabled ? 1.0 : 0.0);
+}
+
+void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled) {
+    // TODO: Call reset
 }
 
 //==============================================================================
@@ -193,3 +225,9 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BeatCounterAudioProcessor();
 }
+
+AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
+{
+    return new BeatCounterEditorView(this);
+}
+

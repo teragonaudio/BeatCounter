@@ -145,24 +145,25 @@ void BeatCounterEditorView::resized()
 void BeatCounterEditorView::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
+    bool isEnabled = buttonThatWasClicked->isDown();
     //[/UserbuttonClicked_Pre]
 
     if (buttonThatWasClicked == filterButton)
     {
         //[UserButtonCode_filterButton] -- add your button handler code here..
-        viewController->onFilterButtonPressed();
+        viewController->onFilterButtonPressed(isEnabled);
         //[/UserButtonCode_filterButton]
     }
     else if (buttonThatWasClicked == resetButton)
     {
         //[UserButtonCode_resetButton] -- add your button handler code here..
-        viewController->onResetButtonPressed();
+        viewController->onResetButtonPressed(isEnabled);
         //[/UserButtonCode_resetButton]
     }
     else if (buttonThatWasClicked == linkButton)
     {
         //[UserButtonCode_linkButton] -- add your button handler code here..
-        viewController->onLinkButtonPressed();
+        viewController->onLinkButtonPressed(isEnabled);
         //[/UserButtonCode_linkButton]
     }
 

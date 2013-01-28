@@ -12,12 +12,13 @@
 #define __PLUGINPROCESSOR_H_1E83B8E4__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "EditorViewController.h"
 
 
 //==============================================================================
 /**
 */
-class BeatCounterAudioProcessor  : public AudioProcessor
+class BeatCounterAudioProcessor  : public AudioProcessor, public EditorViewController
 {
 public:
     //==============================================================================
@@ -65,7 +66,13 @@ public:
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
 
+    //==============================================================================
+    void onFilterButtonPressed();
+    void onLinkButtonPressed();
+    void onResetButtonPressed();
+
 private:
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeatCounterAudioProcessor)
 };

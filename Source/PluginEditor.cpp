@@ -150,16 +150,19 @@ void BeatCounterEditorView::buttonClicked (Button* buttonThatWasClicked)
     if (buttonThatWasClicked == filterButton)
     {
         //[UserButtonCode_filterButton] -- add your button handler code here..
+        viewController->onFilterButtonPressed();
         //[/UserButtonCode_filterButton]
     }
     else if (buttonThatWasClicked == resetButton)
     {
         //[UserButtonCode_resetButton] -- add your button handler code here..
+        viewController->onResetButtonPressed();
         //[/UserButtonCode_resetButton]
     }
     else if (buttonThatWasClicked == linkButton)
     {
         //[UserButtonCode_linkButton] -- add your button handler code here..
+        viewController->onLinkButtonPressed();
         //[/UserButtonCode_linkButton]
     }
 
@@ -170,6 +173,11 @@ void BeatCounterEditorView::buttonClicked (Button* buttonThatWasClicked)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+void BeatCounterEditorView::setViewController(EditorViewController* viewController) {
+  this->viewController = viewController;
+}
+
 //[/MiscUserCode]
 
 

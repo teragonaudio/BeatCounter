@@ -175,6 +175,19 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
+void BeatCounterAudioProcessor::onFilterButtonPressed() {
+
+}
+
+void BeatCounterAudioProcessor::onLinkButtonPressed() {
+
+}
+
+void BeatCounterAudioProcessor::onResetButtonPressed() {
+
+}
+
+//==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {

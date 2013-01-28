@@ -5,4 +5,5 @@ vstsdk2.4/*
 *.ncb
 *.suo
 *.user
+project.xcworkspace
 workspace.xml

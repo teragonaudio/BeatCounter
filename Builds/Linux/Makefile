@@ -43,6 +43,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/EditorViewController_29ca9077.o \
   $(OBJDIR)/PluginProcessor_a059e380.o \
   $(OBJDIR)/PluginEditor_94d4fb09.o \
   $(OBJDIR)/juce_audio_basics_2442e4ea.o \
@@ -74,6 +75,11 @@ clean:
 strip:
 	@echo Stripping BeatCounter
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/EditorViewController_29ca9077.o: ../../Source/EditorViewController.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling EditorViewController.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/PluginProcessor_a059e380.o: ../../Source/PluginProcessor.cpp
 	-@mkdir -p $(OBJDIR)

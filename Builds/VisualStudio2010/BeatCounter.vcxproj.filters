@@ -256,6 +256,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\EditorViewController.cpp">
+      <Filter>BeatCounter\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>BeatCounter\Source</Filter>
     </ClCompile>
@@ -1245,6 +1248,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\EditorViewController.h">
+      <Filter>BeatCounter\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>

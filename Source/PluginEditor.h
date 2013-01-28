@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Jan 2013 9:56:32pm
+  Creation date:  28 Jan 2013 10:22:48pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,11 +19,13 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_PLUGINEDITOR_PLUGINEDITOR_E033433B__
-#define __JUCER_HEADER_PLUGINEDITOR_PLUGINEDITOR_E033433B__
+#ifndef __JUCER_HEADER_BEATCOUNTEREDITORVIEW_PLUGINEDITOR_4D462327__
+#define __JUCER_HEADER_BEATCOUNTEREDITORVIEW_PLUGINEDITOR_4D462327__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "EditorViewController.h"
+#include "PluginProcessor.h"
 //[/Headers]
 
 
@@ -36,13 +38,13 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PluginEditor  : public AudioProcessorEditor,
-                      public ButtonListener
+class BeatCounterEditorView  : public AudioProcessorEditor,
+                               public ButtonListener
 {
 public:
     //==============================================================================
-    PluginEditor ();
-    ~PluginEditor();
+    BeatCounterEditorView (BeatCounterAudioProcessor* ownerFilter);
+    ~BeatCounterEditorView();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -94,10 +96,10 @@ private:
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginEditor);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeatCounterEditorView);
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_PLUGINEDITOR_PLUGINEDITOR_E033433B__
+#endif   // __JUCER_HEADER_BEATCOUNTEREDITORVIEW_PLUGINEDITOR_4D462327__

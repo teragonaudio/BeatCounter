@@ -156,9 +156,8 @@ bool BeatCounterAudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
-{
-    return new BeatCounterAudioProcessorEditor (this);
+AudioProcessorEditor* BeatCounterAudioProcessor::createEditor() {
+  return new BeatCounterEditorView(this);
 }
 
 //==============================================================================

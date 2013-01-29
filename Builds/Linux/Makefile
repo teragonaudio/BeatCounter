@@ -43,9 +43,8 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/EditorViewController_29ca9077.o \
-  $(OBJDIR)/PluginProcessor_a059e380.o \
-  $(OBJDIR)/PluginEditor_94d4fb09.o \
+  $(OBJDIR)/BeatCounterAudioProcessor_ef1440c3.o \
+  $(OBJDIR)/MainEditorView_e920e54.o \
   $(OBJDIR)/juce_audio_basics_2442e4ea.o \
   $(OBJDIR)/juce_audio_processors_44a134a2.o \
   $(OBJDIR)/juce_core_aff681cc.o \
@@ -76,19 +75,14 @@ strip:
 	@echo Stripping BeatCounter
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/EditorViewController_29ca9077.o: ../../Source/EditorViewController.cpp
+$(OBJDIR)/BeatCounterAudioProcessor_ef1440c3.o: ../../Source/BeatCounterAudioProcessor.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling EditorViewController.cpp"
+	@echo "Compiling BeatCounterAudioProcessor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/PluginProcessor_a059e380.o: ../../Source/PluginProcessor.cpp
+$(OBJDIR)/MainEditorView_e920e54.o: ../../Source/MainEditorView.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling PluginProcessor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/PluginEditor_94d4fb09.o: ../../Source/PluginEditor.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling PluginEditor.cpp"
+	@echo "Compiling MainEditorView.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_2442e4ea.o: ../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp

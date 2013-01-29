@@ -256,13 +256,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\EditorViewController.cpp">
+    <ClCompile Include="..\..\Source\BeatCounterAudioProcessor.cpp">
       <Filter>BeatCounter\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PluginProcessor.cpp">
-      <Filter>BeatCounter\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PluginEditor.cpp">
+    <ClCompile Include="..\..\Source\MainEditorView.cpp">
       <Filter>BeatCounter\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1248,13 +1245,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\BeatCounterAudioProcessor.h">
+      <Filter>BeatCounter\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\EditorViewController.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\PluginProcessor.h">
-      <Filter>BeatCounter\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PluginEditor.h">
+    <ClInclude Include="..\..\Source\MainEditorView.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">

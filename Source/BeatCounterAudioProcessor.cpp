@@ -93,8 +93,8 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                     m_bar_high_point > kSilenceThreshold) {
 
                 // First bar in a beat?
-                if(!m_beat_state && m_beat_samples > m_dupe_interval) {
-                    m_beat_state = true;
+                if(!beatState && m_beat_samples > m_dupe_interval) {
+                    beatState = true;
                     double bpm = (getSampleRate() * 60.0f) / ((m_last_avg + m_beat_samples) / 2);
 
                     // Check for half-beat patterns
@@ -139,13 +139,13 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                 }
                 else {
                     // Not the first beat mark
-                    m_beat_state = false;
+                    beatState = false;
                 }
             }
             else {
                 // Were we just in a beat?
-                if(m_beat_state) {
-                    m_beat_state = false;
+                if(beatState) {
+                    beatState = false;
                 }
             }
 

@@ -115,9 +115,9 @@ private:
     std::vector<double> bpmHistory;
 
     // OLD MEMBER VARIABLES
-    // TODO: Bah, need to remove and rename these suckers
+    // TODO: Bah, need to remove or rename these suckers
 
-    bool m_beat_state;
+    bool beatState;
 
     double *m_downsampled;
     double m_high_point;
@@ -128,10 +128,6 @@ private:
     double m_last_avg;
     double m_min_bpm;
     double m_max_bpm;
-
-    double m_autofilter_const;
-    double m_autofilter_freq;
-    double m_autofilter_out1;
 
     int m_downsampled_index;
     int m_beat_marks_index;

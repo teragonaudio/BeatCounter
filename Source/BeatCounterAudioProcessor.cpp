@@ -20,24 +20,158 @@ BeatCounterAudioProcessor::~BeatCounterAudioProcessor()
 {
 }
 
+float BeatCounterAudioProcessor::getParameterScaled (float rawValue, float minValue, float maxValue) const
+{
+    return (rawValue - minValue) / (maxValue - minValue);
+}
+
+float BeatCounterAudioProcessor::getParameterFrequency (float rawValue, float minValue, float maxValue) const
+{
+    return (log(rawValue) - log(minValue)) / (log(maxValue) - log(minValue));
+}
+
 //==============================================================================
 float BeatCounterAudioProcessor::getParameter (int index)
 {
+  switch(index) {
+    case kParamReset:
+        break;
+    case kParamTolerance:
+      return getParameterScaled(tolerance, kParamToleranceMinValue, kParamToleranceMaxValue);
+    case kParamPeriod:
+      return getParameterScaled(periodSizeInSamples / getSampleRate(), kParamPeriodMinValue, kParamPeriodMaxValue);
+    case kParamAutofilterEnabled:
+          return isAutofilterEnabled ? 1.0f : 0.0f;
+    case kParamAutofilterFrequency:
+      return getParameterFrequency(autofilterFrequency, kParamAutofilterMinValue, kParamAutofilterMaxValue);
+    case kParamLinkToHostTempo:
+      return linkWithHostTempo ? 1.0f : 0.0f;
+    default:
+          break;
+    }
+    
+    // Only reached for special parameters
     return 0.0f;
+}
+
+void BeatCounterAudioProcessor::setParameterScaled(double *destination, float scaledValue, float minValue, float maxValue)
+{
+    *destination = scaledValue * (maxValue - minValue) + minValue;
+}
+
+void BeatCounterAudioProcessor::setParameterFrequency(double *destination, float scaledValue, float minValue, float maxValue)
+{
+  *destination = exp(scaledValue * (log(maxValue) - log(minValue)) + log(minValue));
 }
 
 void BeatCounterAudioProcessor::setParameter (int index, float newValue)
 {
+  switch(index) {
+    case kParamReset:
+      if(newValue > 0.5f) {
+        reset();
+      }
+      break;
+    case kParamTolerance:
+      setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
+      break;
+    case kParamPeriod: {
+      double periodSizeInSeconds = 0.0;
+      setParameterScaled(&periodSizeInSeconds, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
+      periodSizeInSamples = periodSizeInSamples * getSampleRate();
+    }
+      break;
+    case kParamAutofilterEnabled:
+      isAutofilterEnabled = (newValue > 0.5f);
+      break;
+    case kParamAutofilterFrequency:
+      setParameterFrequency(&autofilterFrequency, newValue, kParamAutofilterMinValue, kParamAutofilterMaxValue);
+      break;
+    case kParamLinkToHostTempo:
+      linkWithHostTempo = (newValue > 0.5f);
+      break;
+        default:
+          break;
+      }
+}
+
+String BeatCounterAudioProcessor::getParameterNameForStorage(int index) const
+{
+  switch(index) {
+    case kParamReset:
+      return "Reset";
+    case kParamTolerance:
+      return "Tolerance";
+    case kParamPeriod:
+      return "Period";
+    case kParamAutofilterEnabled:
+      return "AutofilterOn";
+    case kParamAutofilterFrequency:
+      return "AutofilterFrequency";
+    case kParamLinkToHostTempo:
+      return "LinkHostTempo";
+    default:
+      return String::empty;
+  }
 }
 
 const String BeatCounterAudioProcessor::getParameterName (int index)
 {
-    return String::empty;
+  switch(index) {
+    case kParamReset:
+      return "Reset";
+    case kParamTolerance:
+      return "Tolerance";
+    case kParamPeriod:
+      return "Period";
+    case kParamAutofilterEnabled:
+      return "Autofilter On";
+    case kParamAutofilterFrequency:
+      return "Autofilter Frequency";
+    case kParamLinkToHostTempo:
+      return "Link to Host Tempo";
+    default:
+      return String::empty;
+  }
 }
 
 const String BeatCounterAudioProcessor::getParameterText (int index)
 {
-    return String::empty;
+  switch (index) {
+    case kParamReset:
+      return String::empty;
+    case kParamTolerance:
+      return String::formatted("%.0f", tolerance);
+    case kParamPeriod:
+      return String::formatted("%.1f", periodSizeInSamples / getSampleRate());
+    case kParamAutofilterEnabled:
+      return isAutofilterEnabled ? "On" : "Off";
+    case kParamAutofilterFrequency:
+      return String::formatted("%.2f", autofilterFrequency);
+    case kParamLinkToHostTempo:
+      return linkWithHostTempo ? "On" : "Off";
+    default:
+      return String::empty;
+  }
+}
+
+bool BeatCounterAudioProcessor::isParameterStored(int index) const {
+  switch(index) {
+    case kParamReset:
+      return false;
+    case kParamTolerance:
+      return true;
+    case kParamPeriod:
+      return true;
+    case kParamAutofilterEnabled:
+      return true;
+    case kParamAutofilterFrequency:
+      return true;
+    case kParamLinkToHostTempo:
+      return true;
+    default:
+      return false;
+  }
 }
 
 //==============================================================================
@@ -55,6 +189,11 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 
 void BeatCounterAudioProcessor::releaseResources()
 {
+}
+
+void BeatCounterAudioProcessor::reset()
+{
+    bpmHistory.clear();
 }
 
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -184,15 +323,25 @@ double BeatCounterAudioProcessor::getHostTempo() const
 //==============================================================================
 void BeatCounterAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+  XmlElement xml("BeatCounterStorage");
+  for(int i = 0; i < kNumParams; ++i) {
+    if(isParameterStored(i)) {
+      xml.setAttribute(getParameterNameForStorage(i), getParameter(i));
+    }
+  }
+  copyXmlToBinary(xml, destData);
 }
 
 void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+  ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+  if(xmlState != 0 && xmlState->hasTagName("BeatCounterStorage")) {
+    for(int i = 0; i < kNumParams; i++) {
+      if(isParameterStored(i)) {
+        setParameter(i, xmlState->getDoubleAttribute(getParameterNameForStorage(i)));
+      }
+    }
+  }
 }
 
 //==============================================================================
@@ -218,7 +367,7 @@ void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
 
 void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
 {
-    // TODO: Call reset
+    reset();
 }
 
 //==============================================================================

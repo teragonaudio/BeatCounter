@@ -14,18 +14,17 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "EditorViewController.h"
 
-const double kMaxAutofilterFrequency = 400.0f;
-const double kMinAutofilterFrequency = 50.0f;
+static const double kMaxAutofilterFrequency = 400.0f;
+static const double kMinAutofilterFrequency = 50.0f;
 // TODO: Change to use downsampling factor
-const long kDownsampleRate = 1000;
-const double kSilenceThreshold = 0.1;
-const double kDefaultTempo = 120.0;
-const double kMinimumTempo = 60.0;
-const double kMaximumTempo = 180.0;
-const double kHostTempoLinkToleranceInBpm = 16.0;
+static const long kDownsampleRate = 1000;
+static const double kSilenceThreshold = 0.1;
+static const double kDefaultTempo = 120.0;
+static const double kMinimumTempo = 60.0;
+static const double kMaximumTempo = 180.0;
+static const double kHostTempoLinkToleranceInBpm = 16.0;
 
-const int kDecimalDisplayPrecision = 2;
-
+static const int kDecimalDisplayPrecision = 2;
 
 enum Parameters {
     kParamReset,
@@ -38,6 +37,12 @@ enum Parameters {
     kNumParams
 };
 
+static const float kParamToleranceMinValue = 0.0f;
+static const float kParamToleranceMaxValue = 100.0f;
+static const float kParamPeriodMinValue = 5.0f;
+static const float kParamPeriodMaxValue = 20.0f;
+static const float kParamAutofilterMinValue = 50.0f;
+static const float kParamAutofilterMaxValue = 500.0f;
 
 //==============================================================================
 class BeatCounterAudioProcessor  : public AudioProcessor, public EditorViewController
@@ -50,7 +55,7 @@ public:
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock);
     void releaseResources();
-
+    void reset();
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
     //==============================================================================
@@ -97,6 +102,12 @@ public:
     void onResetButtonPressed(bool isEnabled);
 
 private:
+  String getParameterNameForStorage(int index) const;
+    float getParameterScaled(float rawValue, float minValue, float maxValue) const;
+  float getParameterFrequency(float rawValue, float minValue, float maxValue) const;
+    void setParameterScaled(double *destination, float scaledValue, float minValue, float maxValue);
+  void setParameterFrequency(double *destination, float scaledValue, float minValue, float maxValue);
+  bool isParameterStored(int index) const;
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 

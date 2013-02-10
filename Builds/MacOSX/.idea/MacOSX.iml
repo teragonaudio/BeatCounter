@@ -2227,11 +2227,23 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_WebBrowserComponent.cpp" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Source/EditorViewController.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/EditorViewController.cpp" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../Source/EditorViewController.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/EditorViewController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/MainEditorView.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/MainEditorView.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Source/MainEditorView.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/MainEditorView.h" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../Source/PluginEditor.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/PluginEditor.cpp" isTestSource="false" />

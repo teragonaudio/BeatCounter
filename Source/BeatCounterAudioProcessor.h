@@ -58,7 +58,7 @@ public:
     bool hasEditor() const { return true; }
 
     //==============================================================================
-    const String getName() const;
+    const String getName() const { return JucePlugin_Name; }
 
     int getNumParameters() { return kNumParams; }
 

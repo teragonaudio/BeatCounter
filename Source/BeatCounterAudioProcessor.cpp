@@ -21,11 +21,6 @@ BeatCounterAudioProcessor::~BeatCounterAudioProcessor()
 }
 
 //==============================================================================
-const String BeatCounterAudioProcessor::getName() const
-{
-    return JucePlugin_Name;
-}
-
 float BeatCounterAudioProcessor::getParameter (int index)
 {
     return 0.0f;

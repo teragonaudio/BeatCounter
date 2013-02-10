@@ -223,5 +223,7 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
 {
-    return new MainEditorView(this);
+    MainEditorView* editorView = new MainEditorView(this);
+    editorView->setViewController(this);
+    return editorView;
 }

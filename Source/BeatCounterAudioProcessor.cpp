@@ -162,11 +162,13 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     }
 }
 
-double BeatCounterAudioProcessor::calculateAutofilterConstant(double sampleRate, double frequency) const {
+double BeatCounterAudioProcessor::calculateAutofilterConstant(double sampleRate, double frequency) const
+{
     return sampleRate / (2.0f * M_PI * frequency);
 }
 
-double BeatCounterAudioProcessor::getHostTempo() const {
+double BeatCounterAudioProcessor::getHostTempo() const
+{
     double result = kDefaultTempo;
 
     AudioPlayHead* playHead = getPlayHead();
@@ -194,23 +196,28 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
-const double BeatCounterAudioProcessor::getCurrentBpm() const {
+const double BeatCounterAudioProcessor::getCurrentBpm() const
+{
     return this->currentBpm;
 }
 
-const double BeatCounterAudioProcessor::getRunningBpm() const {
+const double BeatCounterAudioProcessor::getRunningBpm() const
+{
     return this->runningBpm;
 }
 
-void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled) {
+void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled)
+{
     setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
 }
 
-void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled) {
+void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
+{
     setParameter(kParamLinkToHostTempo, isEnabled ? 1.0 : 0.0);
 }
 
-void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled) {
+void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
+{
     // TODO: Call reset
 }
 

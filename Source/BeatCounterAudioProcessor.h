@@ -117,31 +117,42 @@ private:
     double autofilterConstant;
     double autofilterFrequency;
 
+    // How loud a beat must be, relative to the highest known amplitude, in order to trigger the start of beat state
     double tolerance;
+    // Current BPM shown in GUI
     double currentBpm;
+    // Running BPM shown in GUI
     double runningBpm;
+    // How often to calculate total BPM
     unsigned long periodSizeInSamples;
+    // If true, constrain minimum and maximum BPM ranges to be near the current tempo of the host
     bool linkWithHostTempo;
-
+    // Used to calculate the running BPM
     std::vector<double> bpmHistory;
-
-    // OLD MEMBER VARIABLES
-    // TODO: Bah, need to remove or rename these suckers
-
+    // State of the processing algorithm, will be true if the current sample is part of the beat
     bool currentlyInsideBeat;
-
+    // Highest known amplitude found since initialization (or reset)
     double highestAmplitude;
-    double highestAmplitudeForBar;
-    double m_bar_high_avg;
-    double m_bar_samp_avg;
-    double m_last_avg;
+    // Highest known amplitude found within a period
+    double highestAmplitudeInPeriod;
+    // Running total of all amplitudes within a downsampled region
+    double totalRunningAmplitude;
+    // Running average of the number of samples found between beats. Used to calculate the actual BPM.
+    double beatLengthRunningAverage;
+    // Used to calculate the BPM in combination with beatLengthRunningAverage
+    unsigned long numSamplesSinceLastBeat;
+    // Smallest possible BPM allowed, can improve accuracy if input source known to be within a given BPM range
     double minimumAllowedBpm;
+    // Largest possible BPM allowed, can improve accuracy if input source known to be within a given BPM range
     double maximumAllowedBpm;
-
-    unsigned long m_skip_count;
+    // Poor man's downsampling
+    unsigned long samplesToSkip;
+    // Used to calculate the period, which in turn effects the total accuracy of the algorithm
     unsigned long numSamplesProcessed;
+    // Wait at least this many samples before another beat can be detected. Used to reduce the possibility
+    // of crazy fast tempos triggered by static wooshing and other such things which may fool the trigger
+    // detection algorithm.
     unsigned long cooldownPeriodInSamples;
-    unsigned long m_beat_samples;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeatCounterAudioProcessor)

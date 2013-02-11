@@ -202,25 +202,25 @@ void BeatCounterAudioProcessor::reset()
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     for(int i = 0; i < buffer.getNumSamples(); ++i) {
-        float* currentSample = buffer.getSampleData(0, i);
-        double currentSampleAmplitude = 0.0f;
+        float currentSample = *buffer.getSampleData(0, i);
+        double currentSampleAmplitude;
 
-        if(this->isAutofilterEnabled) {
+        if(autofilterEnabled) {
             // Basic lowpass filter (feedback)
-            this->autofilterOutput += (*currentSample - this->autofilterOutput) / this->autofilterConstant;
-            currentSampleAmplitude = fabs(this->autofilterOutput);
+            autofilterOutput += (currentSample - autofilterOutput) / autofilterConstant;
+            currentSampleAmplitude = fabs(autofilterOutput);
         }
         else {
-            currentSampleAmplitude = fabs(*currentSample);
+            currentSampleAmplitude = fabs(currentSample);
         }
 
         // Find highest peak in downsampled area ("bar")
-        if(*currentSample > m_bar_high_point) {
-            m_bar_high_point = *currentSample;
+        if(currentSampleAmplitude > m_bar_high_point) {
+            m_bar_high_point = currentSampleAmplitude;
 
             // Find highest averaging value for testing period
-            if(*currentSample > m_high_point) {
-                m_high_point = *currentSample;
+            if(currentSampleAmplitude > m_high_point) {
+                m_high_point = currentSampleAmplitude;
             }
         }
 
@@ -296,7 +296,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
             m_bar_samp_avg = 0.0;
         }
         else {
-            m_bar_samp_avg += *currentSample;
+            m_bar_samp_avg += currentSampleAmplitude;
         }
 
         ++m_num_samples_processed;

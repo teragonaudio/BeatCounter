@@ -112,7 +112,7 @@ private:
     double getHostTempo() const;
 
 
-    bool isAutofilterEnabled;
+    bool autofilterEnabled;
     double autofilterOutput;
     double autofilterConstant;
     double autofilterFrequency;
@@ -120,7 +120,7 @@ private:
     double tolerance;
     double currentBpm;
     double runningBpm;
-    long periodSizeInSamples;
+    unsigned long periodSizeInSamples;
     bool linkWithHostTempo;
 
     std::vector<double> bpmHistory;

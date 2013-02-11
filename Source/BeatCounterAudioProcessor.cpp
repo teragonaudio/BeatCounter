@@ -85,7 +85,7 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
         case kParamPeriod:
         {
             double periodSizeInSeconds = 0.0;
-            setParameterScaled(&periodSizeInSeconds, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
+            setParameterScaled(&periodSizeInSeconds, newValue, kParamPeriodMinValue, kParamPeriodMaxValue);
             periodSizeInSamples = (unsigned long) (periodSizeInSeconds * getSampleRate());
         }
             break;

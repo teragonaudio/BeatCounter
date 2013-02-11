@@ -49,6 +49,8 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setViewController(EditorViewController* viewController);
+    void setCurrentBpm(double bpm);
+    void setRunningBpm(double bpm);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -85,6 +87,8 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     EditorViewController* viewController;
+    double lastCurrentBpm;
+    double lastRunningBpm;
     //[/UserVariables]
 
     //==============================================================================

@@ -26,6 +26,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+static const int kNumDecimalPlaces = 2;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -92,6 +93,8 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
 
 
     //[Constructor] You can add your own custom stuff here..
+    lastCurrentBpm = 0.0;
+    lastRunningBpm = 0.0;
     //[/Constructor]
 }
 
@@ -127,6 +130,16 @@ void MainEditorView::paint (Graphics& g)
                        false);
 
     //[UserPaint] Add your own custom painting code here..
+    double currentBpm = viewController->getCurrentBpm();
+    if (currentBpm != lastCurrentBpm) {
+        lastCurrentBpm = currentBpm;
+        setCurrentBpm(currentBpm);
+    }
+    double runningBpm = viewController->getRunningBpm();
+    if (runningBpm != lastRunningBpm) {
+        lastRunningBpm = runningBpm;
+        setRunningBpm(runningBpm);
+    }
     //[/UserPaint]
 }
 
@@ -176,7 +189,21 @@ void MainEditorView::buttonClicked (Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void MainEditorView::setViewController(EditorViewController* viewController) {
-  this->viewController = viewController;
+    this->viewController = viewController;
+    lastCurrentBpm = viewController->getCurrentBpm();
+    setCurrentBpm(lastCurrentBpm);
+    lastRunningBpm = viewController->getRunningBpm();
+    setRunningBpm(lastRunningBpm);
+}
+
+void MainEditorView::setCurrentBpm(double bpm) {
+    String currentBpm(bpm, kNumDecimalPlaces);
+    currentBpmLabel->setText(currentBpm, false);
+}
+
+void MainEditorView::setRunningBpm(double bpm) {
+    String runningBpm(bpm, kNumDecimalPlaces);
+    currentBpmLabel2->setText(runningBpm, false);
 }
 
 //[/MiscUserCode]

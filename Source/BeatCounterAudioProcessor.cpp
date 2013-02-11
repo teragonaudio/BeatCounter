@@ -205,7 +205,6 @@ void BeatCounterAudioProcessor::reset()
     m_bar_high_avg = 0.0;
     m_bar_samp_avg = 0.0;
     currentlyInsideBeat = false;
-    m_downsampled_index = 0;
     m_last_avg = 0;
     m_beat_samples = 0;
     currentBpm = 0.0;

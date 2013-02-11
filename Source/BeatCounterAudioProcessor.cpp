@@ -354,7 +354,7 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
   if(xmlState != 0 && xmlState->hasTagName("BeatCounterStorage")) {
     for(int i = 0; i < kNumParams; i++) {
       if(isParameterStored(i)) {
-        setParameter(i, xmlState->getDoubleAttribute(getParameterNameForStorage(i)));
+        setParameter(i, (float) xmlState->getDoubleAttribute(getParameterNameForStorage(i)));
       }
     }
   }

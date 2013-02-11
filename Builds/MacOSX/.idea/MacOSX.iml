@@ -187,6 +187,9 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.mm" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/juce_module_info" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/midi/juce_MidiBuffer.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/midi/juce_MidiBuffer.cpp" isTestSource="false" />
     </content>
@@ -310,6 +313,9 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/juce_audio_plugin_client.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/juce_audio_plugin_client.h" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/juce_module_info" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/utility/juce_CarbonVisibility.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/utility/juce_CarbonVisibility.h" isTestSource="false" />
     </content>
@@ -369,6 +375,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/juce_audio_processors.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/juce_audio_processors.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/processors/juce_AudioPlayHead.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_processors/processors/juce_AudioPlayHead.h" isTestSource="false" />
@@ -537,6 +546,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/juce_core.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/juce_core.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/logging/juce_FileLogger.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_core/logging/juce_FileLogger.cpp" isTestSource="false" />
@@ -979,6 +991,9 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/juce_data_structures.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/juce_data_structures.mm" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/juce_module_info" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/undomanager/juce_UndoManager.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_data_structures/undomanager/juce_UndoManager.cpp" isTestSource="false" />
     </content>
@@ -1044,6 +1059,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/juce_events.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/juce_events.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/messages/juce_ApplicationBase.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_events/messages/juce_ApplicationBase.cpp" isTestSource="false" />
@@ -1299,6 +1317,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/juce_graphics.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/juce_graphics.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/native/juce_RenderingHelpers.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_graphics/native/juce_RenderingHelpers.h" isTestSource="false" />
@@ -1593,6 +1614,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/juce_gui_basics.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/juce_gui_basics.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/keyboard/juce_CaretComponent.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_basics/keyboard/juce_CaretComponent.cpp" isTestSource="false" />
@@ -2139,6 +2163,9 @@
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/juce_gui_extra.mm">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/juce_gui_extra.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/juce_module_info" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/lookandfeel/juce_OldSchoolLookAndFeel.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_gui_extra/lookandfeel/juce_OldSchoolLookAndFeel.cpp" isTestSource="false" />

@@ -197,6 +197,19 @@ void BeatCounterAudioProcessor::releaseResources()
 void BeatCounterAudioProcessor::reset()
 {
     bpmHistory.clear();
+    autofilterOutput = 0.0f;
+    autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
+    m_num_samples_processed = 0;
+    m_high_point = 0.0;
+    m_bar_high_point = 0.0;
+    m_bar_high_avg = 0.0;
+    m_bar_samp_avg = 0.0;
+    beatState = false;
+    m_downsampled_index = 0;
+    m_last_avg = 0;
+    m_beat_samples = 0;
+    currentBpm = 0.0;
+    runningBpm = 0.0;
 }
 
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)

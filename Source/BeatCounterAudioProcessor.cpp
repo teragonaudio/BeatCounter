@@ -16,6 +16,11 @@ static char const *const kStorageName = "BeatCounterStorage";
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor()
 {
+    tolerance = kParamToleranceDefaultValue;
+    periodSizeInSamples = (unsigned long) (kParamPeriodDefaultValue * getSampleRate());
+    autofilterEnabled = false;
+    autofilterFrequency = kParamAutofilterDefaultValue;
+    linkWithHostTempo = false;
 }
 
 BeatCounterAudioProcessor::~BeatCounterAudioProcessor()

@@ -11,6 +11,8 @@
 #include "BeatCounterAudioProcessor.h"
 #include "MainEditorView.h"
 
+static char const *const kStorageName = "BeatCounterStorage";
+
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor()
 {
@@ -339,7 +341,7 @@ double BeatCounterAudioProcessor::getHostTempo() const
 //==============================================================================
 void BeatCounterAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    XmlElement xml("BeatCounterStorage");
+    XmlElement xml(kStorageName);
     for (int i = 0; i < kNumParams; ++i) {
         if (isParameterStored(i)) {
             xml.setAttribute(getParameterNameForStorage(i), (double)getParameter(i));
@@ -351,7 +353,7 @@ void BeatCounterAudioProcessor::getStateInformation (MemoryBlock& destData)
 void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
   ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-  if(xmlState != 0 && xmlState->hasTagName("BeatCounterStorage")) {
+  if(xmlState != 0 && xmlState->hasTagName(kStorageName)) {
     for(int i = 0; i < kNumParams; i++) {
       if(isParameterStored(i)) {
         setParameter(i, (float) xmlState->getDoubleAttribute(getParameterNameForStorage(i)));

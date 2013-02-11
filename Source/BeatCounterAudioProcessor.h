@@ -104,7 +104,7 @@ public:
 private:
   String getParameterNameForStorage(int index) const;
     float getParameterScaled(float rawValue, float minValue, float maxValue) const;
-  float getParameterFrequency(float rawValue, float minValue, float maxValue) const;
+  float getParameterFrequency(double rawValue, float minValue, float maxValue) const;
     void setParameterScaled(double *destination, float scaledValue, float minValue, float maxValue);
   void setParameterFrequency(double *destination, float scaledValue, float minValue, float maxValue);
   bool isParameterStored(int index) const;

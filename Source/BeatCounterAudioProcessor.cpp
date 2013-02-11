@@ -182,12 +182,10 @@ bool BeatCounterAudioProcessor::isParameterStored(int index) const
 //==============================================================================
 void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    m_min_bpm = kMinimumTempo;
-    m_max_bpm = kMaximumTempo;
-    m_dupe_interval = (unsigned long)(sampleRate * (60.0f / (float)m_max_bpm));
-    m_downsample_rate = kDownsampleRate;
-    m_skip_count = m_downsample_rate;
-    m_downsampled = new double[(int)((sampleRate * 20) / m_downsample_rate)];
+    minimumAllowedBpm = kMinimumTempo;
+    maximumAllowedBpm = kMaximumTempo;
+    cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float) maximumAllowedBpm));
+    m_skip_count = kDownsampleRate;
     this->currentBpm = 0.0f;
     this->runningBpm = 0.0f;
 }
@@ -201,12 +199,12 @@ void BeatCounterAudioProcessor::reset()
     bpmHistory.clear();
     autofilterOutput = 0.0f;
     autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
-    m_num_samples_processed = 0;
-    m_high_point = 0.0;
-    m_bar_high_point = 0.0;
+    numSamplesProcessed = 0;
+    highestAmplitude = 0.0;
+    highestAmplitudeForBar = 0.0;
     m_bar_high_avg = 0.0;
     m_bar_samp_avg = 0.0;
-    beatState = false;
+    currentlyInsideBeat = false;
     m_downsampled_index = 0;
     m_last_avg = 0;
     m_beat_samples = 0;
@@ -230,39 +228,40 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
         }
 
         // Find highest peak in downsampled area ("bar")
-        if(currentSampleAmplitude > m_bar_high_point) {
-            m_bar_high_point = currentSampleAmplitude;
+        if(currentSampleAmplitude > highestAmplitudeForBar) {
+            highestAmplitudeForBar = currentSampleAmplitude;
 
             // Find highest averaging value for testing period
-            if(currentSampleAmplitude > m_high_point) {
-                m_high_point = currentSampleAmplitude;
+            if(currentSampleAmplitude > highestAmplitude) {
+                highestAmplitude = currentSampleAmplitude;
             }
         }
 
         // Process one "bar"
         if(--m_skip_count <= 0) {
             // Calculate average point
-            m_bar_samp_avg /= m_downsample_rate;
+            m_bar_samp_avg /= kDownsampleRate;
 
             // Beat amplitude/frequency has been detected
-            if(m_bar_samp_avg >= (m_bar_high_avg * this->tolerance / 100.0) &&
-                    m_bar_high_point >= (m_high_point * this->tolerance / 100.0) &&
-                    m_bar_high_point > kSilenceThreshold) {
+            if(m_bar_samp_avg >= (m_bar_high_avg * tolerance / 100.0) &&
+                    highestAmplitudeForBar >= (highestAmplitude * tolerance / 100.0) &&
+                    highestAmplitudeForBar > kSilenceThreshold) {
 
                 // First bar in a beat?
-                if(!beatState && m_beat_samples > m_dupe_interval) {
-                    beatState = true;
+                if(!currentlyInsideBeat && m_beat_samples > cooldownPeriodInSamples) {
+                    currentlyInsideBeat = true;
                     double bpm = (getSampleRate() * 60.0f) / ((m_last_avg + m_beat_samples) / 2);
 
-                    // Check for half-beat patterns
-                    double hbpm = bpm * 2.0;
-                    if(hbpm > m_min_bpm && hbpm < m_max_bpm) {
-                        bpm = hbpm;
+                    // Check for half-beat patterns. For instance, a song which has a kick drum
+                    // at around 70 BPM but an actual tempo of 140 BPM (hello, dubstep!).
+                    double doubledBpm = bpm * 2.0;
+                    if(doubledBpm > minimumAllowedBpm && doubledBpm < maximumAllowedBpm) {
+                        bpm = doubledBpm;
                     }
 
-                    // See if we're inside the threshhold
-                    if(bpm > m_min_bpm && bpm < m_max_bpm) {
-                        this->currentBpm = bpm;
+                    // Check to see that this tempo is within the limits allowed
+                    if(bpm > minimumAllowedBpm && bpm < maximumAllowedBpm) {
+                        currentBpm = bpm;
 
                         m_last_avg += m_beat_samples;
                         m_last_avg /= 2;
@@ -270,12 +269,13 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                         bpmHistory.push_back(bpm);
 
                         // Do total BPM and Reset?
-                        if(m_num_samples_processed > (this->periodSizeInSamples * getSampleRate())) {
-                            // Take advantage of this trigger point to do a tempo check
-                            if(this->linkWithHostTempo) {
-                                m_min_bpm = getHostTempo() - kHostTempoLinkToleranceInBpm;
-                                m_max_bpm = getHostTempo() + kHostTempoLinkToleranceInBpm;
-                                m_dupe_interval = (unsigned long)(getSampleRate() * (60.0f / (float)m_max_bpm));
+                        if(numSamplesProcessed > (this->periodSizeInSamples * getSampleRate())) {
+                            // Take advantage of this trigger point to do a tempo check and adjust the minimum
+                            // and maximum BPM ranges accordingly.
+                            if(linkWithHostTempo) {
+                                minimumAllowedBpm = getHostTempo() - kHostTempoLinkToleranceInBpm;
+                                maximumAllowedBpm = getHostTempo() + kHostTempoLinkToleranceInBpm;
+                                cooldownPeriodInSamples = (unsigned long)(getSampleRate() * (60.0f / (float) maximumAllowedBpm));
                             }
 
                             this->runningBpm = 0.0;
@@ -283,7 +283,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                                 this->runningBpm += bpmHistory.at(bpmHistoryIndex);
                             }
                             bpmHistory.clear();
-                            m_num_samples_processed = 0;
+                            numSamplesProcessed = 0;
                         }
                     }
                     else {
@@ -296,25 +296,25 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                 }
                 else {
                     // Not the first beat mark
-                    beatState = false;
+                    currentlyInsideBeat = false;
                 }
             }
             else {
                 // Were we just in a beat?
-                if(beatState) {
-                    beatState = false;
+                if(currentlyInsideBeat) {
+                    currentlyInsideBeat = false;
                 }
             }
 
-            m_skip_count = m_downsample_rate;
-            m_bar_high_point = 0.0;
+            m_skip_count = kDownsampleRate;
+            highestAmplitudeForBar = 0.0;
             m_bar_samp_avg = 0.0;
         }
         else {
             m_bar_samp_avg += currentSampleAmplitude;
         }
 
-        ++m_num_samples_processed;
+        ++numSamplesProcessed;
         ++m_beat_samples;
     }
 }

@@ -34,7 +34,7 @@ float BeatCounterAudioProcessor::getParameterScaled (float rawValue, float minVa
 
 float BeatCounterAudioProcessor::getParameterFrequency (double rawValue, float minValue, float maxValue) const
 {
-    return (float const)(log(rawValue) - log(minValue)) / (log(maxValue) - log(minValue));
+    return (float const)((log(rawValue) - log(minValue)) / (log(maxValue) - log(minValue)));
 }
 
 //==============================================================================

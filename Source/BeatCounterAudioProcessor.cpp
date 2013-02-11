@@ -185,7 +185,7 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     minimumAllowedBpm = kMinimumTempo;
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float) maximumAllowedBpm));
-    m_skip_count = kDownsampleRate;
+    m_skip_count = kDownsampleFactor;
     this->currentBpm = 0.0f;
     this->runningBpm = 0.0f;
 }
@@ -240,7 +240,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
         // Process one "bar"
         if(--m_skip_count <= 0) {
             // Calculate average point
-            m_bar_samp_avg /= kDownsampleRate;
+            m_bar_samp_avg /= kDownsampleFactor;
 
             // Beat amplitude/frequency has been detected
             if(m_bar_samp_avg >= (m_bar_high_avg * tolerance / 100.0) &&
@@ -306,7 +306,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                 }
             }
 
-            m_skip_count = kDownsampleRate;
+            m_skip_count = kDownsampleFactor;
             highestAmplitudeForBar = 0.0;
             m_bar_samp_avg = 0.0;
         }

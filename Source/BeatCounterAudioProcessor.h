@@ -16,8 +16,8 @@
 
 static const double kMaxAutofilterFrequency = 400.0f;
 static const double kMinAutofilterFrequency = 50.0f;
-// TODO: Change to use downsampling factor
-static const long kDownsampleRate = 1000;
+// TODO: This is very suspicious and needs tweaking
+static const long kDownsampleFactor = 1000;
 static const double kSilenceThreshold = 0.1;
 static const double kDefaultTempo = 120.0;
 static const double kMinimumTempo = 60.0;

@@ -35,15 +35,18 @@ enum Parameters {
     kNumParams
 };
 
-static const float kParamToleranceMinValue = 0.0f;
+static const float kParamToleranceMinValue = 1.0f;
 static const float kParamToleranceMaxValue = 100.0f;
+static const float kParamToleranceDefaultValue = 75.0f;
 static const float kParamPeriodMinValue = 5.0f;
 static const float kParamPeriodMaxValue = 20.0f;
+static const float kParamPeriodDefaultValue = 10.0f;
 static const float kParamAutofilterMinValue = 50.0f;
 static const float kParamAutofilterMaxValue = 500.0f;
+static const float kParamAutofilterDefaultValue = 500.0f;
 
 //==============================================================================
-class BeatCounterAudioProcessor  : public AudioProcessor, public EditorViewController
+class BeatCounterAudioProcessor : public AudioProcessor, public EditorViewController
 {
 public:
     //==============================================================================

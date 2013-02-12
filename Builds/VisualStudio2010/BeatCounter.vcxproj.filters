@@ -1248,6 +1248,9 @@
     <ClInclude Include="..\..\Source\BeatCounterAudioProcessor.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EditorInterface.h">
+      <Filter>BeatCounter\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\EditorViewController.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>

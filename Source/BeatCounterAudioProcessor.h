@@ -96,9 +96,6 @@ public:
     void setStateInformation (const void* data, int sizeInBytes);
 
     //==============================================================================
-    const double getCurrentBpm() const;
-    const double getRunningBpm() const;
-
     void onFilterButtonPressed(bool isEnabled);
     void onLinkButtonPressed(bool isEnabled);
     void onResetButtonPressed(bool isEnabled);

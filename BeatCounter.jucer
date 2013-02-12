@@ -16,6 +16,8 @@
             resource="0" file="Source/BeatCounterAudioProcessor.cpp"/>
       <FILE id="d7wXqX" name="BeatCounterAudioProcessor.h" compile="0" resource="0"
             file="Source/BeatCounterAudioProcessor.h"/>
+      <FILE id="csh3C4" name="EditorInterface.h" compile="0" resource="0"
+            file="Source/EditorInterface.h"/>
       <FILE id="NamuGf" name="EditorViewController.h" compile="0" resource="0"
             file="Source/EditorViewController.h"/>
       <FILE id="Fw6dDp" name="MainEditorView.cpp" compile="1" resource="0"

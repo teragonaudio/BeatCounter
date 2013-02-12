@@ -25,6 +25,7 @@ static const double kMaximumTempo = 180.0;
 static const double kHostTempoLinkToleranceInBpm = 16.0;
 
 enum Parameters {
+    // TODO: Eliminate, should only be available from GUI
     kParamReset,
     kParamTolerance,
     kParamPeriod,
@@ -126,10 +127,13 @@ private:
     double currentBpm;
     // Running BPM shown in GUI
     double runningBpm;
-    // How often to calculate total BPM
+    // How often to calculate total BPM (user parameter)
+    double periodSizeInSeconds;
+    // How often to calculate total BPM (used internally)
     unsigned long periodSizeInSamples;
     // If true, constrain minimum and maximum BPM ranges to be near the current tempo of the host
     bool linkWithHostTempo;
+
     // Used to calculate the running BPM
     std::vector<double> bpmHistory;
     // State of the processing algorithm, will be true if the current sample is part of the beat
@@ -138,6 +142,8 @@ private:
     double highestAmplitude;
     // Highest known amplitude found within a period
     double highestAmplitudeInPeriod;
+    // Average
+    double averageApmiltudeInPeriod;
     // Running total of all amplitudes within a downsampled region
     double totalRunningAmplitude;
     // Running average of the number of samples found between beats. Used to calculate the actual BPM.

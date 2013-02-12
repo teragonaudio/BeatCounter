@@ -2260,6 +2260,9 @@
     <content url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/BeatCounterAudioProcessor.h" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Source/EditorInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Source/EditorInterface.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Source/EditorViewController.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/EditorViewController.cpp" isTestSource="false" />
     </content>

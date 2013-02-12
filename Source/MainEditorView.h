@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  29 Jan 2013 9:29:25am
+  Creation date:  12 Feb 2013 11:14:39pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,13 +19,14 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_B4DACD7B__
-#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_B4DACD7B__
+#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__
+#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "BeatCounterAudioProcessor.h"
 #include "EditorViewController.h"
+#include "EditorInterface.h"
 //[/Headers]
 
 
@@ -39,6 +40,7 @@
                                                                     //[/Comments]
 */
 class MainEditorView  : public AudioProcessorEditor,
+                        public EditorInterface,
                         public ButtonListener
 {
 public:
@@ -49,8 +51,10 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setViewController(EditorViewController* viewController);
-    void setCurrentBpm(double bpm);
-    void setRunningBpm(double bpm);
+    void updateCurrentBpm(double bpm) const;
+    void updateRunningBpm(double bpm) const;
+
+    void triggerBeatLight();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -62,12 +66,6 @@ public:
     static const int background_pngSize;
     static const char* beatlightAnimation1_png;
     static const int beatlightAnimation1_pngSize;
-    static const char* beatlightAnimation2_png;
-    static const int beatlightAnimation2_pngSize;
-    static const char* beatlightAnimation3_png;
-    static const int beatlightAnimation3_pngSize;
-    static const char* beatlightAnimation4_png;
-    static const int beatlightAnimation4_pngSize;
     static const char* beatlightAnimation5_png;
     static const int beatlightAnimation5_pngSize;
     static const char* filterButtonOff_png;
@@ -87,18 +85,18 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     EditorViewController* viewController;
-    double lastCurrentBpm;
-    double lastRunningBpm;
     //[/UserVariables]
 
     //==============================================================================
     Label* currentBpmLabel;
-    Label* currentBpmLabel2;
-    ImageButton* beatIndicatorButton;
+    Label* runningBpmLabel;
     ImageButton* filterButton;
     ImageButton* resetButton;
     ImageButton* linkButton;
+    ImageComponent* beatIndicatorLight;
     Image cachedImage_background_png;
+    Image cachedImage_beatlightAnimation1_png;
+    Image cachedImage_beatlightAnimation5_png;
 
 
     //==============================================================================
@@ -108,4 +106,4 @@ private:
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_B4DACD7B__
+#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__

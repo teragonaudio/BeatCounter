@@ -13,20 +13,19 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "EditorViewController.h"
+#include "EditorInterface.h"
 
 static const double kMaxAutofilterFrequency = 400.0f;
 static const double kMinAutofilterFrequency = 50.0f;
-// TODO: This is very suspicious and needs tweaking
-static const long kDownsampleFactor = 1000;
+// Effectively downsamples input from 44.1kHz -> 11kHz
+static const long kDownsampleFactor = 4;
 static const double kSilenceThreshold = 0.1;
-static const double kDefaultTempo = 120.0;
+static const double kDefaultTempo = 0.0;
 static const double kMinimumTempo = 60.0;
 static const double kMaximumTempo = 180.0;
 static const double kHostTempoLinkToleranceInBpm = 16.0;
 
 enum Parameters {
-    // TODO: Eliminate, should only be available from GUI
-    kParamReset,
     kParamTolerance,
     kParamPeriod,
     kParamAutofilterEnabled,
@@ -39,9 +38,9 @@ enum Parameters {
 static const float kParamToleranceMinValue = 1.0f;
 static const float kParamToleranceMaxValue = 100.0f;
 static const float kParamToleranceDefaultValue = 75.0f;
-static const float kParamPeriodMinValue = 5.0f;
-static const float kParamPeriodMaxValue = 20.0f;
-static const float kParamPeriodDefaultValue = 10.0f;
+static const float kParamPeriodMinValue = 1.0f;
+static const float kParamPeriodMaxValue = 10.0f;
+static const float kParamPeriodDefaultValue = 2.0f;
 static const float kParamAutofilterMinValue = 50.0f;
 static const float kParamAutofilterMaxValue = 500.0f;
 static const float kParamAutofilterDefaultValue = 500.0f;
@@ -99,6 +98,9 @@ public:
     void onFilterButtonPressed(bool isEnabled);
     void onLinkButtonPressed(bool isEnabled);
     void onResetButtonPressed(bool isEnabled);
+    bool getFilterButtonState() const;
+    bool getLinkButtonState() const;
+    void onEditorClosed();
 
 private:
     String getParameterNameForStorage(int index) const;
@@ -112,6 +114,9 @@ private:
     double getHostTempo() const;
 
 private:
+    // Link to editor
+    EditorInterface *editor;
+
     // Variables used by the autofilter
     bool autofilterEnabled;
     double autofilterOutput;
@@ -139,10 +144,8 @@ private:
     double highestAmplitude;
     // Highest known amplitude found within a period
     double highestAmplitudeInPeriod;
-    // Average
-    double averageApmiltudeInPeriod;
     // Running total of all amplitudes within a downsampled region
-    double totalRunningAmplitude;
+    double totalRunningAmplitudex;
     // Running average of the number of samples found between beats. Used to calculate the actual BPM.
     double beatLengthRunningAverage;
     // Used to calculate the BPM in combination with beatLengthRunningAverage

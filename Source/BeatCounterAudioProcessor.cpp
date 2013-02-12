@@ -19,9 +19,10 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor(), Edito
     tolerance = kParamToleranceDefaultValue;
     periodSizeInSeconds = kParamPeriodDefaultValue;
     periodSizeInSamples = 0;
-    autofilterEnabled = false;
+    autofilterEnabled = true;
     autofilterFrequency = kParamAutofilterDefaultValue;
     linkWithHostTempo = false;
+    editor = NULL;
     reset();
 }
 
@@ -43,8 +44,6 @@ float BeatCounterAudioProcessor::getParameterFrequency (double rawValue, float m
 float BeatCounterAudioProcessor::getParameter (int index)
 {
     switch (index) {
-        case kParamReset:
-            break;
         case kParamTolerance:
             return getParameterScaled((float)tolerance, kParamToleranceMinValue, kParamToleranceMaxValue);
         case kParamPeriod:
@@ -76,11 +75,6 @@ void BeatCounterAudioProcessor::setParameterFrequency(double *destination, float
 void BeatCounterAudioProcessor::setParameter (int index, float newValue)
 {
     switch (index) {
-        case kParamReset:
-            if (newValue > 0.5f) {
-                reset();
-            }
-            break;
         case kParamTolerance:
             setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
             break;
@@ -106,8 +100,6 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
 String BeatCounterAudioProcessor::getParameterNameForStorage(int index) const
 {
     switch (index) {
-        case kParamReset:
-            return "Reset";
         case kParamTolerance:
             return "Tolerance";
         case kParamPeriod:
@@ -126,8 +118,6 @@ String BeatCounterAudioProcessor::getParameterNameForStorage(int index) const
 const String BeatCounterAudioProcessor::getParameterName (int index)
 {
     switch (index) {
-        case kParamReset:
-            return "Reset";
         case kParamTolerance:
             return "Tolerance";
         case kParamPeriod:
@@ -146,8 +136,6 @@ const String BeatCounterAudioProcessor::getParameterName (int index)
 const String BeatCounterAudioProcessor::getParameterText (int index)
 {
     switch (index) {
-        case kParamReset:
-            return String::empty;
         case kParamTolerance:
             return String::formatted("%.0f", tolerance);
         case kParamPeriod:
@@ -166,8 +154,6 @@ const String BeatCounterAudioProcessor::getParameterText (int index)
 bool BeatCounterAudioProcessor::isParameterStored(int index) const
 {
     switch (index) {
-        case kParamReset:
-            return false;
         case kParamTolerance:
             return true;
         case kParamPeriod:
@@ -206,12 +192,16 @@ void BeatCounterAudioProcessor::reset()
     numSamplesProcessed = 0;
     highestAmplitude = 0.0;
     highestAmplitudeInPeriod = 0.0;
-    totalRunningAmplitude = 0.0;
     currentlyInsideBeat = false;
     beatLengthRunningAverage = 0;
     numSamplesSinceLastBeat = 0;
     currentBpm = 0.0;
     runningBpm = 0.0;
+
+    if(editor) {
+        editor->updateCurrentBpm(currentBpm);
+        editor->updateRunningBpm(runningBpm);
+    }
 }
 
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -221,6 +211,10 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
         double currentSampleAmplitude;
 
         if(autofilterEnabled) {
+            // This relies on the sample rate which may not be available during initialization
+            if(autofilterConstant == 0.0) {
+                autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
+            }
             // Basic lowpass filter (feedback)
             autofilterOutput += (currentSample - autofilterOutput) / autofilterConstant;
             currentSampleAmplitude = fabs(autofilterOutput);
@@ -241,15 +235,12 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
 
         // Downsample by skipping samples
         if(--samplesToSkip <= 0) {
-            // Calculate average point
-            totalRunningAmplitude /= kDownsampleFactor;
 
-            // Beat amplitude/frequency has been detected
-            if(totalRunningAmplitude >= (0.0f * tolerance / 100.0) &&
-                    highestAmplitudeInPeriod >= (highestAmplitude * tolerance / 100.0) &&
+            // Beat amplitude trigger has been detected
+            if(highestAmplitudeInPeriod >= (highestAmplitude * tolerance / 100.0) &&
                     highestAmplitudeInPeriod > kSilenceThreshold) {
 
-                // First bar in a beat?
+                // First sample inside of a beat?
                 if(!currentlyInsideBeat && numSamplesSinceLastBeat > cooldownPeriodInSamples) {
                     currentlyInsideBeat = true;
                     double bpm = (getSampleRate() * 60.0f) / ((beatLengthRunningAverage + numSamplesSinceLastBeat) / 2);
@@ -267,9 +258,13 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
 
                     // Check to see that this tempo is within the limits allowed
                     if(bpm > minimumAllowedBpm && bpm < maximumAllowedBpm) {
-                        // TODO: Turn on beat light in GUI
                         currentBpm = bpm;
                         bpmHistory.push_back(bpm);
+
+                        if(editor) {
+                            editor->triggerBeatLight();
+                            editor->updateCurrentBpm(currentBpm);
+                        }
 
                         // The sample rate is not known when a JUCE plugin is initialized, so grab it lazily here
                         if(periodSizeInSamples == 0) {
@@ -293,11 +288,13 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                             runningBpm /= (double)bpmHistory.size();
                             bpmHistory.clear();
                             numSamplesProcessed = 0;
+                            if(editor) {
+                                editor->updateRunningBpm(runningBpm);
+                            }
                         }
                     }
                     else {
-                        // Outside of bpm threshhold
-                        // TODO: Unset BPM Display in GUI
+                        // Outside of bpm threshold, ignore
                     }
                 }
                 else {
@@ -314,10 +311,6 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
 
             samplesToSkip = kDownsampleFactor;
             highestAmplitudeInPeriod = 0.0;
-            totalRunningAmplitude = 0.0;
-        }
-        else {
-            totalRunningAmplitude += currentSampleAmplitude;
         }
 
         ++numSamplesProcessed;
@@ -370,21 +363,6 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
-const double BeatCounterAudioProcessor::getCurrentBpm() const
-{
-    return currentBpm;
-}
-
-const double BeatCounterAudioProcessor::getRunningBpm() const
-{
-    return runningBpm;
-}
-
-const bool BeatCounterAudioProcessor::isBeatActive() const
-{
-    return currentlyInsideBeat;
-}
-
 void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled)
 {
     setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
@@ -400,6 +378,19 @@ void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
     reset();
 }
 
+bool BeatCounterAudioProcessor::getLinkButtonState() const {
+    return linkWithHostTempo;
+}
+
+bool BeatCounterAudioProcessor::getFilterButtonState() const {
+    return autofilterEnabled;
+}
+
+void BeatCounterAudioProcessor::onEditorClosed() {
+    editor = NULL;
+}
+
+
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
@@ -410,6 +401,7 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
 {
     MainEditorView *editorView = new MainEditorView(this);
+    editor = editorView;
     editorView->setViewController(this);
     return editorView;
 }

@@ -11,8 +11,14 @@
 #ifndef __EDITORINTERFACE_H_FCABD151__
 #define __EDITORINTERFACE_H_FCABD151__
 
+class EditorInterface {
+public:
+    EditorInterface() {}
+    virtual ~EditorInterface() {}
 
-
-
+    virtual void updateCurrentBpm(double bpm) const = 0;
+    virtual void updateRunningBpm(double bpm) const = 0;
+    virtual void triggerBeatLight() = 0;
+};
 
 #endif  // __EDITORINTERFACE_H_FCABD151__

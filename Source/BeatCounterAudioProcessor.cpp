@@ -413,7 +413,7 @@ void BeatCounterAudioProcessor::onEditorClosed() {
     editor = NULL;
 }
 
-
+#if HOSTED_PLUGIN
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
@@ -432,3 +432,4 @@ AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
     editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
     return editorView;
 }
+#endif

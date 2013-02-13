@@ -11,7 +11,12 @@
 #ifndef __PLUGINPROCESSOR_H_1E83B8E4__
 #define __PLUGINPROCESSOR_H_1E83B8E4__
 
+#if HOSTED_PLUGIN
 #include "../JuceLibraryCode/JuceHeader.h"
+#else
+#include "../App/JuceLibraryCode/JuceHeader.h"
+#define JucePlugin_Name "BeatCounter"
+#endif
 #include "EditorViewController.h"
 #include "EditorInterface.h"
 
@@ -60,7 +65,11 @@ public:
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
     //==============================================================================
+#if HOSTED_PLUGIN
     AudioProcessorEditor* createEditor();
+#else
+    AudioProcessorEditor* createEditor() { return NULL; }
+#endif
     bool hasEditor() const { return true; }
 
     //==============================================================================

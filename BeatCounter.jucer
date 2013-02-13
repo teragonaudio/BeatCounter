@@ -9,7 +9,7 @@
               pluginTailLength="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="BeatCounterAU"
               pluginAUViewClass="BeatCounterAU_V1" pluginRTASCategory="" aaxIdentifier="com.yourcompany.BeatCounter"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.0.0"
-              companyName="Teragon Audio">
+              companyName="Teragon Audio" defines="HOSTED_PLUGIN=1">
   <MAINGROUP id="UdUnEf" name="BeatCounter">
     <GROUP id="{8094F2E0-6E2F-95DB-1977-1759C6EF0A66}" name="Source">
       <FILE id="XEg7NH" name="BeatCounterAudioProcessor.cpp" compile="1"

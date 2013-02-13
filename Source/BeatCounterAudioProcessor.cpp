@@ -398,9 +398,7 @@ void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
 
 void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
 {
-    if(isEnabled) {
-        reset();
-    }
+    reset();
 }
 
 bool BeatCounterAudioProcessor::getLinkButtonState() const {

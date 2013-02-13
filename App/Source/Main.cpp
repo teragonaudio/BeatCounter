@@ -9,7 +9,8 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "BeatCounterAudioProcessor.h"
+#include "MainEditorView.h"
 
 //==============================================================================
 class BeatCounterAppApplication  : public JUCEApplication
@@ -20,33 +21,34 @@ public:
 
     const String getApplicationName()       { return ProjectInfo::projectName; }
     const String getApplicationVersion()    { return ProjectInfo::versionString; }
-    bool moreThanOneInstanceAllowed()       { return true; }
+    bool moreThanOneInstanceAllowed()       { return false; }
 
     //==============================================================================
     void initialise (const String& commandLine)
     {
-        // Add your application's initialisation code here..
+        audioProcessor = new BeatCounterAudioProcessor();
     }
 
     void shutdown()
     {
-        // Add your application's shutdown code here..
+        audioProcessor->releaseResources();
     }
 
     //==============================================================================
     void systemRequestedQuit()
     {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
         quit();
     }
 
+    #if 0
     void anotherInstanceStarted (const String& commandLine)
     {
-        // When another instance of the app is launched while this one is running,
-        // this method is invoked, and the commandLine parameter tells you what
-        // the other instance's command-line arguments were.
     }
+    #endif
+
+private:
+    ScopedPointer<BeatCounterAudioProcessor> audioProcessor;
+    MainEditorView *mainWindow;
 };
 
 //==============================================================================

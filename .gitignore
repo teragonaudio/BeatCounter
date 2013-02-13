@@ -1,6 +1,7 @@
 build
 Builds/VisualStudio2010/Debug
 Builds/VisualStudio2010/Release
+*.opensdf
 *.pbxuser
 *.perspectivev3
 vstsdk2.4/*

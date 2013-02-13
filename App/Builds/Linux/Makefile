@@ -43,7 +43,9 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/BeatCounterAudioProcessor_d5757872.o \
   $(OBJDIR)/Main_90ebc5c2.o \
+  $(OBJDIR)/MainEditorView_a7e6ce05.o \
   $(OBJDIR)/juce_audio_basics_2442e4ea.o \
   $(OBJDIR)/juce_audio_devices_a4c8a728.o \
   $(OBJDIR)/juce_audio_formats_d349f0c8.o \
@@ -74,9 +76,19 @@ strip:
 	@echo Stripping BeatCounterApp
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
+$(OBJDIR)/BeatCounterAudioProcessor_d5757872.o: ../../../Source/BeatCounterAudioProcessor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling BeatCounterAudioProcessor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling Main.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/MainEditorView_a7e6ce05.o: ../../../Source/MainEditorView.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling MainEditorView.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_2442e4ea.o: ../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp

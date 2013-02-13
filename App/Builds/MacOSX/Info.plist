@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.teragonaudio.BeatCounter.Standalone</string>
+    <string>com.teragonaudio.BeatCounter.app</string>
     <key>CFBundleName</key>
     <string>BeatCounterApp</string>
     <key>CFBundlePackageType</key>

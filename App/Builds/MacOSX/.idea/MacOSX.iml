@@ -2236,6 +2236,24 @@
     <content url="file://$MODULE_DIR$/../../Source/Main.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../Source/Main.cpp" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../Source/BeatCounterAudioProcessor.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/BeatCounterAudioProcessor.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Source/BeatCounterAudioProcessor.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/BeatCounterAudioProcessor.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Source/EditorInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/EditorInterface.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Source/EditorViewController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/EditorViewController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Source/MainEditorView.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/MainEditorView.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Source/MainEditorView.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Source/MainEditorView.h" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

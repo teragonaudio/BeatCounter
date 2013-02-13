@@ -10,6 +10,10 @@
 
 #include "BeatCounterAudioProcessor.h"
 #include "MainEditorView.h"
+#ifdef WIN32
+#define _USE_MATH_DEFINES 1
+#include <math.h>
+#endif
 
 static char const *const kStorageName = "BeatCounterStorage";
 

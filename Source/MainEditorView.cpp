@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  12 Feb 2013 11:14:39pm
+  Creation date:  13 Feb 2013 10:07:57pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -35,67 +35,85 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
       EditorInterface(),
       currentBpmLabel (0),
       runningBpmLabel (0),
-      filterButton (0),
-      resetButton (0),
-      linkButton (0),
       beatIndicatorLight (0),
-      cachedImage_background_png (0),
+      resetButton (0),
+      filterButton (0),
+      linkButton (0),
+      toleranceSlider (0),
+      slider (0),
       cachedImage_beatlightAnimation1_png (0),
       cachedImage_beatlightAnimation5_png (0)
 {
     addAndMakeVisible (currentBpmLabel = new Label ("Current BPM Label",
                                                     "---.--"));
-    currentBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 20.0000f, Font::plain));
-    currentBpmLabel->setJustificationType (Justification::centred);
+    currentBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.0000f, Font::plain));
+    currentBpmLabel->setJustificationType (Justification::centredLeft);
     currentBpmLabel->setEditable (false, false, false);
     currentBpmLabel->setColour (TextEditor::textColourId, Colours::black);
     currentBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
     addAndMakeVisible (runningBpmLabel = new Label ("Running BPM Label",
                                                     "---.--"));
-    runningBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 20.0000f, Font::plain));
-    runningBpmLabel->setJustificationType (Justification::centred);
+    runningBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.0000f, Font::plain));
+    runningBpmLabel->setJustificationType (Justification::centredLeft);
     runningBpmLabel->setEditable (false, false, false);
     runningBpmLabel->setColour (TextEditor::textColourId, Colours::black);
     runningBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (filterButton = new ImageButton ("Filter Button"));
-    filterButton->addListener (this);
-
-    filterButton->setImages (false, true, true,
-                             ImageCache::getFromMemory (filterButtonOff_png, filterButtonOff_pngSize), 1.0000f, Colour (0x0),
-                             Image(), 1.0000f, Colour (0x0),
-                             ImageCache::getFromMemory (filterButtonOn_png, filterButtonOn_pngSize), 1.0000f, Colour (0x0));
-    addAndMakeVisible (resetButton = new ImageButton ("Reset Button"));
-    resetButton->addListener (this);
-
-    resetButton->setImages (false, true, true,
-                            ImageCache::getFromMemory (resetButtonOff_png, resetButtonOff_pngSize), 1.0000f, Colour (0x0),
-                            Image(), 1.0000f, Colour (0x0),
-                            ImageCache::getFromMemory (resetButtonOn_png, resetButtonOn_pngSize), 1.0000f, Colour (0x0));
-    addAndMakeVisible (linkButton = new ImageButton ("Link Button"));
-    linkButton->addListener (this);
-
-    linkButton->setImages (false, true, true,
-                           ImageCache::getFromMemory (linkButtonOff_png, linkButtonOff_pngSize), 1.0000f, Colour (0x0),
-                           Image(), 1.0000f, Colour (0x0),
-                           ImageCache::getFromMemory (linkButtonOn_png, linkButtonOn_pngSize), 1.0000f, Colour (0x0));
     addAndMakeVisible (beatIndicatorLight = new ImageComponent());
     beatIndicatorLight->setName ("BeatIndicatorLight");
 
-    cachedImage_background_png = ImageCache::getFromMemory (background_png, background_pngSize);
+    addAndMakeVisible (resetButton = new TextButton ("Reset Button"));
+    resetButton->setButtonText ("Reset");
+    resetButton->addListener (this);
+    resetButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
+    resetButton->setColour (TextButton::buttonOnColourId, Colour (0xff1c3670));
+    resetButton->setColour (TextButton::textColourOnId, Colours::white);
+    resetButton->setColour (TextButton::textColourOffId, Colours::white);
+
+    addAndMakeVisible (filterButton = new ToggleButton ("Filter Button"));
+    filterButton->setButtonText ("Lowpass Filter Enabled");
+    filterButton->addListener (this);
+    filterButton->setColour (ToggleButton::textColourId, Colours::white);
+
+    addAndMakeVisible (linkButton = new ToggleButton ("Link Button"));
+    linkButton->setButtonText ("Link to Host\'s Tempo");
+    linkButton->addListener (this);
+    linkButton->setColour (ToggleButton::textColourId, Colours::white);
+
+    addAndMakeVisible (toleranceSlider = new Slider ("Tolerance Slider"));
+    toleranceSlider->setRange (0, 100, 1);
+    toleranceSlider->setSliderStyle (Slider::LinearHorizontal);
+    toleranceSlider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
+    toleranceSlider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
+    toleranceSlider->setColour (Slider::textBoxTextColourId, Colours::black);
+    toleranceSlider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
+    toleranceSlider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
+    toleranceSlider->addListener (this);
+
+    addAndMakeVisible (slider = new Slider ("new slider"));
+    slider->setRange (50, 400, 1);
+    slider->setSliderStyle (Slider::LinearHorizontal);
+    slider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
+    slider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
+    slider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
+    slider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
+    slider->addListener (this);
+
     cachedImage_beatlightAnimation1_png = ImageCache::getFromMemory (beatlightAnimation1_png, beatlightAnimation1_pngSize);
     cachedImage_beatlightAnimation5_png = ImageCache::getFromMemory (beatlightAnimation5_png, beatlightAnimation5_pngSize);
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (209, 100);
+    setSize (205, 264);
 
 
     //[Constructor] You can add your own custom stuff here..
-    filterButton->setClickingTogglesState(true);
-    linkButton->setClickingTogglesState(true);
+    filterButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
+    filterButton->setColour (TextButton::buttonOnColourId, Colour (0xff2c4680));
+    linkButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
+    linkButton->setColour (TextButton::buttonOnColourId, Colour (0xff2c4680));
     //[/Constructor]
 }
 
@@ -106,10 +124,12 @@ MainEditorView::~MainEditorView()
 
     deleteAndZero (currentBpmLabel);
     deleteAndZero (runningBpmLabel);
-    deleteAndZero (filterButton);
-    deleteAndZero (resetButton);
-    deleteAndZero (linkButton);
     deleteAndZero (beatIndicatorLight);
+    deleteAndZero (resetButton);
+    deleteAndZero (filterButton);
+    deleteAndZero (linkButton);
+    deleteAndZero (toleranceSlider);
+    deleteAndZero (slider);
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -123,23 +143,53 @@ void MainEditorView::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colours::white);
-
-    g.setColour (Colours::black);
-    g.drawImageWithin (cachedImage_background_png,
-                       0, 0, 209, 100,
-                       RectanglePlacement::centred | RectanglePlacement::onlyReduceInSize,
-                       false);
+    g.fillAll (Colour (0xff757c8a));
 
     g.setColour (Colours::black);
     g.drawImage (cachedImage_beatlightAnimation1_png,
-                 176, 63, 25, 25,
+                 174, 96, 25, 25,
                  0, 0, cachedImage_beatlightAnimation1_png.getWidth(), cachedImage_beatlightAnimation1_png.getHeight());
 
-    g.setColour (Colours::black.withAlpha (0.0100f));
+    g.setColour (Colours::black.withAlpha (0.0010f));
     g.drawImage (cachedImage_beatlightAnimation5_png,
-                 176, 63, 25, 25,
+                 174, 96, 25, 25,
                  0, 0, cachedImage_beatlightAnimation5_png.getWidth(), cachedImage_beatlightAnimation5_png.getHeight());
+
+    g.setColour (Colour (0xffabb699));
+    g.fillRoundedRectangle (5.0f, 5.0f, 195.0f, 84.0f, 10.0000f);
+
+    g.setColour (Colours::black);
+    g.drawRoundedRectangle (5.0f, 5.0f, 195.0f, 84.0f, 10.0000f, 0.6000f);
+
+    g.setColour (Colours::black);
+    g.setFont (Font (16.0000f, Font::plain));
+    g.drawText ("Current BPM:",
+                13, 19, 107, 24,
+                Justification::centredLeft, true);
+
+    g.setColour (Colours::black);
+    g.setFont (Font (16.0000f, Font::plain));
+    g.drawText ("Running BPM:",
+                13, 51, 107, 24,
+                Justification::centredLeft, true);
+
+    g.setColour (Colours::white);
+    g.setFont (Font (15.0000f, Font::plain));
+    g.drawText ("Beat",
+                134, 96, 48, 25,
+                Justification::centred, true);
+
+    g.setColour (Colours::white);
+    g.setFont (Font (15.0000f, Font::plain));
+    g.drawText ("Detection Tolerance",
+                7, 124, 161, 23,
+                Justification::centredLeft, true);
+
+    g.setColour (Colours::white);
+    g.setFont (Font (15.0000f, Font::plain));
+    g.drawText ("Lowpass Filter Frequency",
+                7, 215, 161, 24,
+                Justification::centredLeft, true);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -147,12 +197,14 @@ void MainEditorView::paint (Graphics& g)
 
 void MainEditorView::resized()
 {
-    currentBpmLabel->setBounds (16, 24, 88, 24);
-    runningBpmLabel->setBounds (16, 61, 88, 24);
-    filterButton->setBounds (132, 11, 38, 22);
-    resetButton->setBounds (132, 68, 38, 22);
-    linkButton->setBounds (132, 40, 38, 22);
-    beatIndicatorLight->setBounds (176, 63, 25, 25);
+    currentBpmLabel->setBounds (108, 19, 88, 24);
+    runningBpmLabel->setBounds (108, 52, 88, 24);
+    beatIndicatorLight->setBounds (174, 96, 25, 25);
+    resetButton->setBounds (6, 96, 96, 24);
+    filterButton->setBounds (2, 191, 198, 24);
+    linkButton->setBounds (2, 166, 198, 24);
+    toleranceSlider->setBounds (4, 142, 196, 24);
+    slider->setBounds (4, 236, 196, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -163,17 +215,17 @@ void MainEditorView::buttonClicked (Button* buttonThatWasClicked)
     bool isEnabled = buttonThatWasClicked->isDown();
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == filterButton)
-    {
-        //[UserButtonCode_filterButton] -- add your button handler code here..
-        viewController->onFilterButtonPressed(isEnabled);
-        //[/UserButtonCode_filterButton]
-    }
-    else if (buttonThatWasClicked == resetButton)
+    if (buttonThatWasClicked == resetButton)
     {
         //[UserButtonCode_resetButton] -- add your button handler code here..
         viewController->onResetButtonPressed(isEnabled);
         //[/UserButtonCode_resetButton]
+    }
+    else if (buttonThatWasClicked == filterButton)
+    {
+        //[UserButtonCode_filterButton] -- add your button handler code here..
+        viewController->onFilterButtonPressed(isEnabled);
+        //[/UserButtonCode_filterButton]
     }
     else if (buttonThatWasClicked == linkButton)
     {
@@ -184,6 +236,26 @@ void MainEditorView::buttonClicked (Button* buttonThatWasClicked)
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
+}
+
+void MainEditorView::sliderValueChanged (Slider* sliderThatWasMoved)
+{
+    //[UsersliderValueChanged_Pre]
+    //[/UsersliderValueChanged_Pre]
+
+    if (sliderThatWasMoved == toleranceSlider)
+    {
+        //[UserSliderCode_toleranceSlider] -- add your slider handling code here..
+        //[/UserSliderCode_toleranceSlider]
+    }
+    else if (sliderThatWasMoved == slider)
+    {
+        //[UserSliderCode_slider] -- add your slider handling code here..
+        //[/UserSliderCode_slider]
+    }
+
+    //[UsersliderValueChanged_Post]
+    //[/UsersliderValueChanged_Post]
 }
 
 
@@ -239,45 +311,60 @@ BEGIN_JUCER_METADATA
                  parentClasses="public AudioProcessorEditor, public EditorInterface"
                  constructorParams="BeatCounterAudioProcessor* ownerFilter" variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;EditorInterface()"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330000013"
-                 fixedSize="1" initialWidth="209" initialHeight="100">
-  <BACKGROUND backgroundColour="ffffffff">
-    <IMAGE pos="0 0 209 100" resource="background_png" opacity="1" mode="2"/>
-    <IMAGE pos="176 63 25 25" resource="beatlightAnimation1_png" opacity="1"
+                 fixedSize="1" initialWidth="205" initialHeight="264">
+  <BACKGROUND backgroundColour="ff757c8a">
+    <IMAGE pos="174 96 25 25" resource="beatlightAnimation1_png" opacity="1"
            mode="0"/>
-    <IMAGE pos="176 63 25 25" resource="beatlightAnimation5_png" opacity="0.01"
+    <IMAGE pos="174 96 25 25" resource="beatlightAnimation5_png" opacity="0.001"
            mode="0"/>
+    <ROUNDRECT pos="5 5 195 84" cornerSize="10" fill="solid: ffabb699" hasStroke="1"
+               stroke="0.600000024, mitered, butt" strokeColour="solid: ff000000"/>
+    <TEXT pos="13 19 107 24" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
+          fontname="Default font" fontsize="16" bold="0" italic="0" justification="33"/>
+    <TEXT pos="13 51 107 24" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
+          fontname="Default font" fontsize="16" bold="0" italic="0" justification="33"/>
+    <TEXT pos="134 96 48 25" fill="solid: ffffffff" hasStroke="0" text="Beat"
+          fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
+    <TEXT pos="7 124 161 23" fill="solid: ffffffff" hasStroke="0" text="Detection Tolerance"
+          fontname="Default font" fontsize="15" bold="0" italic="0" justification="33"/>
+    <TEXT pos="7 215 161 24" fill="solid: ffffffff" hasStroke="0" text="Lowpass Filter Frequency"
+          fontname="Default font" fontsize="15" bold="0" italic="0" justification="33"/>
   </BACKGROUND>
   <LABEL name="Current BPM Label" id="4e3ed08c8c5358ee" memberName="currentBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="16 24 88 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="108 19 88 24" edTextCol="ff000000"
          edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="20"
-         bold="0" italic="0" justification="36"/>
+         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
+         bold="0" italic="0" justification="33"/>
   <LABEL name="Running BPM Label" id="bb007035ee015793" memberName="runningBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="16 61 88 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="108 52 88 24" edTextCol="ff000000"
          edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="20"
-         bold="0" italic="0" justification="36"/>
-  <IMAGEBUTTON name="Filter Button" id="5640162f8c21331a" memberName="filterButton"
-               virtualName="" explicitFocusOrder="0" pos="132 11 38 22" buttonText="Filter Button"
-               connectedEdges="0" needsCallback="1" radioGroupId="0" keepProportions="1"
-               resourceNormal="filterButtonOff_png" opacityNormal="1" colourNormal="0"
-               resourceOver="" opacityOver="1" colourOver="0" resourceDown="filterButtonOn_png"
-               opacityDown="1" colourDown="0"/>
-  <IMAGEBUTTON name="Reset Button" id="60a0b81189a5343d" memberName="resetButton"
-               virtualName="" explicitFocusOrder="0" pos="132 68 38 22" buttonText="Reset Button"
-               connectedEdges="0" needsCallback="1" radioGroupId="0" keepProportions="1"
-               resourceNormal="resetButtonOff_png" opacityNormal="1" colourNormal="0"
-               resourceOver="" opacityOver="1" colourOver="0" resourceDown="resetButtonOn_png"
-               opacityDown="1" colourDown="0"/>
-  <IMAGEBUTTON name="Link Button" id="f232c68b61f454a1" memberName="linkButton"
-               virtualName="" explicitFocusOrder="0" pos="132 40 38 22" buttonText="Link Button"
-               connectedEdges="0" needsCallback="1" radioGroupId="0" keepProportions="1"
-               resourceNormal="linkButtonOff_png" opacityNormal="1" colourNormal="0"
-               resourceOver="" opacityOver="1" colourOver="0" resourceDown="linkButtonOn_png"
-               opacityDown="1" colourDown="0"/>
+         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
+         bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="BeatIndicatorLight" id="9597f0a11978ce24" memberName="beatIndicatorLight"
-                    virtualName="" explicitFocusOrder="0" pos="176 63 25 25" class="ImageComponent"
+                    virtualName="" explicitFocusOrder="0" pos="174 96 25 25" class="ImageComponent"
                     params=""/>
+  <TEXTBUTTON name="Reset Button" id="c44d9ebbcb52458c" memberName="resetButton"
+              virtualName="" explicitFocusOrder="0" pos="6 96 96 24" bgColOff="ff2c4680"
+              bgColOn="ff1c3670" textCol="ffffffff" textColOn="ffffffff" buttonText="Reset"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TOGGLEBUTTON name="Filter Button" id="f7f8b055ff912d0a" memberName="filterButton"
+                virtualName="" explicitFocusOrder="0" pos="2 191 198 24" txtcol="ffffffff"
+                buttonText="Lowpass Filter Enabled" connectedEdges="0" needsCallback="1"
+                radioGroupId="0" state="0"/>
+  <TOGGLEBUTTON name="Link Button" id="8234fc575ae36161" memberName="linkButton"
+                virtualName="" explicitFocusOrder="0" pos="2 166 198 24" txtcol="ffffffff"
+                buttonText="Link to Host's Tempo" connectedEdges="0" needsCallback="1"
+                radioGroupId="0" state="0"/>
+  <SLIDER name="Tolerance Slider" id="591bc48bb9446e8a" memberName="toleranceSlider"
+          virtualName="" explicitFocusOrder="0" pos="4 142 196 24" thumbcol="ff2c4680"
+          textboxtext="ff000000" textboxbkgd="ffabb699" textboxoutline="b2000000"
+          min="0" max="100" int="1" style="LinearHorizontal" textBoxPos="TextBoxRight"
+          textBoxEditable="1" textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="new slider" id="cf032ec8836f6fa4" memberName="slider" virtualName=""
+          explicitFocusOrder="0" pos="4 236 196 24" thumbcol="ff2c4680"
+          textboxbkgd="ffabb699" textboxoutline="b2000000" min="50" max="400"
+          int="1" style="LinearHorizontal" textBoxPos="TextBoxRight" textBoxEditable="1"
+          textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
@@ -286,75 +373,6 @@ END_JUCER_METADATA
 
 //==============================================================================
 // Binary resources - be careful not to edit any of these sections!
-
-// JUCER_RESOURCE: background_png, 3592, "../Graphics/background.png"
-static const unsigned char resource_MainEditorView_background_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,209,0,0,0,100,8,2,0,0,0,151,95,66,126,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,
-19,1,0,154,156,24,0,0,13,186,73,68,65,84,120,1,237,93,123,108,83,215,25,247,219,142,31,113,156,16,8,132,20,88,73,180,42,168,2,170,50,77,180,163,168,234,196,6,127,174,148,189,139,24,90,39,149,173,157,90,
-186,170,90,53,117,170,166,210,109,104,98,82,255,128,142,105,155,166,194,166,105,211,128,162,73,27,32,186,173,176,37,132,149,108,35,1,242,32,144,23,38,47,219,36,241,107,63,231,131,163,139,125,124,109,95,
-251,122,126,124,87,150,115,252,221,239,124,231,156,223,249,221,239,124,231,94,251,139,177,163,235,146,213,98,153,9,4,131,193,59,6,62,24,1,221,16,8,4,67,87,251,6,59,254,249,15,203,208,141,145,21,45,205,
-222,90,79,52,26,211,173,57,54,204,8,24,198,198,253,93,93,23,206,253,237,180,229,202,181,129,217,185,249,53,15,181,26,141,70,6,134,17,208,15,129,206,139,151,206,158,58,9,251,150,91,254,201,80,104,214,239,
-159,232,27,24,210,175,61,182,204,8,156,248,195,81,2,193,196,88,48,2,69,70,128,57,87,100,192,185,57,131,37,21,131,120,60,30,139,69,35,56,194,225,249,249,57,188,225,67,52,26,133,60,85,153,37,42,8,32,68,
-54,227,176,88,113,216,108,118,188,155,45,22,147,201,92,229,161,179,132,115,32,220,220,236,108,48,24,152,158,154,152,184,125,107,106,114,34,20,10,64,18,141,70,84,240,229,83,169,8,128,110,14,71,141,203,
-237,169,245,214,213,55,52,122,106,235,156,46,183,221,238,0,15,83,149,171,71,34,225,28,28,28,8,55,62,54,124,227,122,63,174,206,205,79,109,107,127,168,181,222,231,197,101,90,61,184,228,57,82,44,11,184,29,
-117,227,230,232,229,203,61,151,255,243,175,235,3,125,184,122,151,183,172,90,180,184,201,233,116,230,105,188,220,171,203,56,23,14,207,76,79,130,112,15,175,219,240,226,55,159,115,214,56,66,119,102,195,225,
-196,98,203,203,107,150,243,29,139,197,107,61,110,92,168,45,203,151,182,181,181,14,13,221,232,191,214,27,139,37,238,128,194,249,129,145,89,218,169,72,53,9,231,16,195,221,246,143,99,65,120,110,247,179,195,
-227,29,113,3,135,113,90,167,222,104,240,212,25,218,235,236,171,219,30,232,168,245,142,142,12,59,106,106,236,54,107,232,78,85,115,78,178,111,13,135,195,211,83,147,159,124,236,201,137,201,105,166,155,86,
-186,221,87,15,187,177,209,145,155,205,205,205,174,68,60,103,187,239,92,245,125,144,112,46,26,9,135,130,129,230,101,75,70,70,199,13,236,228,10,193,9,196,36,221,31,117,122,189,158,26,71,98,247,90,8,147,
-101,108,67,198,185,88,108,110,110,22,251,249,96,136,159,250,23,108,106,253,227,99,38,163,201,102,179,89,44,85,189,105,5,160,146,120,206,16,143,35,206,197,10,139,251,113,241,184,45,221,99,216,174,206,238,
-3,63,62,60,50,60,230,246,184,30,219,180,97,228,230,216,155,111,191,82,176,41,202,206,16,250,240,218,203,111,29,255,243,47,50,170,31,216,127,248,228,177,83,164,134,14,239,252,218,246,45,219,54,163,243,
-187,190,244,146,168,187,118,125,251,158,111,239,108,90,186,24,194,213,109,43,95,125,253,121,156,58,124,240,232,7,103,206,191,251,171,31,10,53,109,133,217,217,80,36,26,177,90,45,102,83,181,115,78,226,231,
-128,41,156,28,190,102,162,178,189,194,108,253,224,141,159,126,102,219,19,152,239,55,247,189,210,213,209,173,109,38,138,89,11,36,67,111,241,122,122,199,86,80,48,48,19,164,214,193,39,8,143,252,254,157,64,
-32,136,171,136,132,224,25,41,156,60,126,151,169,249,119,21,155,89,0,155,238,26,206,223,126,185,88,144,115,46,99,239,49,37,171,91,87,126,110,199,54,104,194,37,128,124,25,171,148,142,2,117,27,12,83,118,
-41,225,252,118,63,51,50,140,16,246,238,129,49,194,143,222,251,196,127,11,134,128,108,109,205,194,120,111,79,255,186,71,218,133,34,102,145,38,18,171,18,188,8,60,10,78,137,133,15,66,248,69,80,19,194,43,
-61,253,120,223,243,226,206,222,222,126,90,236,160,44,10,144,67,19,206,134,38,27,203,28,22,59,44,121,228,150,112,138,170,239,220,189,29,205,137,229,114,235,147,95,129,77,18,162,144,241,248,237,123,199,
-208,25,24,135,65,161,12,175,118,248,224,145,166,165,141,36,65,180,112,161,179,219,221,219,143,214,169,81,146,163,171,104,23,126,81,84,228,66,174,8,104,228,28,102,200,237,118,101,217,24,22,47,76,51,2,35,
-208,235,39,239,188,65,181,182,24,12,143,111,218,128,104,236,74,79,31,214,53,184,25,146,131,112,77,203,22,31,95,8,13,193,60,172,224,239,254,50,17,75,193,235,80,117,162,242,150,173,155,65,80,178,144,37,
-3,64,23,34,55,218,194,133,33,58,47,66,58,138,231,72,222,218,182,242,55,239,29,71,25,173,40,57,135,62,224,37,234,114,65,3,2,26,57,135,105,75,90,155,50,182,13,215,130,249,75,85,67,56,40,8,7,42,39,60,92,
-103,55,145,131,148,201,231,137,234,96,6,228,87,22,60,80,170,53,21,9,184,66,29,32,42,195,207,145,235,197,37,129,114,82,69,92,81,104,40,113,105,221,187,24,146,20,248,163,102,4,52,114,14,110,224,66,71,55,
-173,167,104,27,179,8,119,37,62,82,111,176,147,85,118,43,157,95,76,157,84,236,127,137,88,162,58,150,185,213,109,171,196,199,60,11,48,142,96,84,44,247,233,172,61,189,99,91,174,215,85,58,83,44,87,34,160,
-113,15,129,112,7,158,6,43,38,108,97,233,17,219,61,120,14,240,3,66,176,240,240,161,187,223,11,85,182,167,94,6,255,64,8,196,85,20,105,193,50,86,100,149,42,20,126,97,217,133,14,194,44,44,196,42,202,226,84,
-226,10,233,237,207,72,98,140,37,137,250,194,2,23,242,65,64,163,159,195,98,132,219,87,160,26,113,66,196,239,240,13,152,120,4,245,96,15,98,38,58,75,123,8,244,18,114,177,144,41,119,0,88,242,68,144,148,48,
-187,255,48,197,88,48,130,27,105,42,195,67,55,80,151,168,6,138,208,29,181,116,250,73,241,28,248,164,220,67,164,171,149,36,135,17,222,67,36,97,146,235,71,227,171,223,251,17,190,57,210,80,95,39,126,15,49,
-52,216,215,113,254,175,187,190,190,7,79,108,214,60,92,195,247,147,114,197,52,85,63,48,19,122,249,133,183,159,127,225,59,38,147,9,207,248,7,135,134,83,117,42,94,242,199,223,253,26,95,196,196,48,53,174,
-173,21,15,16,15,80,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,
-250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,
-184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,
-150,229,8,48,231,228,184,176,84,63,4,152,115,250,97,203,150,229,8,104,252,29,191,220,24,75,179,64,160,140,254,223,193,19,143,127,226,179,159,222,132,49,157,248,211,153,211,103,207,161,176,251,217,103,
-90,31,92,129,66,239,213,129,131,63,63,130,194,190,239,239,197,251,222,239,238,195,187,208,71,89,84,65,57,233,96,206,37,1,162,251,199,50,226,28,176,32,234,128,88,196,57,72,64,53,16,142,96,2,201,160,128,
-50,10,80,160,23,148,137,130,164,147,250,174,145,115,148,182,67,152,19,105,182,132,36,207,2,242,149,32,119,103,82,162,167,124,108,138,244,40,48,66,105,80,208,103,233,40,144,196,4,173,139,12,44,223,250,
-198,235,200,166,35,205,98,166,173,63,113,109,213,74,178,22,188,32,209,75,73,202,140,61,213,200,57,216,69,126,26,36,188,65,1,217,147,144,165,6,57,154,10,72,17,178,156,177,247,57,41,136,11,3,93,5,5,145,
-90,74,58,10,146,159,61,115,30,195,193,208,240,202,152,193,41,167,110,148,215,127,63,0,171,240,34,103,70,195,196,242,138,130,210,219,229,54,124,121,222,244,28,109,32,33,18,124,210,176,34,19,111,142,6,138,
-173,14,50,33,97,84,82,110,185,164,81,128,106,112,120,93,157,151,224,20,139,221,191,82,106,79,125,109,69,79,41,158,203,169,203,218,253,156,104,6,211,243,254,177,211,112,15,180,42,137,108,95,112,39,200,
-139,136,4,134,112,42,72,88,137,179,208,68,45,90,182,176,174,33,121,234,218,71,218,81,128,16,153,185,40,213,63,25,129,68,153,32,76,106,1,58,168,139,44,119,48,142,50,14,177,32,210,199,116,239,232,24,24,
-182,144,91,51,145,42,143,14,26,133,72,198,141,225,32,173,29,198,149,148,130,142,150,227,44,179,201,222,179,93,246,127,193,60,138,216,82,71,34,214,214,212,83,233,36,218,57,7,114,80,242,104,152,198,252,
-137,217,146,182,148,154,13,24,106,11,44,116,34,153,48,202,187,190,252,18,116,48,211,48,133,25,69,158,225,36,59,169,22,144,183,16,92,36,106,130,49,25,19,30,130,46,196,111,202,141,71,246,149,163,192,226,
-11,23,8,9,78,173,67,234,197,67,71,145,83,17,25,69,149,46,28,58,120,37,245,45,183,143,198,220,212,43,79,91,59,231,40,158,83,6,251,52,91,82,140,224,87,40,12,39,183,1,186,144,154,72,38,76,201,86,165,117,
-73,152,106,1,78,20,28,37,6,44,248,173,70,149,234,56,5,77,234,131,200,39,12,33,141,34,181,34,28,176,225,80,34,203,118,234,169,60,37,229,69,57,138,231,48,100,177,21,165,120,78,220,43,209,128,134,118,206,
-81,99,200,165,15,159,180,118,253,26,204,122,82,243,74,247,32,13,195,49,223,217,71,75,169,22,16,144,101,95,93,217,55,240,158,40,158,46,197,49,41,35,197,39,152,7,255,170,172,91,128,114,249,36,145,164,123,
-31,202,33,211,61,57,33,17,68,20,5,156,82,150,133,166,178,144,239,115,8,204,31,252,199,129,253,63,131,81,226,16,77,18,98,38,90,200,148,141,21,182,140,229,15,109,193,105,193,44,214,86,229,191,19,81,111,
-40,203,124,194,24,23,70,164,110,74,195,217,242,242,115,26,6,152,177,74,190,126,14,13,192,31,32,26,3,201,16,12,161,140,24,11,187,66,184,61,204,89,82,234,244,140,189,129,2,22,104,74,38,12,102,224,134,133,
-202,255,16,163,93,11,69,126,112,120,234,78,11,150,147,226,57,92,45,39,239,207,236,158,77,247,96,4,3,204,103,15,193,255,124,169,188,243,9,131,151,119,3,196,158,254,215,246,190,133,28,214,244,49,27,246,
-20,83,135,243,9,3,109,145,79,184,0,126,174,152,147,167,108,11,30,241,253,99,167,196,14,23,55,74,74,147,112,202,62,115,25,8,148,49,231,16,108,169,39,231,231,9,46,77,4,242,221,67,148,230,168,184,87,165,
-140,0,115,174,148,103,167,50,251,198,156,171,204,121,45,229,81,49,231,74,121,118,42,179,111,204,185,202,156,215,82,30,21,115,174,148,103,167,50,251,198,156,171,204,121,45,229,81,49,231,74,121,118,42,179,
-111,204,185,202,156,215,82,30,21,115,174,148,103,167,50,251,86,198,207,190,42,115,66,74,120,84,103,254,114,194,225,112,90,173,54,67,186,175,0,198,227,102,179,201,231,171,247,212,250,124,13,105,191,66,
-203,156,43,225,73,46,177,174,185,92,158,141,155,158,138,69,163,241,244,191,151,52,154,76,115,119,66,38,99,122,141,178,126,198,95,98,51,82,249,221,113,186,92,177,88,44,18,137,168,12,53,22,142,89,109,182,
-230,101,75,6,175,223,76,167,198,126,46,29,50,44,79,69,192,136,36,4,217,228,33,0,53,83,43,11,9,239,33,4,20,92,40,18,2,204,185,34,1,205,205,8,4,152,115,2,10,46,20,9,1,230,92,145,128,230,102,4,2,204,57,1,
-5,23,138,132,0,115,174,72,64,115,51,2,1,230,156,128,130,11,69,66,128,57,87,36,160,43,160,153,184,234,93,55,49,64,60,130,136,199,180,60,135,128,125,181,219,122,162,1,46,228,132,0,126,196,95,190,191,227,
-183,59,106,12,241,120,52,170,70,12,208,198,98,49,59,28,54,21,88,228,207,33,162,209,104,40,116,199,108,145,159,85,49,199,167,84,16,48,153,140,152,143,180,15,200,85,106,150,198,169,85,31,123,48,28,158,175,
-169,177,167,75,21,154,240,112,241,152,203,89,179,100,241,162,171,125,215,211,245,90,198,42,99,226,17,135,223,239,119,185,61,6,131,55,93,77,150,231,132,128,201,100,182,225,176,90,195,225,112,78,21,75,71,
-217,231,243,173,104,89,182,124,121,115,44,22,149,246,10,207,254,173,22,75,52,22,235,31,24,146,42,144,80,194,57,179,201,100,183,59,198,70,135,235,230,231,145,108,201,96,224,76,66,42,0,102,123,202,87,223,
-224,118,57,77,248,218,197,28,80,45,203,99,122,38,244,209,191,175,224,149,103,239,37,123,8,179,197,234,116,185,67,193,153,225,155,131,217,60,208,205,179,7,85,82,253,227,237,107,235,125,94,143,219,21,137,
-170,125,47,163,26,208,144,112,206,106,181,214,37,190,118,87,87,95,159,246,107,119,213,0,77,1,199,8,247,246,197,207,111,111,168,247,161,48,63,95,237,156,147,172,173,54,155,125,105,243,3,30,143,183,165,
-101,249,185,15,39,254,254,193,233,254,107,61,8,30,11,56,7,213,99,202,235,245,173,127,116,227,206,175,126,161,113,81,253,196,228,180,255,246,196,124,217,198,115,133,154,53,9,231,44,86,235,146,166,102,167,
-179,198,225,176,175,90,217,242,169,141,143,162,177,153,153,224,76,32,24,14,87,251,53,154,13,238,248,230,54,252,25,208,171,243,214,54,212,215,97,61,197,222,97,116,236,214,192,224,141,201,169,153,242,221,
-67,164,27,59,70,138,83,179,179,115,120,71,153,10,233,148,33,151,112,206,229,114,57,236,118,164,173,4,100,216,103,225,142,139,221,102,91,220,216,176,180,169,177,124,239,45,169,64,160,211,41,208,14,119,
-70,76,70,211,45,255,196,196,228,212,194,251,116,32,24,194,125,40,157,90,252,127,153,5,201,136,118,89,118,64,194,57,220,244,155,157,155,139,44,220,162,27,191,117,27,215,168,197,156,56,152,112,89,98,42,
-212,176,3,3,195,194,145,40,124,27,182,171,120,7,170,234,247,84,69,221,242,45,40,221,30,70,145,74,71,9,231,128,84,4,155,171,72,52,163,147,44,95,92,184,231,250,33,160,92,100,5,225,148,92,146,112,78,191,
-222,176,229,106,67,64,80,77,144,15,8,48,231,170,141,6,133,31,47,241,9,239,130,97,162,13,65,53,229,41,203,196,109,255,224,204,212,127,187,47,142,143,13,11,85,46,48,2,250,33,96,118,123,106,47,118,126,24,
-10,6,244,107,131,45,51,2,74,4,204,252,157,37,37,28,92,46,2,2,255,3,113,18,227,23,242,113,190,48,0,0,0,0,73,69,78,68,174,66,96,130,0,0};
-
-const char* MainEditorView::background_png = (const char*) resource_MainEditorView_background_png;
-const int MainEditorView::background_pngSize = 3592;
 
 // JUCER_RESOURCE: beatlightAnimation1_png, 1462, "../Graphics/beatlightAnimation1.png"
 static const unsigned char resource_MainEditorView_beatlightAnimation1_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,25,0,0,0,25,8,2,0,0,0,75,139,18,52,0,0,2,238,105,67,67,80,73,67,67,
@@ -426,233 +444,6 @@ static const unsigned char resource_MainEditorView_beatlightAnimation5_png[] = {
 
 const char* MainEditorView::beatlightAnimation5_png = (const char*) resource_MainEditorView_beatlightAnimation5_png;
 const int MainEditorView::beatlightAnimation5_pngSize = 1920;
-
-// JUCER_RESOURCE: filterButtonOff_png, 1920, "../Graphics/filterButtonOff.png"
-static const unsigned char resource_MainEditorView_filterButtonOff_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,
-114,111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,
-165,136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,
-4,228,13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,
-217,42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,
-215,139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,
-196,134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,
-175,226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,
-65,123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,
-94,124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,
-226,46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,
-96,109,199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,
-231,159,40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,
-150,205,57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,
-172,82,217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,4,56,73,68,65,84,72,13,197,87,95,104,91,85,24,255,221,63,73,147,118,
-91,219,180,107,74,211,135,110,216,194,166,195,77,55,196,7,241,15,58,172,202,158,250,162,236,105,186,209,7,217,64,161,48,16,125,18,65,68,16,21,116,8,50,38,130,34,136,226,28,27,67,69,113,15,235,230,106,
-107,153,171,139,77,237,154,38,205,109,210,164,249,115,111,114,255,248,125,39,187,183,73,44,131,177,172,126,144,123,206,247,239,156,239,156,243,59,223,119,34,29,26,29,115,112,147,150,150,146,136,199,227,
-72,167,151,97,232,186,144,74,18,55,226,115,211,170,57,141,227,84,167,109,9,4,208,217,217,137,72,164,31,61,61,97,111,112,149,123,108,116,105,124,28,137,140,133,177,227,111,32,220,189,153,132,128,101,59,
-176,29,219,51,110,86,135,231,179,233,103,154,54,116,189,130,27,137,12,190,248,252,51,132,98,115,216,187,111,31,36,218,13,17,216,31,83,147,240,133,31,199,201,119,71,32,147,112,53,175,35,87,212,81,54,76,
-152,214,93,8,140,86,109,91,20,24,141,93,44,25,48,140,10,238,123,224,49,204,205,47,225,175,216,2,134,182,133,161,22,10,5,68,103,23,240,250,155,143,32,95,52,176,144,88,193,228,213,121,44,165,114,194,201,
-38,103,135,183,175,201,36,17,60,84,159,130,22,191,15,146,44,225,250,245,89,148,178,127,195,223,191,27,122,185,8,53,145,88,196,206,135,15,98,62,158,70,82,203,225,194,197,25,36,83,43,180,162,230,239,212,
-122,107,99,12,43,170,130,114,49,137,98,38,138,213,77,17,228,186,219,33,87,202,101,116,119,109,161,96,114,136,198,146,72,105,217,13,11,138,3,229,59,96,153,22,28,171,2,203,88,69,65,251,19,62,191,191,138,
-49,54,200,19,166,24,136,38,25,49,237,127,98,55,70,158,121,80,244,167,103,226,120,239,196,25,156,120,231,197,58,126,219,64,47,14,236,223,35,116,172,96,254,248,203,207,10,27,254,124,245,253,101,156,251,
-97,194,243,99,217,91,31,156,22,62,247,14,245,49,235,217,16,234,232,66,88,48,43,57,168,170,12,89,104,233,99,209,209,217,118,53,40,150,245,133,59,240,15,29,239,251,159,158,199,183,231,174,8,51,238,183,111,
-9,120,252,166,182,22,184,19,176,65,50,149,17,246,108,195,182,87,166,98,194,239,209,135,238,17,60,203,216,134,125,206,254,60,45,100,175,30,126,82,216,120,48,166,24,188,91,89,213,136,12,225,118,69,123,99,
-49,131,169,233,57,79,198,253,108,78,199,108,44,225,201,106,59,197,130,33,236,217,166,214,143,109,26,249,153,232,162,144,13,244,119,213,14,33,250,156,53,189,29,251,143,150,4,207,31,216,43,142,129,143,232,
-78,137,97,112,236,200,112,221,48,12,151,83,95,95,172,147,185,140,200,99,46,211,216,254,50,30,197,55,103,127,19,219,223,168,187,93,158,143,49,79,59,234,210,107,199,158,67,199,230,32,14,30,253,196,21,213,
-181,183,220,49,247,40,249,136,238,148,248,40,107,33,240,229,119,151,193,11,223,179,107,96,221,161,111,25,216,186,30,77,18,50,198,62,62,245,35,60,240,55,140,123,91,129,49,78,238,223,17,169,195,10,243,44,
-119,83,73,195,248,30,235,218,212,226,53,69,137,124,61,240,179,147,135,49,183,218,187,35,157,62,63,225,118,189,150,113,194,228,98,37,74,183,243,165,177,147,158,222,237,112,174,170,165,145,209,143,60,150,
-211,5,235,185,101,90,211,213,151,61,17,152,168,246,244,146,112,232,231,18,175,166,145,26,175,188,155,30,26,237,106,177,196,186,70,191,217,194,90,186,113,117,142,251,138,145,20,170,157,114,117,199,248,
-249,81,40,232,244,204,225,250,200,193,113,38,217,56,114,40,227,91,149,188,152,80,81,3,80,168,168,171,92,151,184,62,102,179,121,241,246,114,40,243,202,50,111,228,198,4,199,165,168,82,202,160,180,18,19,
-129,181,134,6,225,83,40,176,222,222,62,92,152,248,29,178,218,6,61,91,85,250,130,93,80,124,173,148,126,233,73,114,23,2,20,207,40,218,37,219,52,80,46,105,40,46,95,19,117,146,35,123,122,248,41,88,217,171,
-80,219,218,90,209,183,53,136,101,189,27,233,185,159,168,94,150,69,228,255,199,103,235,246,97,68,66,22,98,233,74,21,99,59,6,123,161,21,130,24,26,124,5,191,158,249,16,102,121,117,195,227,122,97,244,109,
-236,218,30,192,228,196,37,49,183,84,251,103,4,74,16,29,161,30,180,119,132,32,41,126,122,113,208,59,137,30,76,107,119,181,57,241,202,4,15,89,81,208,26,84,225,163,76,170,23,115,208,180,69,164,53,205,155,
-224,95,51,115,11,25,92,24,106,118,0,0,0,0,73,69,78,68,174,66,96,130,0,0};
-
-const char* MainEditorView::filterButtonOff_png = (const char*) resource_MainEditorView_filterButtonOff_png;
-const int MainEditorView::filterButtonOff_pngSize = 1920;
-
-// JUCER_RESOURCE: filterButtonOn_png, 1911, "../Graphics/filterButtonOn.png"
-static const unsigned char resource_MainEditorView_filterButtonOn_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,
-114,111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,
-165,136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,
-4,228,13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,
-217,42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,
-215,139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,
-196,134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,
-175,226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,
-65,123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,
-94,124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,
-226,46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,
-96,109,199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,
-231,159,40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,
-150,205,57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,
-172,82,217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,4,47,73,68,65,84,72,13,189,86,77,104,92,85,20,254,222,255,252,103,146,
-153,206,36,211,212,76,76,76,70,165,181,165,66,17,65,81,74,160,42,93,101,83,112,229,31,5,139,93,72,11,66,151,66,5,221,136,89,216,34,168,100,39,138,40,54,210,82,21,21,241,167,214,134,134,44,18,8,105,75,
-73,83,39,205,164,77,102,38,121,243,243,122,206,157,220,201,155,71,26,108,199,228,192,123,247,158,191,123,191,119,238,185,231,29,229,149,195,199,29,72,82,20,4,66,45,136,68,218,224,168,22,138,203,37,84,
-42,85,56,206,154,137,52,109,102,84,216,89,83,160,169,26,236,98,30,183,110,221,164,113,9,173,45,254,250,178,186,156,109,75,164,176,232,36,241,217,208,49,2,82,149,226,45,25,13,43,130,167,15,188,137,209,
-137,203,216,245,72,20,170,170,64,17,17,211,124,248,249,239,28,102,39,190,218,18,32,235,109,162,233,62,36,51,131,48,203,211,216,183,187,27,250,242,74,25,209,237,253,4,234,152,176,87,160,34,24,207,192,240,
-199,192,198,80,52,16,254,245,214,106,74,230,128,210,163,74,169,82,42,160,180,60,15,58,38,216,133,44,138,182,131,249,133,69,232,185,69,27,191,141,252,32,54,81,53,11,109,93,207,193,12,196,9,138,218,212,
-198,255,221,217,65,181,90,134,162,168,226,137,180,63,140,107,215,71,161,219,118,21,133,249,9,177,78,32,154,134,73,145,218,58,80,188,45,237,166,234,72,36,90,5,134,72,56,128,153,219,21,232,85,74,244,74,
-169,40,132,154,25,34,212,154,152,15,60,191,27,131,47,236,21,243,241,201,25,124,120,250,123,156,254,224,213,6,190,59,221,142,131,3,123,132,142,21,204,191,115,228,69,97,195,175,47,71,46,226,220,143,163,
-117,63,150,157,28,58,35,124,30,239,75,49,91,183,241,89,6,76,211,128,97,104,116,97,9,172,168,4,78,69,24,73,80,204,164,146,81,92,155,153,199,71,159,158,199,183,231,46,9,61,207,91,34,190,58,31,10,90,144,
-27,176,193,205,108,78,216,179,13,219,94,26,187,34,252,158,221,215,43,120,150,177,13,251,156,253,101,92,200,222,126,125,191,176,81,232,38,138,219,72,160,20,122,234,229,66,104,61,73,126,253,70,14,99,227,
-87,107,42,122,243,252,246,157,101,76,95,153,173,203,220,147,66,126,165,110,227,246,99,27,47,63,57,117,67,200,210,157,177,250,18,12,72,210,134,25,126,232,224,147,226,24,248,136,154,37,78,131,163,111,28,
-104,88,134,211,101,248,235,191,26,100,146,241,68,76,138,107,227,175,23,166,240,205,217,127,68,248,27,53,247,207,241,49,46,81,68,37,157,56,250,18,162,97,63,94,126,235,19,41,106,24,55,140,152,60,74,62,162,
-102,137,143,210,157,2,95,124,119,17,252,225,123,118,166,215,93,122,67,96,235,122,252,79,66,206,177,83,195,63,65,38,191,119,217,251,2,198,121,242,196,163,219,27,114,133,121,150,203,82,226,221,64,242,210,
-198,157,175,217,236,2,220,201,47,109,121,212,239,213,55,156,57,63,234,182,19,115,206,19,38,153,43,83,116,59,95,59,254,185,144,185,95,92,171,220,52,120,248,227,58,203,229,130,245,60,50,73,221,218,125,172,
-153,234,78,149,58,9,106,63,4,185,180,252,53,94,242,94,121,89,30,188,118,238,92,98,157,215,111,58,191,86,110,164,78,37,12,154,86,59,64,174,26,106,153,250,45,221,8,139,255,20,255,138,92,165,196,187,223,
-166,241,12,136,139,117,192,103,138,61,184,158,169,229,114,25,129,182,62,232,38,129,211,12,234,40,168,155,112,69,110,211,208,172,46,172,18,168,88,44,130,158,116,146,254,151,17,228,114,75,240,89,22,244,
-212,182,32,108,61,14,59,223,11,43,216,129,158,238,14,209,181,174,216,37,148,75,21,106,78,238,149,133,15,14,153,219,40,6,228,167,8,37,19,45,216,217,223,137,206,84,43,102,102,23,48,124,234,61,12,236,127,
-6,122,91,52,136,241,201,203,136,182,239,66,215,67,9,116,237,136,35,17,11,35,224,39,212,228,172,82,11,188,25,253,24,175,109,90,58,34,1,31,194,33,234,251,136,134,70,46,160,175,119,135,0,44,42,255,83,123,
-123,240,251,159,127,96,44,27,197,99,125,135,16,34,99,159,207,128,174,19,48,58,87,247,63,236,193,227,212,232,169,82,255,165,209,143,187,184,82,194,85,106,22,222,63,249,46,50,189,113,100,50,253,194,176,
-214,90,175,250,252,59,183,128,185,108,150,206,121,14,133,66,126,85,186,89,9,231,136,143,14,133,194,148,91,73,180,119,36,41,82,181,200,241,198,119,1,205,87,117,185,111,92,31,87,0,0,0,0,73,69,78,68,174,
-66,96,130,0,0};
-
-const char* MainEditorView::filterButtonOn_png = (const char*) resource_MainEditorView_filterButtonOn_png;
-const int MainEditorView::filterButtonOn_pngSize = 1911;
-
-// JUCER_RESOURCE: resetButtonOff_png, 1771, "../Graphics/resetButtonOff.png"
-static const unsigned char resource_MainEditorView_resetButtonOff_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,
-114,111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,
-165,136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,
-4,228,13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,
-217,42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,
-215,139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,
-196,134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,
-175,226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,
-65,123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,
-94,124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,
-226,46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,
-96,109,199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,
-231,159,40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,
-150,205,57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,
-172,82,217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,3,163,73,68,65,84,72,13,197,151,75,104,19,97,16,199,255,251,72,218,
-164,85,172,73,173,168,8,10,82,17,223,5,169,82,81,80,81,81,15,130,32,234,69,60,20,209,131,224,65,241,226,3,4,209,155,7,61,120,81,193,7,130,87,143,130,162,120,16,5,173,207,214,62,180,181,154,109,107,243,
-218,102,119,179,217,93,103,182,126,107,90,76,40,154,214,57,100,31,51,223,124,191,239,155,217,249,38,210,161,195,39,60,252,18,195,52,161,105,3,208,18,9,232,122,22,174,199,42,73,168,43,124,29,157,54,26,
-173,65,93,93,28,241,250,122,204,138,207,8,230,80,197,93,87,119,55,222,127,210,112,226,212,25,52,196,167,1,52,206,113,61,130,115,133,73,197,174,30,45,152,23,93,40,184,48,77,27,95,19,73,220,187,115,11,17,
-165,19,45,107,155,32,203,18,124,176,238,158,94,100,149,101,184,121,253,28,100,73,66,86,55,145,201,153,200,91,5,20,156,73,0,163,85,187,14,129,145,239,156,97,193,178,108,44,93,189,17,95,250,6,240,252,117,
-7,154,87,45,132,106,152,121,180,189,121,135,211,231,91,161,231,44,244,39,82,104,251,208,135,129,193,140,63,200,165,193,30,111,95,133,69,162,20,81,67,10,170,194,33,72,180,67,157,157,61,48,210,221,136,205,
-89,129,225,84,18,106,255,247,1,44,105,62,128,190,111,195,208,134,50,120,246,188,3,218,96,138,86,84,249,157,250,211,218,40,64,80,84,5,249,156,134,92,178,11,85,181,115,241,205,51,33,155,166,133,120,108,
-58,193,100,208,245,89,195,224,80,122,202,160,24,148,191,47,167,224,192,115,108,56,86,22,35,67,31,161,170,42,84,78,68,22,157,114,138,19,177,64,70,83,45,140,64,89,71,31,132,131,130,157,33,48,153,193,70,
-49,28,10,157,235,254,134,90,185,124,1,238,93,105,13,24,247,30,189,134,87,109,61,216,183,167,5,103,143,237,8,222,55,174,63,133,98,219,135,207,218,113,228,228,13,95,223,254,228,66,96,119,246,242,3,124,232,
-232,31,227,179,216,54,72,99,98,144,100,2,11,70,210,205,47,198,224,149,24,200,19,183,30,216,128,35,4,198,194,147,220,189,255,52,176,99,157,0,191,122,241,160,15,202,139,96,97,240,98,225,103,182,185,118,
-251,177,191,208,98,157,184,231,202,57,6,76,40,254,229,42,118,235,95,124,240,88,121,34,14,120,71,120,133,66,56,148,28,38,14,43,11,235,56,236,188,19,227,133,237,138,67,58,94,95,234,185,44,216,166,117,141,
-129,83,17,26,118,196,161,228,144,136,112,178,142,67,201,246,227,225,216,110,124,56,75,193,20,191,47,11,198,57,38,156,114,158,149,19,134,155,168,109,57,63,66,87,22,76,24,113,168,56,156,165,68,36,124,41,
-253,223,188,15,192,68,61,155,136,19,145,99,34,119,68,142,137,231,226,176,139,28,19,249,88,218,255,216,154,32,53,181,236,246,230,45,222,12,219,118,144,207,219,232,237,27,44,61,118,18,53,250,143,247,72,
-127,127,129,170,154,217,88,177,122,13,84,209,126,140,140,152,212,230,240,249,200,228,92,73,166,78,60,170,248,142,173,251,19,42,106,53,117,56,84,96,37,73,241,207,199,116,90,247,123,47,143,42,175,44,115,
-121,155,26,56,62,138,108,35,9,35,245,217,7,139,206,92,132,112,136,192,230,207,107,192,139,183,175,161,132,106,96,166,71,149,161,72,140,158,163,84,229,168,37,153,4,64,191,141,162,93,114,11,22,242,198,16,
-114,63,218,253,115,146,201,182,110,219,2,61,241,18,234,204,25,181,136,134,53,184,213,113,12,127,121,68,231,101,222,39,255,31,63,245,11,183,67,50,122,81,93,21,26,173,252,205,77,11,80,23,201,96,253,174,
-227,80,195,212,86,255,7,217,127,248,18,246,238,92,6,219,76,249,179,75,197,127,70,146,105,3,225,72,45,98,177,6,186,214,208,199,64,221,134,83,249,254,85,162,238,80,81,100,68,170,41,85,92,11,217,76,18,35,
-58,1,137,86,135,208,126,2,114,253,199,93,215,37,134,102,0,0,0,0,73,69,78,68,174,66,96,130,0,0};
-
-const char* MainEditorView::resetButtonOff_png = (const char*) resource_MainEditorView_resetButtonOff_png;
-const int MainEditorView::resetButtonOff_pngSize = 1771;
-
-// JUCER_RESOURCE: resetButtonOn_png, 1787, "../Graphics/resetButtonOn.png"
-static const unsigned char resource_MainEditorView_resetButtonOn_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,
-114,111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,
-165,136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,
-4,228,13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,
-217,42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,
-215,139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,
-196,134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,
-175,226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,
-65,123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,
-94,124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,
-226,46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,
-96,109,199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,
-231,159,40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,
-150,205,57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,
-172,82,217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,3,179,73,68,65,84,72,13,189,87,93,104,20,87,20,254,102,230,206,236,
-236,223,52,155,93,55,201,38,154,168,209,136,160,181,152,34,254,148,18,234,139,248,26,17,241,69,20,164,232,67,159,90,241,169,22,10,42,62,136,208,22,27,40,20,68,164,208,62,249,3,165,228,33,88,125,169,65,
-209,7,77,64,84,52,178,77,96,19,109,154,100,119,118,102,60,103,146,59,78,7,118,177,113,147,19,146,157,185,231,59,231,126,247,124,231,230,222,85,14,127,254,149,135,5,107,206,229,144,205,181,33,158,176,96,
-187,192,204,108,21,174,227,192,69,0,145,208,247,250,84,40,90,81,20,104,154,6,207,169,224,213,84,9,83,165,113,192,153,13,242,10,126,98,208,135,31,125,140,71,207,109,92,252,230,75,120,30,177,90,70,211,99,
-22,118,238,57,14,183,50,129,214,244,28,241,1,124,98,133,85,221,184,240,211,16,138,35,191,45,35,157,183,83,217,229,215,184,121,237,60,90,54,244,99,58,53,129,117,93,43,32,84,77,199,228,108,42,32,165,64,
-69,50,183,1,122,60,11,77,152,84,78,13,10,253,52,218,60,110,15,215,134,99,207,192,158,43,129,100,66,101,102,2,79,95,253,131,194,138,36,68,85,137,227,234,181,63,252,121,85,45,134,230,206,62,24,137,28,81,
-81,27,205,165,70,62,15,174,91,37,249,84,255,215,178,214,160,88,188,11,97,87,61,204,148,70,252,160,68,83,23,12,170,212,242,145,226,105,105,54,85,32,159,207,248,28,172,116,2,83,79,43,16,142,235,81,57,231,
-119,131,102,164,136,181,230,3,150,247,143,2,51,166,195,48,116,232,250,252,252,194,115,105,7,122,142,207,35,76,106,203,230,213,248,229,251,163,1,191,253,199,7,112,239,254,19,28,232,223,133,83,95,236,13,
-198,123,62,57,137,48,118,240,246,8,142,157,248,217,247,143,220,60,29,224,78,93,184,142,135,163,99,255,201,25,198,42,42,87,142,186,153,183,36,153,191,43,131,232,72,147,203,64,158,248,232,193,79,113,140,
-136,177,241,36,87,126,253,51,8,99,159,36,254,195,217,67,62,81,94,4,27,19,15,27,191,51,102,224,242,144,191,208,176,79,146,226,177,8,177,48,108,113,207,178,90,139,139,126,27,245,78,91,143,43,194,43,148,
-198,82,178,76,44,43,27,251,88,118,174,68,212,24,23,150,52,234,175,245,94,151,216,103,59,122,130,164,82,26,78,196,82,178,36,82,78,246,177,148,140,143,146,99,92,84,206,90,100,194,227,117,137,113,143,201,
-164,220,103,245,140,201,189,43,182,94,30,233,171,75,76,130,88,42,150,179,150,201,134,175,229,95,204,184,74,7,195,255,54,217,99,178,119,100,143,201,247,176,236,178,199,100,63,214,154,44,122,232,41,251,
-142,124,237,13,254,126,21,229,233,34,154,218,183,33,153,233,169,21,187,164,227,107,86,183,193,52,117,127,142,241,209,27,80,157,170,11,161,167,231,207,42,58,31,23,254,191,45,41,137,104,114,77,83,145,74,
-198,144,48,141,192,165,86,236,10,18,205,235,33,12,34,71,55,13,77,208,109,34,90,215,0,222,248,7,149,72,101,179,22,214,118,181,208,121,105,97,114,114,26,186,97,64,88,166,131,76,174,128,202,191,221,136,37,
-219,176,150,74,234,56,46,202,21,27,85,219,161,203,201,98,186,176,254,2,248,26,197,132,226,84,161,150,252,7,216,212,211,129,142,66,6,47,139,83,184,244,227,25,236,238,219,14,97,26,42,116,251,49,154,90,55,
-163,115,85,30,157,43,115,200,103,211,72,196,99,16,20,172,106,156,166,241,37,228,220,70,76,192,74,152,72,167,232,222,71,246,221,141,191,80,160,170,37,147,116,31,227,129,141,221,173,24,190,115,11,15,134,
-179,216,184,254,0,82,4,230,70,20,130,136,145,174,225,51,140,241,141,48,149,238,95,26,29,218,179,101,27,207,94,150,112,238,244,183,200,55,1,91,123,123,253,244,74,248,203,200,248,248,223,24,27,123,65,58,
-79,162,60,55,55,15,88,146,134,163,6,89,232,144,152,105,34,147,201,160,189,189,131,122,172,37,88,243,27,73,83,49,131,235,66,159,239,0,0,0,0,73,69,78,68,174,66,96,130,0,0};
-
-const char* MainEditorView::resetButtonOn_png = (const char*) resource_MainEditorView_resetButtonOn_png;
-const int MainEditorView::resetButtonOn_pngSize = 1787;
-
-// JUCER_RESOURCE: linkButtonOff_png, 1745, "../Graphics/linkButtonOff.png"
-static const unsigned char resource_MainEditorView_linkButtonOff_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,
-114,111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,
-165,136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,
-4,228,13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,
-217,42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,
-215,139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,
-196,134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,
-175,226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,
-65,123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,
-94,124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,
-226,46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,
-96,109,199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,
-231,159,40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,
-150,205,57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,
-172,82,217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,3,137,73,68,65,84,72,13,197,87,77,104,84,87,20,254,222,207,76,50,19,
-255,50,230,143,196,141,66,34,22,91,130,52,139,134,138,138,8,106,221,20,4,241,103,33,46,68,218,133,208,69,196,141,205,166,148,118,33,116,97,23,174,90,208,74,192,173,116,85,176,168,89,104,22,49,45,36,169,
-198,204,16,51,206,76,94,38,153,255,247,51,239,189,158,115,39,111,250,36,211,58,133,153,241,192,125,239,114,207,185,247,126,247,123,231,158,115,158,116,233,202,152,139,13,73,165,146,136,199,227,72,167,
-87,97,232,186,24,149,36,126,137,199,134,85,99,94,174,91,217,182,173,189,29,157,157,157,24,24,216,133,158,158,222,234,226,42,247,216,104,234,217,51,36,214,108,140,93,255,26,189,93,91,105,16,176,29,23,142,
-235,84,141,27,213,225,253,28,106,229,178,3,93,183,240,58,177,134,137,95,238,32,18,141,225,227,145,17,72,196,134,0,246,231,31,51,8,244,30,193,207,55,79,67,166,193,92,94,71,182,168,195,52,202,40,219,77,
-0,70,167,118,108,2,70,107,23,75,6,12,195,194,254,3,135,17,91,74,225,69,116,25,67,187,123,161,22,10,5,44,44,46,227,198,55,7,145,47,26,88,78,172,99,102,118,9,169,149,172,152,228,208,100,151,233,107,176,
-72,228,30,106,64,65,91,48,0,73,150,240,242,229,34,74,153,87,8,238,26,134,110,22,161,38,18,111,240,193,39,23,176,20,79,35,169,101,49,249,244,47,36,87,214,233,68,141,103,170,214,217,216,135,21,85,129,89,
-76,162,184,182,128,220,150,1,100,187,182,67,182,76,19,93,59,183,17,152,44,22,162,73,172,104,153,150,129,98,160,124,7,236,178,13,215,182,96,27,57,20,180,57,4,130,65,200,222,41,242,228,83,217,156,78,14,
-105,123,67,213,247,217,211,159,130,155,95,134,63,218,141,249,71,223,138,246,227,119,23,133,138,109,120,140,197,155,195,118,158,222,223,23,70,27,15,6,71,94,71,23,194,70,217,202,66,85,229,127,128,217,244,
-233,28,103,51,40,255,2,254,254,244,204,34,206,124,121,27,191,77,206,227,139,107,63,249,85,255,218,191,124,254,16,110,223,253,189,182,222,115,99,194,192,183,178,202,24,91,123,186,218,51,235,27,29,255,225,
-193,38,118,121,38,179,197,194,7,122,151,112,212,124,11,216,187,38,212,171,31,191,250,217,38,211,255,100,107,147,117,179,128,17,107,126,57,58,186,23,220,254,143,52,133,177,123,247,31,195,207,26,251,33,
-251,35,179,86,175,52,5,24,111,206,190,230,23,207,183,60,95,243,235,106,245,235,6,198,12,120,225,129,23,226,13,38,110,93,22,159,200,11,7,181,54,240,143,241,141,172,151,53,105,244,208,41,183,103,232,164,
-136,95,134,105,33,22,75,249,215,106,89,191,144,158,195,122,252,41,218,194,221,56,118,242,243,202,173,20,217,158,42,9,151,218,251,18,215,171,98,36,133,114,167,92,169,46,184,252,40,20,116,42,115,56,63,50,
-56,142,36,173,19,151,34,190,109,229,197,134,138,218,14,133,146,186,202,121,137,243,99,38,147,23,181,151,75,145,87,150,185,26,106,13,56,78,69,86,105,13,165,245,168,0,22,142,12,34,160,16,176,190,190,126,
-76,78,63,135,172,118,64,207,84,148,129,208,78,40,129,48,69,57,42,73,154,0,80,148,81,196,146,83,54,96,150,52,20,87,231,69,158,100,100,199,79,28,131,157,153,133,218,209,17,70,127,119,8,171,122,23,210,177,
-135,148,47,77,129,252,125,60,186,247,156,192,64,196,70,52,109,85,124,108,223,96,31,180,66,8,67,131,95,225,201,175,183,80,54,115,45,199,117,238,202,247,248,112,79,59,102,166,167,196,222,146,255,103,4,74,
-8,59,34,61,216,190,35,2,73,9,194,182,169,78,162,154,164,209,119,85,38,247,144,21,5,225,144,138,0,69,82,189,152,133,166,189,65,90,211,170,132,252,13,232,140,147,106,206,180,152,168,0,0,0,0,73,69,78,68,
-174,66,96,130,0,0};
-
-const char* MainEditorView::linkButtonOff_png = (const char*) resource_MainEditorView_linkButtonOff_png;
-const int MainEditorView::linkButtonOff_pngSize = 1745;
-
-// JUCER_RESOURCE: linkButtonOn_png, 1728, "../Graphics/linkButtonOn.png"
-static const unsigned char resource_MainEditorView_linkButtonOn_png[] = { 137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,38,0,0,0,22,8,6,0,0,0,172,71,238,3,0,0,2,238,105,67,67,80,73,67,67,32,80,114,
-111,102,105,108,101,0,0,120,1,133,84,207,107,19,65,20,254,54,110,169,208,34,8,90,107,14,178,120,144,34,73,89,171,104,69,212,54,253,17,98,107,12,219,31,182,69,144,100,51,73,214,110,54,235,238,38,181,165,
-136,228,226,209,42,222,69,237,161,7,255,128,30,122,240,100,47,74,133,90,69,40,222,171,40,98,161,23,45,241,205,110,76,182,165,234,192,206,126,243,222,55,239,125,111,118,223,0,13,114,210,52,245,128,4,228,
-13,199,82,162,17,105,108,124,66,106,252,136,0,142,162,9,65,52,37,85,219,236,78,36,6,65,131,115,249,123,231,216,122,15,129,91,86,195,123,251,119,178,119,173,154,210,182,154,7,132,253,64,224,71,154,217,
-42,176,239,23,113,10,89,18,2,136,60,223,161,41,199,116,8,223,227,216,242,236,143,57,78,121,120,193,181,15,43,61,196,89,34,124,64,53,45,206,127,77,184,83,205,37,211,64,131,72,56,148,245,113,82,62,156,215,
-139,148,215,29,7,105,110,102,198,200,16,189,79,144,166,187,204,238,171,98,161,156,78,246,14,144,189,157,244,126,78,179,222,62,194,33,194,11,25,173,63,70,184,141,158,245,140,213,63,226,97,225,164,230,196,
-134,61,28,24,53,244,248,96,21,183,26,169,248,53,194,20,95,16,77,39,162,84,113,217,46,13,241,152,174,253,86,242,74,130,112,144,56,202,100,97,128,115,90,72,79,215,76,110,248,186,135,5,125,38,215,19,175,
-226,119,86,81,225,121,143,19,103,222,212,221,239,69,218,2,175,48,14,29,12,26,12,154,13,72,80,16,69,4,97,152,176,80,64,134,60,26,49,52,178,114,63,35,171,6,27,147,123,50,117,36,106,187,116,98,68,177,65,
-123,54,220,61,183,81,164,221,60,254,40,34,113,148,67,181,8,146,252,65,254,42,175,201,79,229,121,249,203,92,176,216,86,247,148,173,155,154,186,242,224,59,197,229,153,185,26,30,215,211,200,227,115,77,94,
-124,149,212,118,147,87,71,150,172,121,122,188,154,236,26,63,236,87,151,49,230,130,53,143,196,115,176,251,241,45,95,149,204,151,41,140,20,197,227,85,243,234,75,132,117,90,49,55,223,159,108,127,59,61,226,
-46,207,46,181,214,115,173,137,139,55,86,155,151,103,253,106,72,251,238,170,188,147,230,85,249,79,94,245,241,252,103,205,196,99,226,41,49,38,118,138,231,33,137,151,197,46,241,146,216,75,171,11,226,96,109,
-199,8,157,149,134,41,210,109,145,250,36,213,96,96,154,188,245,47,93,63,91,120,189,70,127,12,245,81,148,25,204,210,84,137,247,127,194,42,100,52,157,185,14,111,250,143,219,199,252,23,228,247,138,231,159,
-40,2,47,108,224,200,153,186,109,83,113,239,16,161,101,165,110,115,174,2,23,191,209,125,240,182,110,107,163,126,56,252,4,88,60,171,22,173,82,53,159,32,188,1,28,118,135,122,30,232,41,152,211,150,150,205,
-57,82,135,44,159,147,186,233,202,98,82,204,80,219,67,82,82,215,37,215,101,75,22,179,153,85,98,233,118,216,153,211,29,110,28,161,57,66,247,196,167,74,101,147,250,175,241,17,176,253,176,82,249,249,172,82,
-217,126,78,26,214,129,151,250,111,192,188,253,69,192,120,139,137,0,0,0,9,112,72,89,115,0,0,11,19,0,0,11,19,1,0,154,156,24,0,0,3,120,73,68,65,84,72,13,189,87,75,104,19,65,24,254,118,246,153,215,218,52,
-49,109,99,181,85,235,131,130,47,84,196,7,136,232,69,188,22,69,188,136,136,136,30,60,169,215,10,66,21,15,34,168,168,32,8,34,34,40,30,212,94,212,131,84,189,104,81,244,98,5,177,162,149,218,66,90,95,105,147,
-205,238,250,255,219,110,92,218,84,90,155,230,11,179,59,153,249,103,254,47,223,252,51,243,71,218,119,240,152,139,81,84,39,147,72,36,235,16,10,155,176,28,32,59,84,128,99,219,112,80,52,241,77,167,245,150,
-104,180,36,73,144,101,25,174,157,199,247,193,12,6,51,125,128,61,84,156,87,225,26,27,173,88,181,22,239,62,91,184,116,226,40,92,151,88,85,16,170,110,98,227,246,195,112,242,253,168,141,13,19,31,192,35,150,
-158,215,132,115,87,159,160,183,235,78,5,233,252,117,101,229,126,160,227,254,89,212,44,109,193,175,104,63,22,53,206,134,34,100,21,3,67,209,34,41,9,2,145,228,82,168,161,4,100,197,32,57,101,72,244,41,55,
-92,14,15,199,130,109,101,97,13,103,64,203,132,124,182,31,221,223,127,34,61,59,2,165,32,133,112,239,254,67,207,175,144,117,84,55,108,129,22,78,18,21,81,110,46,19,204,231,194,113,10,180,124,194,43,166,185,
-0,189,189,175,160,88,5,23,217,76,151,55,40,92,213,8,141,148,170,28,41,118,75,222,132,130,84,42,238,113,48,99,97,12,118,231,33,108,199,37,57,71,118,131,172,69,137,181,236,25,4,31,187,91,54,129,75,16,43,
-151,207,71,87,71,155,87,46,158,222,235,117,177,13,183,49,252,49,108,231,247,7,235,158,81,241,33,193,208,85,48,41,85,29,241,47,92,135,118,160,107,123,38,165,72,21,199,142,169,188,126,243,17,187,14,95,193,
-227,231,93,56,116,252,218,152,222,210,95,15,236,217,140,43,55,158,148,236,148,4,43,71,209,204,91,146,48,38,144,166,31,228,173,231,30,140,83,151,29,177,90,12,254,65,19,193,39,197,253,99,136,77,52,100,106,
-237,173,71,118,140,27,240,47,181,198,25,83,195,204,16,35,213,130,216,186,97,9,184,76,5,51,66,236,230,237,167,8,170,198,113,200,241,200,170,77,22,51,66,140,157,115,172,5,225,199,150,31,107,193,190,82,245,
-73,19,99,5,252,227,129,39,98,7,183,46,28,240,150,200,63,14,74,57,8,182,241,142,156,172,106,210,206,253,173,238,163,246,187,200,209,117,80,149,94,135,72,245,212,98,33,232,120,58,245,198,134,20,116,93,163,
-140,67,160,239,125,59,132,75,119,20,196,232,161,58,253,211,226,191,185,9,226,192,164,124,8,187,224,64,81,99,35,119,21,109,210,209,243,205,239,175,200,155,9,69,35,58,194,134,86,244,39,242,86,30,225,234,
-197,80,52,34,71,153,134,172,80,54,81,65,229,4,145,74,36,76,44,108,172,161,251,210,196,192,192,47,168,154,6,197,52,108,196,147,105,228,127,55,65,143,212,97,225,252,58,216,182,131,92,222,66,193,178,41,57,
-161,165,46,51,56,141,98,66,33,82,168,38,53,11,203,150,212,163,62,29,199,215,222,65,92,191,124,10,219,182,172,135,98,104,2,170,245,1,85,181,203,209,48,47,133,134,185,73,164,18,49,132,67,58,20,26,44,100,
-158,166,252,18,242,220,154,174,192,12,27,136,69,41,239,35,156,111,127,129,52,169,22,137,80,62,198,13,205,77,181,232,124,249,12,111,59,19,104,94,188,27,81,50,54,12,21,138,66,196,104,93,131,119,24,219,151,
-3,130,242,47,153,46,237,161,156,133,79,95,51,56,211,118,18,169,42,96,245,154,53,222,244,82,240,207,72,95,223,55,244,244,124,161,117,30,64,110,120,120,196,96,70,2,142,2,100,52,66,116,195,64,60,30,199,156,
-57,245,20,99,53,197,223,252,7,78,24,250,232,47,186,188,198,0,0,0,0,73,69,78,68,174,66,96,130,0,0};
-
-const char* MainEditorView::linkButtonOn_png = (const char*) resource_MainEditorView_linkButtonOn_png;
-const int MainEditorView::linkButtonOn_pngSize = 1728;
 
 
 

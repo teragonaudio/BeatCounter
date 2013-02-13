@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  12 Feb 2013 11:14:39pm
+  Creation date:  13 Feb 2013 10:07:57pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__
-#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__
+#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__
+#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -41,7 +41,8 @@
 */
 class MainEditorView  : public AudioProcessorEditor,
                         public EditorInterface,
-                        public ButtonListener
+                        public ButtonListener,
+                        public SliderListener
 {
 public:
     //==============================================================================
@@ -60,26 +61,13 @@ public:
     void paint (Graphics& g);
     void resized();
     void buttonClicked (Button* buttonThatWasClicked);
+    void sliderValueChanged (Slider* sliderThatWasMoved);
 
     // Binary resources:
-    static const char* background_png;
-    static const int background_pngSize;
     static const char* beatlightAnimation1_png;
     static const int beatlightAnimation1_pngSize;
     static const char* beatlightAnimation5_png;
     static const int beatlightAnimation5_pngSize;
-    static const char* filterButtonOff_png;
-    static const int filterButtonOff_pngSize;
-    static const char* filterButtonOn_png;
-    static const int filterButtonOn_pngSize;
-    static const char* resetButtonOff_png;
-    static const int resetButtonOff_pngSize;
-    static const char* resetButtonOn_png;
-    static const int resetButtonOn_pngSize;
-    static const char* linkButtonOff_png;
-    static const int linkButtonOff_pngSize;
-    static const char* linkButtonOn_png;
-    static const int linkButtonOn_pngSize;
 
 
 private:
@@ -90,11 +78,12 @@ private:
     //==============================================================================
     Label* currentBpmLabel;
     Label* runningBpmLabel;
-    ImageButton* filterButton;
-    ImageButton* resetButton;
-    ImageButton* linkButton;
     ImageComponent* beatIndicatorLight;
-    Image cachedImage_background_png;
+    TextButton* resetButton;
+    ToggleButton* filterButton;
+    ToggleButton* linkButton;
+    Slider* toleranceSlider;
+    Slider* slider;
     Image cachedImage_beatlightAnimation1_png;
     Image cachedImage_beatlightAnimation5_png;
 
@@ -106,4 +95,4 @@ private:
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_593BED88__
+#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__

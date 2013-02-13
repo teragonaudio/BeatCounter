@@ -77,6 +77,9 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
     switch (index) {
         case kParamTolerance:
             setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
+            if(editor != NULL) {
+                editor->updateParameter(kParamTolerance, tolerance);
+            }
             break;
         case kParamPeriod:
             setParameterScaled(&periodSizeInSeconds, newValue, kParamPeriodMinValue, kParamPeriodMaxValue);
@@ -84,13 +87,22 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
             break;
         case kParamAutofilterEnabled:
             autofilterEnabled = (newValue > 0.5f);
+            if(editor != NULL) {
+                editor->updateParameter(kParamAutofilterEnabled, autofilterEnabled ? 1.0 : 0.0);
+            }
             break;
         case kParamAutofilterFrequency:
             setParameterFrequency(&autofilterFrequency, newValue, kParamAutofilterMinValue, kParamAutofilterMaxValue);
-            autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
+            autofilterConstant = 0.0;
+            if(editor != NULL) {
+                editor->updateParameter(kParamAutofilterFrequency, autofilterFrequency);
+            }
             break;
         case kParamLinkToHostTempo:
             linkWithHostTempo = (newValue > 0.5f);
+            if(editor != NULL) {
+                editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
+            }
             break;
         default:
             break;

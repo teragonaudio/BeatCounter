@@ -280,6 +280,7 @@ void MainEditorView::updateParameter(int index, double value)
             break;
         case kParamAutofilterFrequency:
             filterFrequencySlider->setValue(value, sendNotificationAsync);
+            break;
         case kParamLinkToHostTempo:
             linkButton->setToggleState(value > 0.0, false);
             break;

@@ -19,7 +19,9 @@ public:
     virtual bool getFilterButtonState() const = 0;
     virtual bool getLinkButtonState() const = 0;
 
+    virtual void onToleranceChanged(double value) = 0;
     virtual void onFilterButtonPressed(bool isEnabled) = 0;
+    virtual void onFilterFrequencyChanged(double value) = 0;
     virtual void onLinkButtonPressed(bool isEnabled) = 0;
     virtual void onResetButtonPressed(bool isEnabled) = 0;
 

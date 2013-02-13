@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  13 Feb 2013 10:07:57pm
+  Creation date:  13 Feb 2013 10:45:08pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__
-#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__
+#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__
+#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -52,6 +52,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setViewController(EditorViewController* viewController);
+    void updateParameter(int index, double value);
     void updateCurrentBpm(double bpm) const;
     void updateRunningBpm(double bpm) const;
 
@@ -83,7 +84,7 @@ private:
     ToggleButton* filterButton;
     ToggleButton* linkButton;
     Slider* toleranceSlider;
-    Slider* slider;
+    Slider* filterFrequencySlider;
     Image cachedImage_beatlightAnimation1_png;
     Image cachedImage_beatlightAnimation5_png;
 
@@ -95,4 +96,4 @@ private:
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_2FF267FF__
+#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__

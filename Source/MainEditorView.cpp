@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  13 Feb 2013 10:07:57pm
+  Creation date:  13 Feb 2013 10:45:08pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -40,7 +40,7 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
       filterButton (0),
       linkButton (0),
       toleranceSlider (0),
-      slider (0),
+      filterFrequencySlider (0),
       cachedImage_beatlightAnimation1_png (0),
       cachedImage_beatlightAnimation5_png (0)
 {
@@ -91,14 +91,14 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
     toleranceSlider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
     toleranceSlider->addListener (this);
 
-    addAndMakeVisible (slider = new Slider ("new slider"));
-    slider->setRange (50, 400, 1);
-    slider->setSliderStyle (Slider::LinearHorizontal);
-    slider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
-    slider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
-    slider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
-    slider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
-    slider->addListener (this);
+    addAndMakeVisible (filterFrequencySlider = new Slider ("Filter Frequency Slider"));
+    filterFrequencySlider->setRange (50, 500, 1);
+    filterFrequencySlider->setSliderStyle (Slider::LinearHorizontal);
+    filterFrequencySlider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
+    filterFrequencySlider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
+    filterFrequencySlider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
+    filterFrequencySlider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
+    filterFrequencySlider->addListener (this);
 
     cachedImage_beatlightAnimation1_png = ImageCache::getFromMemory (beatlightAnimation1_png, beatlightAnimation1_pngSize);
     cachedImage_beatlightAnimation5_png = ImageCache::getFromMemory (beatlightAnimation5_png, beatlightAnimation5_pngSize);
@@ -129,7 +129,7 @@ MainEditorView::~MainEditorView()
     deleteAndZero (filterButton);
     deleteAndZero (linkButton);
     deleteAndZero (toleranceSlider);
-    deleteAndZero (slider);
+    deleteAndZero (filterFrequencySlider);
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -204,7 +204,7 @@ void MainEditorView::resized()
     filterButton->setBounds (2, 191, 198, 24);
     linkButton->setBounds (2, 166, 198, 24);
     toleranceSlider->setBounds (4, 142, 196, 24);
-    slider->setBounds (4, 236, 196, 24);
+    filterFrequencySlider->setBounds (4, 236, 196, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -241,17 +241,20 @@ void MainEditorView::buttonClicked (Button* buttonThatWasClicked)
 void MainEditorView::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
+    double value = sliderThatWasMoved->getValue();
     //[/UsersliderValueChanged_Pre]
 
     if (sliderThatWasMoved == toleranceSlider)
     {
         //[UserSliderCode_toleranceSlider] -- add your slider handling code here..
+        viewController->onToleranceChanged(value);
         //[/UserSliderCode_toleranceSlider]
     }
-    else if (sliderThatWasMoved == slider)
+    else if (sliderThatWasMoved == filterFrequencySlider)
     {
-        //[UserSliderCode_slider] -- add your slider handling code here..
-        //[/UserSliderCode_slider]
+        //[UserSliderCode_filterFrequencySlider] -- add your slider handling code here..
+        viewController->onFilterFrequencyChanged(value);
+        //[/UserSliderCode_filterFrequencySlider]
     }
 
     //[UsersliderValueChanged_Post]
@@ -264,8 +267,25 @@ void MainEditorView::sliderValueChanged (Slider* sliderThatWasMoved)
 
 void MainEditorView::setViewController(EditorViewController* viewController) {
     this->viewController = viewController;
-    filterButton->setToggleState(viewController->getFilterButtonState(), false);
-    linkButton->setToggleState(viewController->getLinkButtonState(), false);
+}
+
+void MainEditorView::updateParameter(int index, double value)
+{
+    switch (index) {
+        case kParamTolerance:
+            toleranceSlider->setValue(value, sendNotificationAsync);
+            break;
+        case kParamAutofilterEnabled:
+            filterButton->setToggleState(value > 0.0, false);
+            break;
+        case kParamAutofilterFrequency:
+            filterFrequencySlider->setValue(value, sendNotificationAsync);
+        case kParamLinkToHostTempo:
+            linkButton->setToggleState(value > 0.0, false);
+            break;
+        default:
+            break;
+    }
 }
 
 void MainEditorView::updateCurrentBpm(double bpm) const {
@@ -360,9 +380,9 @@ BEGIN_JUCER_METADATA
           textboxtext="ff000000" textboxbkgd="ffabb699" textboxoutline="b2000000"
           min="0" max="100" int="1" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="new slider" id="cf032ec8836f6fa4" memberName="slider" virtualName=""
-          explicitFocusOrder="0" pos="4 236 196 24" thumbcol="ff2c4680"
-          textboxbkgd="ffabb699" textboxoutline="b2000000" min="50" max="400"
+  <SLIDER name="Filter Frequency Slider" id="cf032ec8836f6fa4" memberName="filterFrequencySlider"
+          virtualName="" explicitFocusOrder="0" pos="4 236 196 24" thumbcol="ff2c4680"
+          textboxbkgd="ffabb699" textboxoutline="b2000000" min="50" max="500"
           int="1" style="LinearHorizontal" textBoxPos="TextBoxRight" textBoxEditable="1"
           textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>

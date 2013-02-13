@@ -43,7 +43,7 @@ static const float kParamPeriodMaxValue = 10.0f;
 static const float kParamPeriodDefaultValue = 2.0f;
 static const float kParamAutofilterMinValue = 50.0f;
 static const float kParamAutofilterMaxValue = 500.0f;
-static const float kParamAutofilterDefaultValue = 500.0f;
+static const float kParamAutofilterDefaultValue = 450.0f;
 
 //==============================================================================
 class BeatCounterAudioProcessor : public AudioProcessor, public EditorViewController
@@ -95,7 +95,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes);
 
     //==============================================================================
+    void onToleranceChanged(double value);
     void onFilterButtonPressed(bool isEnabled);
+    void onFilterFrequencyChanged(double value);
     void onLinkButtonPressed(bool isEnabled);
     void onResetButtonPressed(bool isEnabled);
     bool getFilterButtonState() const;

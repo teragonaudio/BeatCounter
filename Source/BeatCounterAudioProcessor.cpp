@@ -363,9 +363,20 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 }
 
 //==============================================================================
+void BeatCounterAudioProcessor::onToleranceChanged(double value)
+{
+    tolerance = value;
+}
+
 void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled)
 {
     setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
+}
+
+void BeatCounterAudioProcessor::onFilterFrequencyChanged(double value)
+{
+    autofilterFrequency = value;
+    autofilterConstant = 0.0;
 }
 
 void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
@@ -375,7 +386,9 @@ void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
 
 void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
 {
-    reset();
+    if(isEnabled) {
+        reset();
+    }
 }
 
 bool BeatCounterAudioProcessor::getLinkButtonState() const {
@@ -403,5 +416,9 @@ AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
     MainEditorView *editorView = new MainEditorView(this);
     editor = editorView;
     editorView->setViewController(this);
+    editor->updateParameter(kParamTolerance, tolerance);
+    editor->updateParameter(kParamAutofilterEnabled, autofilterEnabled ? 1.0 : 0.0);
+    editor->updateParameter(kParamAutofilterFrequency, autofilterFrequency);
+    editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
     return editorView;
 }

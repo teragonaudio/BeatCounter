@@ -16,6 +16,7 @@ public:
     EditorInterface() {}
     virtual ~EditorInterface() {}
 
+    virtual void updateParameter(int index, double value) = 0;
     virtual void updateCurrentBpm(double bpm) const = 0;
     virtual void updateRunningBpm(double bpm) const = 0;
     virtual void triggerBeatLight() = 0;

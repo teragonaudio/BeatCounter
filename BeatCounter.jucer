@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="pkoRjr" name="BeatCounter" projectType="audioplug" version="3.0.0"
+<JUCERPROJECT id="pkoRjr" name="BeatCounter" projectType="audioplug" version="2.0.0"
               bundleIdentifier="com.teragonaudio.BeatCounter" buildVST="1"
               buildAU="1" pluginName="BeatCounter" pluginDesc="BeatCounter"
               pluginManufacturer="Teragon Audio" pluginManufacturerCode="Tera"

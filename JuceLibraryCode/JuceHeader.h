@@ -33,8 +33,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "BeatCounter";
-    const char* const  versionString  = "3.0.0";
-    const int          versionNumber  = 0x30000;
+    const char* const  versionString  = "2.0.0";
+    const int          versionNumber  = 0x20000;
 }
 
 #endif   // __APPHEADERFILE_PKORJR__

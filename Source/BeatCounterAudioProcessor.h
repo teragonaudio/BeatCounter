@@ -31,6 +31,9 @@ enum Parameters {
     kParamAutofilterEnabled,
     kParamAutofilterFrequency,
     kParamLinkToHostTempo,
+    kParamMidiOutputEnabled,
+    kParamMidiOutputSendNotes,
+    kParamMidiOutputSendClock,
 
     kNumParams
 };
@@ -115,6 +118,8 @@ private:
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 
+    void onBeatDetected() const;
+
 private:
     // Link to editor
     EditorInterface *editor;
@@ -164,6 +169,11 @@ private:
     // of crazy fast tempos triggered by static wooshing and other such things which may fool the trigger
     // detection algorithm.
     unsigned long cooldownPeriodInSamples;
+
+    MidiOutput* virtualMidiOutput;
+    bool virtualMidiOutputEnabled;
+    bool sendMidiNotes;
+    bool sendMidiClock;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeatCounterAudioProcessor)

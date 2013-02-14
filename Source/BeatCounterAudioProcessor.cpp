@@ -20,18 +20,31 @@ static char const *const kStorageName = "BeatCounterStorage";
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor(), EditorViewController()
 {
+    editor = nullptr;
+
     tolerance = kParamToleranceDefaultValue;
     periodSizeInSeconds = kParamPeriodDefaultValue;
     periodSizeInSamples = 0;
     autofilterEnabled = true;
     autofilterFrequency = kParamAutofilterDefaultValue;
     linkWithHostTempo = false;
-    editor = NULL;
+
+    virtualMidiOutput = nullptr;
+    virtualMidiOutputEnabled = true;
+    sendMidiNotes = true;
+    sendMidiClock = true;
+
     reset();
 }
 
 BeatCounterAudioProcessor::~BeatCounterAudioProcessor()
 {
+    if(virtualMidiOutput) {
+        virtualMidiOutput->clearAllPendingMessages();
+        virtualMidiOutput->stopBackgroundThread();
+        delete virtualMidiOutput;
+        virtualMidiOutput = nullptr;
+    }
 }
 
 float BeatCounterAudioProcessor::getParameterScaled (float rawValue, float minValue, float maxValue) const
@@ -81,7 +94,7 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
     switch (index) {
         case kParamTolerance:
             setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
-            if(editor != NULL) {
+            if(editor) {
                 editor->updateParameter(kParamTolerance, tolerance);
             }
             break;
@@ -91,20 +104,20 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
             break;
         case kParamAutofilterEnabled:
             autofilterEnabled = (newValue > 0.5f);
-            if(editor != NULL) {
+            if(editor) {
                 editor->updateParameter(kParamAutofilterEnabled, autofilterEnabled ? 1.0 : 0.0);
             }
             break;
         case kParamAutofilterFrequency:
             setParameterFrequency(&autofilterFrequency, newValue, kParamAutofilterMinValue, kParamAutofilterMaxValue);
             autofilterConstant = 0.0;
-            if(editor != NULL) {
+            if(editor) {
                 editor->updateParameter(kParamAutofilterFrequency, autofilterFrequency);
             }
             break;
         case kParamLinkToHostTempo:
             linkWithHostTempo = (newValue > 0.5f);
-            if(editor != NULL) {
+            if(editor) {
                 editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
             }
             break;
@@ -194,6 +207,13 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     samplesToSkip = kDownsampleFactor;
     currentBpm = 0.0f;
     runningBpm = 0.0f;
+
+    if(virtualMidiOutputEnabled && virtualMidiOutput == nullptr) {
+        virtualMidiOutput = MidiOutput::createNewDevice(getName());
+        if(virtualMidiOutput) {
+            virtualMidiOutput->startBackgroundThread();
+        }
+    }
 }
 
 void BeatCounterAudioProcessor::releaseResources()
@@ -214,9 +234,33 @@ void BeatCounterAudioProcessor::reset()
     currentBpm = 0.0;
     runningBpm = 0.0;
 
+    if (virtualMidiOutput) {
+        virtualMidiOutput->clearAllPendingMessages();
+    }
+
     if(editor) {
         editor->updateCurrentBpm(currentBpm);
         editor->updateRunningBpm(runningBpm);
+    }
+}
+
+void BeatCounterAudioProcessor::onBeatDetected() const {
+    if(editor) {
+        editor->triggerBeatLight();
+        editor->updateCurrentBpm(currentBpm);
+    }
+
+    if(virtualMidiOutput) {
+        if(sendMidiNotes) {
+            // Middle C, maximum velocity
+            MidiMessage noteOn(0x90, 0x3c, 0x7f);
+            virtualMidiOutput->sendMessageNow(noteOn);
+            MidiMessage noteOff(0x80, 0x3c, 0x00, 1000);
+            virtualMidiOutput->sendMessageNow(noteOff);
+        }
+        if(sendMidiClock) {
+            // TODO
+        }
     }
 }
 
@@ -276,11 +320,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                     if(bpm > minimumAllowedBpm && bpm < maximumAllowedBpm) {
                         currentBpm = bpm;
                         bpmHistory.push_back(bpm);
-
-                        if(editor) {
-                            editor->triggerBeatLight();
-                            editor->updateCurrentBpm(currentBpm);
-                        }
+                        onBeatDetected();
 
                         // The sample rate is not known when a JUCE plugin is initialized, so grab it lazily here
                         if(periodSizeInSamples == 0) {
@@ -344,7 +384,7 @@ double BeatCounterAudioProcessor::getHostTempo() const
     double result = kDefaultTempo;
 
     AudioPlayHead* playHead = getPlayHead();
-    if(playHead != NULL) {
+    if(playHead) {
         AudioPlayHead::CurrentPositionInfo currentPosition;
         playHead->getCurrentPosition(currentPosition);
         result = currentPosition.bpm;
@@ -414,7 +454,7 @@ bool BeatCounterAudioProcessor::getFilterButtonState() const {
 }
 
 void BeatCounterAudioProcessor::onEditorClosed() {
-    editor = NULL;
+    editor = nullptr;
 }
 
 

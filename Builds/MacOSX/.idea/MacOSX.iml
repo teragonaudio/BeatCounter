@@ -274,6 +274,225 @@
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/synthesisers/juce_Synthesiser.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_basics/synthesisers/juce_Synthesiser.h" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDBurner.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDBurner.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDReader.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDReader.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDReader.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_cd/juce_AudioCDReader.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioDeviceManager.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioDeviceManager.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioDeviceManager.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioDeviceManager.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODevice.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODevice.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODevice.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODevice.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODeviceType.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODeviceType.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODeviceType.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/audio_io/juce_AudioIODeviceType.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_audio_devices.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_audio_devices.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_audio_devices.mm">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_audio_devices.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/juce_module_info" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiInput.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiInput.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiMessageCollector.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiMessageCollector.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiMessageCollector.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiMessageCollector.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiOutput.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiOutput.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiOutput.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/midi_io/juce_MidiOutput.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_MidiDataConcatenator.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_MidiDataConcatenator.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_Audio.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_Audio.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_Midi.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_Midi.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_OpenSL.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_android_OpenSL.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_ios_Audio.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_ios_Audio.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_ALSA.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_ALSA.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_AudioCDReader.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_AudioCDReader.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_JackAudio.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_JackAudio.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_Midi.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_linux_Midi.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_AudioCDBurner.mm">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_AudioCDBurner.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_AudioCDReader.mm">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_AudioCDReader.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_CoreAudio.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_CoreAudio.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_CoreMidi.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_mac_CoreMidi.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_ASIO.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_ASIO.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_AudioCDBurner.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_AudioCDBurner.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_AudioCDReader.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_AudioCDReader.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_DirectSound.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_DirectSound.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_Midi.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_Midi.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_WASAPI.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/native/juce_win32_WASAPI.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioSourcePlayer.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioSourcePlayer.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioSourcePlayer.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioSourcePlayer.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioTransportSource.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioTransportSource.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioTransportSource.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_devices/sources/juce_AudioTransportSource.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_MP3AudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_MP3AudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_MP3AudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_MP3AudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_OggVorbisAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_QuickTimeAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_QuickTimeAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_QuickTimeAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_QuickTimeAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WavAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WavAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WavAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WavAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WindowsMediaAudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WindowsMediaAudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WindowsMediaAudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/codecs/juce_WindowsMediaAudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormat.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormat.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormat.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormat.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatManager.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatManager.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatManager.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatManager.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReader.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReader.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReader.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReader.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReaderSource.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReaderSource.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReaderSource.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatReaderSource.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatWriter.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatWriter.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatWriter.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioFormatWriter.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioSubsectionReader.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioSubsectionReader.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioSubsectionReader.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/format/juce_AudioSubsectionReader.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_audio_formats.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_audio_formats.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_audio_formats.mm">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_audio_formats.mm" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_module_info">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/juce_module_info" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/sampler/juce_Sampler.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/sampler/juce_Sampler.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/sampler/juce_Sampler.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_formats/sampler/juce_Sampler.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/AAX/juce_AAX_Wrapper.cpp">
       <sourceFolder url="file://$MODULE_DIR$/../../JuceLibraryCode/modules/juce_audio_plugin_client/AAX/juce_AAX_Wrapper.cpp" isTestSource="false" />
     </content>

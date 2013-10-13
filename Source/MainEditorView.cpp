@@ -1,20 +1,18 @@
 /*
   ==============================================================================
 
-  This is an automatically generated file created by the Jucer!
-
-  Creation date:  13 Feb 2013 10:45:08pm
+  This is an automatically generated GUI class created by the Introjucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.12
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
-  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-6 by Raw Material Software ltd.
+  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright 2004-13 by Raw Material Software Ltd.
 
   ==============================================================================
 */
@@ -32,81 +30,47 @@ static const int kNumDecimalPlaces = 2;
 //==============================================================================
 MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
     : AudioProcessorEditor(ownerFilter),
-      EditorInterface(),
-      currentBpmLabel (0),
-      runningBpmLabel (0),
-      beatIndicatorLight (0),
-      resetButton (0),
-      filterButton (0),
-      linkButton (0),
-      toleranceSlider (0),
-      filterFrequencySlider (0),
-      cachedImage_beatlightAnimation1_png (0),
-      cachedImage_beatlightAnimation5_png (0)
+      EditorInterface()
 {
     addAndMakeVisible (currentBpmLabel = new Label ("Current BPM Label",
                                                     "---.--"));
-    currentBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.0000f, Font::plain));
+    currentBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.00f, Font::plain));
     currentBpmLabel->setJustificationType (Justification::centredLeft);
     currentBpmLabel->setEditable (false, false, false);
     currentBpmLabel->setColour (TextEditor::textColourId, Colours::black);
-    currentBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
+    currentBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (runningBpmLabel = new Label ("Running BPM Label",
                                                     "---.--"));
-    runningBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.0000f, Font::plain));
+    runningBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.00f, Font::plain));
     runningBpmLabel->setJustificationType (Justification::centredLeft);
     runningBpmLabel->setEditable (false, false, false);
     runningBpmLabel->setColour (TextEditor::textColourId, Colours::black);
-    runningBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
+    runningBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (beatIndicatorLight = new ImageComponent());
     beatIndicatorLight->setName ("BeatIndicatorLight");
 
-    addAndMakeVisible (resetButton = new TextButton ("Reset Button"));
-    resetButton->setButtonText ("Reset");
-    resetButton->addListener (this);
-    resetButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
-    resetButton->setColour (TextButton::buttonOnColourId, Colour (0xff1c3670));
-    resetButton->setColour (TextButton::textColourOnId, Colours::white);
-    resetButton->setColour (TextButton::textColourOffId, Colours::white);
+    addAndMakeVisible (hostTempoButton = new Component());
+    hostTempoButton->setName ("host tempo button");
 
-    addAndMakeVisible (filterButton = new ToggleButton ("Filter Button"));
-    filterButton->setButtonText ("Lowpass Filter Enabled");
-    filterButton->addListener (this);
-    filterButton->setColour (ToggleButton::textColourId, Colours::white);
+    addAndMakeVisible (resetButton = new Component());
+    resetButton->setName ("reset button");
 
-    addAndMakeVisible (linkButton = new ToggleButton ("Link Button"));
-    linkButton->setButtonText ("Link to Host\'s Tempo");
-    linkButton->addListener (this);
-    linkButton->setColour (ToggleButton::textColourId, Colours::white);
+    addAndMakeVisible (toleranceKnob = new Component());
+    toleranceKnob->setName ("tolerance knob");
 
-    addAndMakeVisible (toleranceSlider = new Slider ("Tolerance Slider"));
-    toleranceSlider->setRange (0, 100, 1);
-    toleranceSlider->setSliderStyle (Slider::LinearHorizontal);
-    toleranceSlider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
-    toleranceSlider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
-    toleranceSlider->setColour (Slider::textBoxTextColourId, Colours::black);
-    toleranceSlider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
-    toleranceSlider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
-    toleranceSlider->addListener (this);
+    addAndMakeVisible (lopassFilterFreqKnob = new Component());
+    lopassFilterFreqKnob->setName ("lopass filter freq knob");
 
-    addAndMakeVisible (filterFrequencySlider = new Slider ("Filter Frequency Slider"));
-    filterFrequencySlider->setRange (50, 500, 1);
-    filterFrequencySlider->setSliderStyle (Slider::LinearHorizontal);
-    filterFrequencySlider->setTextBoxStyle (Slider::TextBoxRight, false, 34, 20);
-    filterFrequencySlider->setColour (Slider::thumbColourId, Colour (0xff2c4680));
-    filterFrequencySlider->setColour (Slider::textBoxBackgroundColourId, Colour (0xffabb699));
-    filterFrequencySlider->setColour (Slider::textBoxOutlineColourId, Colour (0xb2000000));
-    filterFrequencySlider->addListener (this);
+    addAndMakeVisible (enableLopassFilterButton = new Component());
+    enableLopassFilterButton->setName ("enable lopass filter button");
 
-    cachedImage_beatlightAnimation1_png = ImageCache::getFromMemory (beatlightAnimation1_png, beatlightAnimation1_pngSize);
-    cachedImage_beatlightAnimation5_png = ImageCache::getFromMemory (beatlightAnimation5_png, beatlightAnimation5_pngSize);
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (205, 264);
+    setSize (472, 162);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -122,14 +86,14 @@ MainEditorView::~MainEditorView()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    deleteAndZero (currentBpmLabel);
-    deleteAndZero (runningBpmLabel);
-    deleteAndZero (beatIndicatorLight);
-    deleteAndZero (resetButton);
-    deleteAndZero (filterButton);
-    deleteAndZero (linkButton);
-    deleteAndZero (toleranceSlider);
-    deleteAndZero (filterFrequencySlider);
+    currentBpmLabel = nullptr;
+    runningBpmLabel = nullptr;
+    beatIndicatorLight = nullptr;
+    hostTempoButton = nullptr;
+    resetButton = nullptr;
+    toleranceKnob = nullptr;
+    lopassFilterFreqKnob = nullptr;
+    enableLopassFilterButton = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -143,53 +107,10 @@ void MainEditorView::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff757c8a));
+    g.fillAll (Colours::red);
 
-    g.setColour (Colours::black);
-    g.drawImage (cachedImage_beatlightAnimation1_png,
-                 174, 96, 25, 25,
-                 0, 0, cachedImage_beatlightAnimation1_png.getWidth(), cachedImage_beatlightAnimation1_png.getHeight());
-
-    g.setColour (Colours::black.withAlpha (0.0010f));
-    g.drawImage (cachedImage_beatlightAnimation5_png,
-                 174, 96, 25, 25,
-                 0, 0, cachedImage_beatlightAnimation5_png.getWidth(), cachedImage_beatlightAnimation5_png.getHeight());
-
-    g.setColour (Colour (0xffabb699));
-    g.fillRoundedRectangle (5.0f, 5.0f, 195.0f, 84.0f, 10.0000f);
-
-    g.setColour (Colours::black);
-    g.drawRoundedRectangle (5.0f, 5.0f, 195.0f, 84.0f, 10.0000f, 0.6000f);
-
-    g.setColour (Colours::black);
-    g.setFont (Font (16.0000f, Font::plain));
-    g.drawText ("Current BPM:",
-                13, 19, 107, 24,
-                Justification::centredLeft, true);
-
-    g.setColour (Colours::black);
-    g.setFont (Font (16.0000f, Font::plain));
-    g.drawText ("Running BPM:",
-                13, 51, 107, 24,
-                Justification::centredLeft, true);
-
-    g.setColour (Colours::white);
-    g.setFont (Font (15.0000f, Font::plain));
-    g.drawText ("Beat",
-                134, 96, 48, 25,
-                Justification::centred, true);
-
-    g.setColour (Colours::white);
-    g.setFont (Font (15.0000f, Font::plain));
-    g.drawText ("Detection Tolerance",
-                7, 124, 161, 23,
-                Justification::centredLeft, true);
-
-    g.setColour (Colours::white);
-    g.setFont (Font (15.0000f, Font::plain));
-    g.drawText ("Lowpass Filter Frequency",
-                7, 215, 161, 24,
-                Justification::centredLeft, true);
+    g.setColour (Colours::chartreuse);
+    g.fillRoundedRectangle (18.0f, 18.0f, 197.0f, 69.0f, 1.000f);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -197,68 +118,16 @@ void MainEditorView::paint (Graphics& g)
 
 void MainEditorView::resized()
 {
-    currentBpmLabel->setBounds (108, 19, 88, 24);
-    runningBpmLabel->setBounds (108, 52, 88, 24);
-    beatIndicatorLight->setBounds (174, 96, 25, 25);
-    resetButton->setBounds (6, 96, 96, 24);
-    filterButton->setBounds (2, 191, 198, 24);
-    linkButton->setBounds (2, 166, 198, 24);
-    toleranceSlider->setBounds (4, 142, 196, 24);
-    filterFrequencySlider->setBounds (4, 236, 196, 24);
+    currentBpmLabel->setBounds (104, 24, 88, 24);
+    runningBpmLabel->setBounds (104, 56, 88, 24);
+    beatIndicatorLight->setBounds (191, 104, 24, 24);
+    hostTempoButton->setBounds (18, 104, 70, 40);
+    resetButton->setBounds (104, 104, 70, 40);
+    toleranceKnob->setBounds (341, 18, 113, 113);
+    lopassFilterFreqKnob->setBounds (245, 18, 66, 66);
+    enableLopassFilterButton->setBounds (243, 104, 70, 40);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
-}
-
-void MainEditorView::buttonClicked (Button* buttonThatWasClicked)
-{
-    //[UserbuttonClicked_Pre]
-    bool isEnabled = buttonThatWasClicked->isDown();
-    //[/UserbuttonClicked_Pre]
-
-    if (buttonThatWasClicked == resetButton)
-    {
-        //[UserButtonCode_resetButton] -- add your button handler code here..
-        viewController->onResetButtonPressed(isEnabled);
-        //[/UserButtonCode_resetButton]
-    }
-    else if (buttonThatWasClicked == filterButton)
-    {
-        //[UserButtonCode_filterButton] -- add your button handler code here..
-        viewController->onFilterButtonPressed(isEnabled);
-        //[/UserButtonCode_filterButton]
-    }
-    else if (buttonThatWasClicked == linkButton)
-    {
-        //[UserButtonCode_linkButton] -- add your button handler code here..
-        viewController->onLinkButtonPressed(isEnabled);
-        //[/UserButtonCode_linkButton]
-    }
-
-    //[UserbuttonClicked_Post]
-    //[/UserbuttonClicked_Post]
-}
-
-void MainEditorView::sliderValueChanged (Slider* sliderThatWasMoved)
-{
-    //[UsersliderValueChanged_Pre]
-    double value = sliderThatWasMoved->getValue();
-    //[/UsersliderValueChanged_Pre]
-
-    if (sliderThatWasMoved == toleranceSlider)
-    {
-        //[UserSliderCode_toleranceSlider] -- add your slider handling code here..
-        viewController->onToleranceChanged(value);
-        //[/UserSliderCode_toleranceSlider]
-    }
-    else if (sliderThatWasMoved == filterFrequencySlider)
-    {
-        //[UserSliderCode_filterFrequencySlider] -- add your slider handling code here..
-        viewController->onFilterFrequencyChanged(value);
-        //[/UserSliderCode_filterFrequencySlider]
-    }
-
-    //[UsersliderValueChanged_Post]
-    //[/UsersliderValueChanged_Post]
 }
 
 
@@ -322,70 +191,49 @@ void MainEditorView::triggerBeatLight() {
 
 //==============================================================================
 #if 0
-/*  -- Jucer information section --
+/*  -- Introjucer information section --
 
-    This is where the Jucer puts all of its metadata, so don't change anything in here!
+    This is where the Introjucer stores the metadata that describe this GUI layout, so
+    make changes in here at your peril!
 
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainEditorView" componentName=""
                  parentClasses="public AudioProcessorEditor, public EditorInterface"
                  constructorParams="BeatCounterAudioProcessor* ownerFilter" variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;EditorInterface()"
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330000013"
-                 fixedSize="1" initialWidth="205" initialHeight="264">
-  <BACKGROUND backgroundColour="ff757c8a">
-    <IMAGE pos="174 96 25 25" resource="beatlightAnimation1_png" opacity="1"
-           mode="0"/>
-    <IMAGE pos="174 96 25 25" resource="beatlightAnimation5_png" opacity="0.001"
-           mode="0"/>
-    <ROUNDRECT pos="5 5 195 84" cornerSize="10" fill="solid: ffabb699" hasStroke="1"
-               stroke="0.600000024, mitered, butt" strokeColour="solid: ff000000"/>
-    <TEXT pos="13 19 107 24" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
-          fontname="Default font" fontsize="16" bold="0" italic="0" justification="33"/>
-    <TEXT pos="13 51 107 24" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
-          fontname="Default font" fontsize="16" bold="0" italic="0" justification="33"/>
-    <TEXT pos="134 96 48 25" fill="solid: ffffffff" hasStroke="0" text="Beat"
-          fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
-    <TEXT pos="7 124 161 23" fill="solid: ffffffff" hasStroke="0" text="Detection Tolerance"
-          fontname="Default font" fontsize="15" bold="0" italic="0" justification="33"/>
-    <TEXT pos="7 215 161 24" fill="solid: ffffffff" hasStroke="0" text="Lowpass Filter Frequency"
-          fontname="Default font" fontsize="15" bold="0" italic="0" justification="33"/>
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="1" initialWidth="472" initialHeight="162">
+  <BACKGROUND backgroundColour="ffff0000">
+    <ROUNDRECT pos="18 18 197 69" cornerSize="1" fill="solid: ff7fff00" hasStroke="0"/>
   </BACKGROUND>
   <LABEL name="Current BPM Label" id="4e3ed08c8c5358ee" memberName="currentBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="108 19 88 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="104 24 88 24" edTextCol="ff000000"
          edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
          bold="0" italic="0" justification="33"/>
   <LABEL name="Running BPM Label" id="bb007035ee015793" memberName="runningBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="108 52 88 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="104 56 88 24" edTextCol="ff000000"
          edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
          bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="BeatIndicatorLight" id="9597f0a11978ce24" memberName="beatIndicatorLight"
-                    virtualName="" explicitFocusOrder="0" pos="174 96 25 25" class="ImageComponent"
+                    virtualName="" explicitFocusOrder="0" pos="191 104 24 24" class="ImageComponent"
                     params=""/>
-  <TEXTBUTTON name="Reset Button" id="c44d9ebbcb52458c" memberName="resetButton"
-              virtualName="" explicitFocusOrder="0" pos="6 96 96 24" bgColOff="ff2c4680"
-              bgColOn="ff1c3670" textCol="ffffffff" textColOn="ffffffff" buttonText="Reset"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TOGGLEBUTTON name="Filter Button" id="f7f8b055ff912d0a" memberName="filterButton"
-                virtualName="" explicitFocusOrder="0" pos="2 191 198 24" txtcol="ffffffff"
-                buttonText="Lowpass Filter Enabled" connectedEdges="0" needsCallback="1"
-                radioGroupId="0" state="0"/>
-  <TOGGLEBUTTON name="Link Button" id="8234fc575ae36161" memberName="linkButton"
-                virtualName="" explicitFocusOrder="0" pos="2 166 198 24" txtcol="ffffffff"
-                buttonText="Link to Host's Tempo" connectedEdges="0" needsCallback="1"
-                radioGroupId="0" state="0"/>
-  <SLIDER name="Tolerance Slider" id="591bc48bb9446e8a" memberName="toleranceSlider"
-          virtualName="" explicitFocusOrder="0" pos="4 142 196 24" thumbcol="ff2c4680"
-          textboxtext="ff000000" textboxbkgd="ffabb699" textboxoutline="b2000000"
-          min="0" max="100" int="1" style="LinearHorizontal" textBoxPos="TextBoxRight"
-          textBoxEditable="1" textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="Filter Frequency Slider" id="cf032ec8836f6fa4" memberName="filterFrequencySlider"
-          virtualName="" explicitFocusOrder="0" pos="4 236 196 24" thumbcol="ff2c4680"
-          textboxbkgd="ffabb699" textboxoutline="b2000000" min="50" max="500"
-          int="1" style="LinearHorizontal" textBoxPos="TextBoxRight" textBoxEditable="1"
-          textBoxWidth="34" textBoxHeight="20" skewFactor="1"/>
+  <GENERICCOMPONENT name="host tempo button" id="b555149503e7cf17" memberName="hostTempoButton"
+                    virtualName="" explicitFocusOrder="0" pos="18 104 70 40" class="Component"
+                    params=""/>
+  <GENERICCOMPONENT name="reset button" id="d1b29d5dfcb7dd8c" memberName="resetButton"
+                    virtualName="" explicitFocusOrder="0" pos="104 104 70 40" class="Component"
+                    params=""/>
+  <GENERICCOMPONENT name="tolerance knob" id="be48e8e7bba31a8f" memberName="toleranceKnob"
+                    virtualName="" explicitFocusOrder="0" pos="341 18 113 113" class="Component"
+                    params=""/>
+  <GENERICCOMPONENT name="lopass filter freq knob" id="326bdbc56dc50049" memberName="lopassFilterFreqKnob"
+                    virtualName="" explicitFocusOrder="0" pos="245 18 66 66" class="Component"
+                    params=""/>
+  <GENERICCOMPONENT name="enable lopass filter button" id="3734e39975c01330" memberName="enableLopassFilterButton"
+                    virtualName="" explicitFocusOrder="0" pos="243 104 70 40" class="Component"
+                    params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
@@ -465,7 +313,6 @@ static const unsigned char resource_MainEditorView_beatlightAnimation5_png[] = {
 
 const char* MainEditorView::beatlightAnimation5_png = (const char*) resource_MainEditorView_beatlightAnimation5_png;
 const int MainEditorView::beatlightAnimation5_pngSize = 1920;
-
 
 
 //[EndFile] You can add extra defines here...

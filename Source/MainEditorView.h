@@ -1,26 +1,24 @@
 /*
   ==============================================================================
 
-  This is an automatically generated file created by the Jucer!
-
-  Creation date:  13 Feb 2013 10:45:08pm
+  This is an automatically generated GUI class created by the Introjucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.12
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
-  The Jucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-6 by Raw Material Software ltd.
+  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright 2004-13 by Raw Material Software Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__
-#define __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__
+#ifndef __JUCE_HEADER_A1856FAF8960A11E__
+#define __JUCE_HEADER_A1856FAF8960A11E__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -40,9 +38,7 @@
                                                                     //[/Comments]
 */
 class MainEditorView  : public AudioProcessorEditor,
-                        public EditorInterface,
-                        public ButtonListener,
-                        public SliderListener
+                        public EditorInterface
 {
 public:
     //==============================================================================
@@ -61,8 +57,6 @@ public:
 
     void paint (Graphics& g);
     void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
-    void sliderValueChanged (Slider* sliderThatWasMoved);
 
     // Binary resources:
     static const char* beatlightAnimation1_png;
@@ -77,23 +71,21 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    Label* currentBpmLabel;
-    Label* runningBpmLabel;
-    ImageComponent* beatIndicatorLight;
-    TextButton* resetButton;
-    ToggleButton* filterButton;
-    ToggleButton* linkButton;
-    Slider* toleranceSlider;
-    Slider* filterFrequencySlider;
-    Image cachedImage_beatlightAnimation1_png;
-    Image cachedImage_beatlightAnimation5_png;
+    ScopedPointer<Label> currentBpmLabel;
+    ScopedPointer<Label> runningBpmLabel;
+    ScopedPointer<ImageComponent> beatIndicatorLight;
+    ScopedPointer<Component> hostTempoButton;
+    ScopedPointer<Component> resetButton;
+    ScopedPointer<Component> toleranceKnob;
+    ScopedPointer<Component> lopassFilterFreqKnob;
+    ScopedPointer<Component> enableLopassFilterButton;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainEditorView);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainEditorView)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCER_HEADER_MAINEDITORVIEW_MAINEDITORVIEW_FABA8614__
+#endif   // __JUCE_HEADER_A1856FAF8960A11E__

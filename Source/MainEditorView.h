@@ -23,8 +23,8 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "BeatCounterAudioProcessor.h"
-#include "EditorViewController.h"
-#include "EditorInterface.h"
+#include "PluginParameters.h"
+#include "Resources.h"
 //[/Headers]
 
 
@@ -37,22 +37,15 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class MainEditorView  : public AudioProcessorEditor,
-                        public EditorInterface
+class MainEditorView  : public AudioProcessorEditor
 {
 public:
     //==============================================================================
-    MainEditorView (BeatCounterAudioProcessor* ownerFilter);
+    MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::PluginParameterSet& p, teragon::ResourceCache *r);
     ~MainEditorView();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setViewController(EditorViewController* viewController);
-    void updateParameter(int index, double value);
-    void updateCurrentBpm(double bpm) const;
-    void updateRunningBpm(double bpm) const;
-
-    void triggerBeatLight();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -67,7 +60,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    EditorViewController* viewController;
+    teragon::PluginParameterSet &parameters;
+    teragon::ResourceCache *resources;
     //[/UserVariables]
 
     //==============================================================================

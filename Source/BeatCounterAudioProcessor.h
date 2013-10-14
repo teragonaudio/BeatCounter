@@ -12,8 +12,7 @@
 #define __PLUGINPROCESSOR_H_1E83B8E4__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "EditorViewController.h"
-#include "EditorInterface.h"
+#include "PluginParameters.h"
 
 static const double kMaxAutofilterFrequency = 400.0f;
 static const double kMinAutofilterFrequency = 50.0f;
@@ -46,7 +45,7 @@ static const float kParamAutofilterMaxValue = 500.0f;
 static const float kParamAutofilterDefaultValue = 450.0f;
 
 //==============================================================================
-class BeatCounterAudioProcessor : public AudioProcessor, public EditorViewController
+class BeatCounterAudioProcessor : public AudioProcessor
 {
 public:
     //==============================================================================
@@ -82,6 +81,7 @@ public:
     bool acceptsMidi() const { return true; }
     bool producesMidi() const { return true; }
     bool silenceInProducesSilenceOut() const { return true; }
+    double getTailLengthSeconds() const { return 0.0; }
 
     //==============================================================================
     int getNumPrograms() { return 0; }
@@ -116,8 +116,7 @@ private:
     double getHostTempo() const;
 
 private:
-    // Link to editor
-    EditorInterface *editor;
+    teragon::PluginParameterSet parameters;
 
     // Variables used by the autofilter
     bool autofilterEnabled;

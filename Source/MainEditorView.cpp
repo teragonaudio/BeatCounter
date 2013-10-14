@@ -28,9 +28,10 @@ static const int kNumDecimalPlaces = 2;
 //[/MiscUserDefs]
 
 //==============================================================================
-MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
+MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::PluginParameterSet& p, teragon::ResourceCache *r)
     : AudioProcessorEditor(ownerFilter),
-      EditorInterface()
+      parameters(p),
+      resources(r)
 {
     addAndMakeVisible (currentBpmLabel = new Label ("Current BPM Label",
                                                     "---.--"));
@@ -74,10 +75,6 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter)
 
 
     //[Constructor] You can add your own custom stuff here..
-    filterButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
-    filterButton->setColour (TextButton::buttonOnColourId, Colour (0xff2c4680));
-    linkButton->setColour (TextButton::buttonColourId, Colour (0xff2c4680));
-    linkButton->setColour (TextButton::buttonOnColourId, Colour (0xff2c4680));
     //[/Constructor]
 }
 
@@ -97,7 +94,7 @@ MainEditorView::~MainEditorView()
 
 
     //[Destructor]. You can add your own custom destruction code here..
-    viewController->onEditorClosed();
+    delete resources;
     //[/Destructor]
 }
 
@@ -133,59 +130,9 @@ void MainEditorView::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-
-void MainEditorView::setViewController(EditorViewController* viewController) {
-    this->viewController = viewController;
-}
-
-void MainEditorView::updateParameter(int index, double value)
-{
-    switch (index) {
-        case kParamTolerance:
-            toleranceSlider->setValue(value, sendNotificationAsync);
-            break;
-        case kParamAutofilterEnabled:
-            filterButton->setToggleState(value > 0.0, false);
-            break;
-        case kParamAutofilterFrequency:
-            filterFrequencySlider->setValue(value, sendNotificationAsync);
-            break;
-        case kParamLinkToHostTempo:
-            linkButton->setToggleState(value > 0.0, false);
-            break;
-        default:
-            break;
-    }
-}
-
-void MainEditorView::updateCurrentBpm(double bpm) const {
-    if (bpm > 0.0) {
-        String currentBpm(bpm, kNumDecimalPlaces);
-        currentBpmLabel->setText(currentBpm, false);
-    }
-    else {
-        currentBpmLabel->setText("---.--", false);
-    }
-}
-
-void MainEditorView::updateRunningBpm(double bpm) const {
-    if (bpm > 0.0) {
-        String runningBpm(bpm, kNumDecimalPlaces);
-        runningBpmLabel->setText(runningBpm, false);
-    }
-    else {
-        runningBpmLabel->setText("---.--", false);
-    }
-}
-
-void MainEditorView::triggerBeatLight() {
-    beatIndicatorLight->setImage(cachedImage_beatlightAnimation5_png);
-    beatIndicatorLight->setVisible(true);
-    beatIndicatorLight->setAlpha(1.0);
-    ComponentAnimator &animator = Desktop::getInstance().getAnimator();
-    animator.fadeOut(beatIndicatorLight, 250);
-}
-
+// TODO(nik): Animate beat light
+//    ComponentAnimator &animator = Desktop::getInstance().getAnimator();
+//    animator.fadeOut(beatIndicatorLight, 250);
 //[/MiscUserCode]
 
 
@@ -199,8 +146,8 @@ void MainEditorView::triggerBeatLight() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainEditorView" componentName=""
-                 parentClasses="public AudioProcessorEditor, public EditorInterface"
-                 constructorParams="BeatCounterAudioProcessor* ownerFilter" variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;EditorInterface()"
+                 parentClasses="public AudioProcessorEditor" constructorParams="BeatCounterAudioProcessor* ownerFilter, teragon::PluginParameterSet&amp; p, teragon::ResourceCache *r"
+                 variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;parameters(p),&#10;resources(r)"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="472" initialHeight="162">
   <BACKGROUND backgroundColour="ffff0000">

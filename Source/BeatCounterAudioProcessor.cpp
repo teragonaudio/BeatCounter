@@ -10,11 +10,12 @@
 
 #include "BeatCounterAudioProcessor.h"
 #include "MainEditorView.h"
+#include "Resources.h"
 
 static char const *const kStorageName = "BeatCounterStorage";
 
 //==============================================================================
-BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor(), EditorViewController()
+BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
     tolerance = kParamToleranceDefaultValue;
     periodSizeInSeconds = kParamPeriodDefaultValue;
@@ -22,7 +23,6 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor(), Edito
     autofilterEnabled = true;
     autofilterFrequency = kParamAutofilterDefaultValue;
     linkWithHostTempo = false;
-    editor = NULL;
     reset();
 }
 
@@ -77,9 +77,6 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
     switch (index) {
         case kParamTolerance:
             setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
-            if(editor != NULL) {
-                editor->updateParameter(kParamTolerance, tolerance);
-            }
             break;
         case kParamPeriod:
             setParameterScaled(&periodSizeInSeconds, newValue, kParamPeriodMinValue, kParamPeriodMaxValue);
@@ -87,22 +84,13 @@ void BeatCounterAudioProcessor::setParameter (int index, float newValue)
             break;
         case kParamAutofilterEnabled:
             autofilterEnabled = (newValue > 0.5f);
-            if(editor != NULL) {
-                editor->updateParameter(kParamAutofilterEnabled, autofilterEnabled ? 1.0 : 0.0);
-            }
             break;
         case kParamAutofilterFrequency:
             setParameterFrequency(&autofilterFrequency, newValue, kParamAutofilterMinValue, kParamAutofilterMaxValue);
             autofilterConstant = 0.0;
-            if(editor != NULL) {
-                editor->updateParameter(kParamAutofilterFrequency, autofilterFrequency);
-            }
             break;
         case kParamLinkToHostTempo:
             linkWithHostTempo = (newValue > 0.5f);
-            if(editor != NULL) {
-                editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
-            }
             break;
         default:
             break;
@@ -209,11 +197,6 @@ void BeatCounterAudioProcessor::reset()
     numSamplesSinceLastBeat = 0;
     currentBpm = 0.0;
     runningBpm = 0.0;
-
-    if(editor) {
-        editor->updateCurrentBpm(currentBpm);
-        editor->updateRunningBpm(runningBpm);
-    }
 }
 
 void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -273,11 +256,6 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                         currentBpm = bpm;
                         bpmHistory.push_back(bpm);
 
-                        if(editor) {
-                            editor->triggerBeatLight();
-                            editor->updateCurrentBpm(currentBpm);
-                        }
-
                         // The sample rate is not known when a JUCE plugin is initialized, so grab it lazily here
                         if(periodSizeInSamples == 0) {
                             periodSizeInSamples = (unsigned long)(periodSizeInSeconds * getSampleRate());
@@ -300,9 +278,6 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                             runningBpm /= (double)bpmHistory.size();
                             bpmHistory.clear();
                             numSamplesProcessed = 0;
-                            if(editor) {
-                                editor->updateRunningBpm(runningBpm);
-                            }
                         }
                     }
                     else {
@@ -410,7 +385,6 @@ bool BeatCounterAudioProcessor::getFilterButtonState() const {
 }
 
 void BeatCounterAudioProcessor::onEditorClosed() {
-    editor = NULL;
 }
 
 
@@ -423,12 +397,5 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
 {
-    MainEditorView *editorView = new MainEditorView(this);
-    editor = editorView;
-    editorView->setViewController(this);
-    editor->updateParameter(kParamTolerance, tolerance);
-    editor->updateParameter(kParamAutofilterEnabled, autofilterEnabled ? 1.0 : 0.0);
-    editor->updateParameter(kParamAutofilterFrequency, autofilterFrequency);
-    editor->updateParameter(kParamLinkToHostTempo, linkWithHostTempo ? 1.0 : 0.0);
-    return editorView;
+    return new MainEditorView(this, parameters, Resources::getCache());
 }

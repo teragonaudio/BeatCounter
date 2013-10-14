@@ -1,35 +1,29 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
 
-#ifndef __JUCE_APPLICATIONCOMMANDMANAGER_JUCEHEADER__
-#define __JUCE_APPLICATIONCOMMANDMANAGER_JUCEHEADER__
-
-#include "juce_ApplicationCommandTarget.h"
-class KeyPressMappingSet;
-class ApplicationCommandManagerListener;
-class Desktop;
+#ifndef JUCE_APPLICATIONCOMMANDMANAGER_H_INCLUDED
+#define JUCE_APPLICATIONCOMMANDMANAGER_H_INCLUDED
 
 
 //==============================================================================
@@ -77,8 +71,8 @@ class Desktop;
     component hierarchy for those that also implement the ApplicationCommandTarget interface.
     If an ApplicationCommandTarget isn't interested in the command that is being invoked, then
     the next one in line will be tried (see the ApplicationCommandTarget::getNextCommandTarget()
-    method), and so on until ApplicationCommandTarget::getNextCommandTarget() returns 0. At this
-    point if the command still hasn't been performed, it will be passed to the current
+    method), and so on until ApplicationCommandTarget::getNextCommandTarget() returns nullptr.
+    At this point if the command still hasn't been performed, it will be passed to the current
     JUCEApplication object (which is itself an ApplicationCommandTarget).
 
     To exert some custom control over which ApplicationCommandTarget is chosen to invoke a command,
@@ -182,7 +176,7 @@ public:
 
     /** Returns the list of categories.
 
-        This will go through all registered commands, and return a list of all the distict
+        This will go through all registered commands, and return a list of all the distinct
         categoryName values from their ApplicationCommandInfo structure.
 
         @see getCommandsInCategory()
@@ -245,7 +239,7 @@ public:
         either use setFirstCommandTarget() to specify a single target, or override this method
         if you need more complex logic to choose one.
 
-        It may return 0 if no targets are available.
+        It may return nullptr if no targets are available.
 
         @see getTargetForCommand, invoke, invokeDirectly
     */
@@ -253,11 +247,11 @@ public:
 
     /** Sets a target to be returned by getFirstCommandTarget().
 
-        If this is set to 0, then getFirstCommandTarget() will by default return the
+        If this is set to nullptr, then getFirstCommandTarget() will by default return the
         result of findDefaultComponentTarget().
 
-        If you use this to set a target, make sure you call setFirstCommandTarget (0) before
-        deleting the target object.
+        If you use this to set a target, make sure you call setFirstCommandTarget(nullptr)
+        before deleting the target object.
     */
     void setFirstCommandTarget (ApplicationCommandTarget* newTarget) noexcept;
 
@@ -268,7 +262,7 @@ public:
         ApplicationCommandTarget::getNextCommandTarget() to find the next one to try, and
         so on until no more are available.
 
-        If no targets are found that can perform the command, this method will return 0.
+        If no targets are found that can perform the command, this method will return nullptr.
 
         If a target is found, then it will get the target to fill-in the upToDateInfo
         structure with the latest info about that command, so that the caller can see
@@ -298,22 +292,22 @@ public:
     /** Examines this component and all its parents in turn, looking for the first one
         which is a ApplicationCommandTarget.
 
-        Returns the first ApplicationCommandTarget that it finds, or 0 if none of them implement
-        that class.
+        Returns the first ApplicationCommandTarget that it finds, or nullptr if none of them
+        implement that class.
     */
-    static ApplicationCommandTarget* findTargetForComponent (Component* component);
+    static ApplicationCommandTarget* findTargetForComponent (Component*);
 
 
 private:
     //==============================================================================
-    OwnedArray <ApplicationCommandInfo> commands;
-    ListenerList <ApplicationCommandManagerListener> listeners;
-    ScopedPointer <KeyPressMappingSet> keyMappings;
+    OwnedArray<ApplicationCommandInfo> commands;
+    ListenerList<ApplicationCommandManagerListener> listeners;
+    ScopedPointer<KeyPressMappingSet> keyMappings;
     ApplicationCommandTarget* firstTarget;
 
     void sendListenerInvokeCallback (const ApplicationCommandTarget::InvocationInfo&);
-    void handleAsyncUpdate();
-    void globalFocusChanged (Component*);
+    void handleAsyncUpdate() override;
+    void globalFocusChanged (Component*) override;
 
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
     // This is just here to cause a compile error in old code that hasn't been changed to use the new
@@ -341,7 +335,7 @@ public:
     virtual ~ApplicationCommandManagerListener()  {}
 
     /** Called when an app command is about to be invoked. */
-    virtual void applicationCommandInvoked (const ApplicationCommandTarget::InvocationInfo& info) = 0;
+    virtual void applicationCommandInvoked (const ApplicationCommandTarget::InvocationInfo&) = 0;
 
     /** Called when commands are registered or deregistered from the
         command manager, or when commands are made active or inactive.
@@ -355,4 +349,4 @@ public:
 
 
 
-#endif   // __JUCE_APPLICATIONCOMMANDMANAGER_JUCEHEADER__
+#endif   // JUCE_APPLICATIONCOMMANDMANAGER_H_INCLUDED

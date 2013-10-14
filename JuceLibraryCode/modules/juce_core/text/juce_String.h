@@ -1,53 +1,34 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the juce_core module of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission to use, copy, modify, and/or distribute this software for any purpose with
+   or without fee is hereby granted, provided that the above copyright notice and this
+   permission notice appear in all copies.
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
+   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   ------------------------------------------------------------------------------
 
-  ------------------------------------------------------------------------------
+   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
+   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
+   using any other modules, be sure to check that you also comply with their license.
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   For more details, visit www.juce.com
 
   ==============================================================================
 */
 
-#ifndef __JUCE_STRING_JUCEHEADER__
-#define __JUCE_STRING_JUCEHEADER__
+#ifndef JUCE_STRING_H_INCLUDED
+#define JUCE_STRING_H_INCLUDED
 
-#include "juce_CharacterFunctions.h"
-
-#ifndef JUCE_STRING_UTF_TYPE
- #define JUCE_STRING_UTF_TYPE 8
-#endif
-
-#if JUCE_MSVC
- #pragma warning (push)
- #pragma warning (disable: 4514 4996)
-#endif
-
-#include "../memory/juce_Atomic.h"
-#include "juce_CharPointer_UTF8.h"
-#include "juce_CharPointer_UTF16.h"
-#include "juce_CharPointer_UTF32.h"
-#include "juce_CharPointer_ASCII.h"
-
-#if JUCE_MSVC
- #pragma warning (pop)
-#endif
-
-class OutputStream;
 
 //==============================================================================
 /**
@@ -120,37 +101,40 @@ public:
 
     //==============================================================================
     /** Creates a string from a UTF-8 character string */
-    String (const CharPointer_UTF8& text);
+    String (const CharPointer_UTF8 text);
 
     /** Creates a string from a UTF-8 character string */
-    String (const CharPointer_UTF8& text, size_t maxChars);
+    String (const CharPointer_UTF8 text, size_t maxChars);
 
     /** Creates a string from a UTF-8 character string */
-    String (const CharPointer_UTF8& start, const CharPointer_UTF8& end);
+    String (const CharPointer_UTF8 start, const CharPointer_UTF8 end);
 
     //==============================================================================
     /** Creates a string from a UTF-16 character string */
-    String (const CharPointer_UTF16& text);
+    String (const CharPointer_UTF16 text);
 
     /** Creates a string from a UTF-16 character string */
-    String (const CharPointer_UTF16& text, size_t maxChars);
+    String (const CharPointer_UTF16 text, size_t maxChars);
 
     /** Creates a string from a UTF-16 character string */
-    String (const CharPointer_UTF16& start, const CharPointer_UTF16& end);
+    String (const CharPointer_UTF16 start, const CharPointer_UTF16 end);
 
     //==============================================================================
     /** Creates a string from a UTF-32 character string */
-    String (const CharPointer_UTF32& text);
+    String (const CharPointer_UTF32 text);
 
     /** Creates a string from a UTF-32 character string */
-    String (const CharPointer_UTF32& text, size_t maxChars);
+    String (const CharPointer_UTF32 text, size_t maxChars);
 
     /** Creates a string from a UTF-32 character string */
-    String (const CharPointer_UTF32& start, const CharPointer_UTF32& end);
+    String (const CharPointer_UTF32 start, const CharPointer_UTF32 end);
 
     //==============================================================================
     /** Creates a string from an ASCII character string */
-    String (const CharPointer_ASCII& text);
+    String (const CharPointer_ASCII text);
+
+    /** Creates a string from a UTF-8 encoded std::string. */
+    String (const std::string&);
 
     //==============================================================================
     /** Creates a string from a single character. */
@@ -235,11 +219,22 @@ public:
 
     /** Appends a string to the end of this one.
 
+        @param startOfTextToAppend  the start of the string to add. This must not be a nullptr
+        @param endOfTextToAppend    the end of the string to add. This must not be a nullptr
+    */
+    void appendCharPointer (const CharPointerType startOfTextToAppend,
+                            const CharPointerType endOfTextToAppend);
+
+    /** Appends a string to the end of this one. */
+    void appendCharPointer (const CharPointerType textToAppend);
+
+    /** Appends a string to the end of this one.
+
         @param textToAppend     the string to add
         @param maxCharsToTake   the maximum number of characters to take from the string passed in
     */
     template <class CharPointer>
-    void appendCharPointer (const CharPointer& textToAppend, size_t maxCharsToTake)
+    void appendCharPointer (const CharPointer textToAppend, size_t maxCharsToTake)
     {
         if (textToAppend.getAddress() != nullptr)
         {
@@ -264,7 +259,7 @@ public:
 
     /** Appends a string to the end of this one. */
     template <class CharPointer>
-    void appendCharPointer (const CharPointer& textToAppend)
+    void appendCharPointer (const CharPointer textToAppend)
     {
         if (textToAppend.getAddress() != nullptr)
         {
@@ -300,6 +295,9 @@ public:
 
     /** Case-insensitive comparison with another string. */
     bool equalsIgnoreCase (const String& other) const noexcept;
+
+    /** Case-insensitive comparison with another string. */
+    bool equalsIgnoreCase (StringRef other) const noexcept;
 
     /** Case-insensitive comparison with another string. */
     bool equalsIgnoreCase (const wchar_t* other) const noexcept;
@@ -345,7 +343,7 @@ public:
         If the parameter is an empty string, this will always return true.
         Uses a case-sensitive comparison.
     */
-    bool startsWith (const String& text) const noexcept;
+    bool startsWith (StringRef text) const noexcept;
 
     /** Tests whether the string begins with a particular character.
         If the character is 0, this will always return false.
@@ -357,13 +355,13 @@ public:
         If the parameter is an empty string, this will always return true.
         Uses a case-insensitive comparison.
     */
-    bool startsWithIgnoreCase (const String& text) const noexcept;
+    bool startsWithIgnoreCase (StringRef text) const noexcept;
 
     /** Tests whether the string ends with another string.
         If the parameter is an empty string, this will always return true.
         Uses a case-sensitive comparison.
     */
-    bool endsWith (const String& text) const noexcept;
+    bool endsWith (StringRef text) const noexcept;
 
     /** Tests whether the string ends with a particular character.
         If the character is 0, this will always return false.
@@ -375,13 +373,13 @@ public:
         If the parameter is an empty string, this will always return true.
         Uses a case-insensitive comparison.
     */
-    bool endsWithIgnoreCase (const String& text) const noexcept;
+    bool endsWithIgnoreCase (StringRef text) const noexcept;
 
     /** Tests whether the string contains another substring.
         If the parameter is an empty string, this will always return true.
         Uses a case-sensitive comparison.
     */
-    bool contains (const String& text) const noexcept;
+    bool contains (StringRef text) const noexcept;
 
     /** Tests whether the string contains a particular character.
         Uses a case-sensitive comparison.
@@ -391,41 +389,41 @@ public:
     /** Tests whether the string contains another substring.
         Uses a case-insensitive comparison.
     */
-    bool containsIgnoreCase (const String& text) const noexcept;
+    bool containsIgnoreCase (StringRef text) const noexcept;
 
-    /** Tests whether the string contains another substring as a distict word.
+    /** Tests whether the string contains another substring as a distinct word.
 
         @returns    true if the string contains this word, surrounded by
                     non-alphanumeric characters
         @see indexOfWholeWord, containsWholeWordIgnoreCase
     */
-    bool containsWholeWord (const String& wordToLookFor) const noexcept;
+    bool containsWholeWord (StringRef wordToLookFor) const noexcept;
 
-    /** Tests whether the string contains another substring as a distict word.
+    /** Tests whether the string contains another substring as a distinct word.
 
         @returns    true if the string contains this word, surrounded by
                     non-alphanumeric characters
         @see indexOfWholeWordIgnoreCase, containsWholeWord
     */
-    bool containsWholeWordIgnoreCase (const String& wordToLookFor) const noexcept;
+    bool containsWholeWordIgnoreCase (StringRef wordToLookFor) const noexcept;
 
-    /** Finds an instance of another substring if it exists as a distict word.
+    /** Finds an instance of another substring if it exists as a distinct word.
 
         @returns    if the string contains this word, surrounded by non-alphanumeric characters,
                     then this will return the index of the start of the substring. If it isn't
                     found, then it will return -1
         @see indexOfWholeWordIgnoreCase, containsWholeWord
     */
-    int indexOfWholeWord (const String& wordToLookFor) const noexcept;
+    int indexOfWholeWord (StringRef wordToLookFor) const noexcept;
 
-    /** Finds an instance of another substring if it exists as a distict word.
+    /** Finds an instance of another substring if it exists as a distinct word.
 
         @returns    if the string contains this word, surrounded by non-alphanumeric characters,
                     then this will return the index of the start of the substring. If it isn't
                     found, then it will return -1
         @see indexOfWholeWord, containsWholeWordIgnoreCase
     */
-    int indexOfWholeWordIgnoreCase (const String& wordToLookFor) const noexcept;
+    int indexOfWholeWordIgnoreCase (StringRef wordToLookFor) const noexcept;
 
     /** Looks for any of a set of characters in the string.
         Uses a case-sensitive comparison.
@@ -433,7 +431,7 @@ public:
         @returns    true if the string contains any of the characters from
                     the string that is passed in.
     */
-    bool containsAnyOf (const String& charactersItMightContain) const noexcept;
+    bool containsAnyOf (StringRef charactersItMightContain) const noexcept;
 
     /** Looks for a set of characters in the string.
         Uses a case-sensitive comparison.
@@ -442,7 +440,7 @@ public:
                     the parameter string. If this string is empty, the return value will
                     always be true.
     */
-    bool containsOnly (const String& charactersItMightContain) const noexcept;
+    bool containsOnly (StringRef charactersItMightContain) const noexcept;
 
     /** Returns true if this string contains any non-whitespace characters.
 
@@ -460,7 +458,7 @@ public:
         This isn't a full-blown regex though! The only wildcard characters supported
         are "*" and "?". It's mainly intended for filename pattern matching.
     */
-    bool matchesWildcard (const String& wildcard, bool ignoreCase) const noexcept;
+    bool matchesWildcard (StringRef wildcard, bool ignoreCase) const noexcept;
 
     //==============================================================================
     // Substring location methods..
@@ -493,7 +491,7 @@ public:
 
         @see indexOfChar, lastIndexOfAnyOf
     */
-    int indexOfAnyOf (const String& charactersToLookFor,
+    int indexOfAnyOf (StringRef charactersToLookFor,
                       int startIndex = 0,
                       bool ignoreCase = false) const noexcept;
 
@@ -502,7 +500,7 @@ public:
         @returns    the index of the first occurrence of this substring, or -1 if it's not found.
                     If textToLookFor is an empty string, this will always return 0.
     */
-    int indexOf (const String& textToLookFor) const noexcept;
+    int indexOf (StringRef textToLookFor) const noexcept;
 
     /** Searches for a substring within this string.
         Uses a case-sensitive comparison.
@@ -511,14 +509,14 @@ public:
         @returns                the index of the first occurrence of this substring, or -1 if it's not found.
                                 If textToLookFor is an empty string, this will always return -1.
     */
-    int indexOf (int startIndex, const String& textToLookFor) const noexcept;
+    int indexOf (int startIndex, StringRef textToLookFor) const noexcept;
 
     /** Searches for a substring within this string.
         Uses a case-insensitive comparison.
         @returns    the index of the first occurrence of this substring, or -1 if it's not found.
                     If textToLookFor is an empty string, this will always return 0.
     */
-    int indexOfIgnoreCase (const String& textToLookFor) const noexcept;
+    int indexOfIgnoreCase (StringRef textToLookFor) const noexcept;
 
     /** Searches for a substring within this string.
         Uses a case-insensitive comparison.
@@ -527,7 +525,7 @@ public:
         @returns                the index of the first occurrence of this substring, or -1 if it's not found.
                                 If textToLookFor is an empty string, this will always return -1.
     */
-    int indexOfIgnoreCase (int startIndex, const String& textToLookFor) const noexcept;
+    int indexOfIgnoreCase (int startIndex, StringRef textToLookFor) const noexcept;
 
     /** Searches for a character inside this string (working backwards from the end of the string).
         Uses a case-sensitive comparison.
@@ -540,14 +538,14 @@ public:
         @returns    the index of the start of the last occurrence of the substring within this string,
                     or -1 if it's not found. If textToLookFor is an empty string, this will always return -1.
     */
-    int lastIndexOf (const String& textToLookFor) const noexcept;
+    int lastIndexOf (StringRef textToLookFor) const noexcept;
 
     /** Searches for a substring inside this string (working backwards from the end of the string).
         Uses a case-insensitive comparison.
         @returns    the index of the start of the last occurrence of the substring within this string, or -1
                     if it's not found. If textToLookFor is an empty string, this will always return -1.
     */
-    int lastIndexOfIgnoreCase (const String& textToLookFor) const noexcept;
+    int lastIndexOfIgnoreCase (StringRef textToLookFor) const noexcept;
 
     /** Returns the index of the last character in this string that matches one of the
         characters passed-in to this method.
@@ -561,7 +559,7 @@ public:
 
         @see lastIndexOf, indexOfAnyOf
     */
-    int lastIndexOfAnyOf (const String& charactersToLookFor,
+    int lastIndexOfAnyOf (StringRef charactersToLookFor,
                           bool ignoreCase = false) const noexcept;
 
 
@@ -645,7 +643,7 @@ public:
 
         @see upToFirstOccurrenceOf, fromLastOccurrenceOf
     */
-    String fromFirstOccurrenceOf (const String& substringToStartFrom,
+    String fromFirstOccurrenceOf (StringRef substringToStartFrom,
                                   bool includeSubStringInResult,
                                   bool ignoreCase) const;
 
@@ -657,7 +655,7 @@ public:
 
         @see fromFirstOccurrenceOf, upToLastOccurrenceOf
     */
-    String fromLastOccurrenceOf (const String& substringToFind,
+    String fromLastOccurrenceOf (StringRef substringToFind,
                                  bool includeSubStringInResult,
                                  bool ignoreCase) const;
 
@@ -674,7 +672,7 @@ public:
 
         @see upToLastOccurrenceOf, fromFirstOccurrenceOf
     */
-    String upToFirstOccurrenceOf (const String& substringToEndWith,
+    String upToFirstOccurrenceOf (StringRef substringToEndWith,
                                   bool includeSubStringInResult,
                                   bool ignoreCase) const;
 
@@ -685,7 +683,7 @@ public:
 
         @see upToFirstOccurrenceOf, fromFirstOccurrenceOf
     */
-    String upToLastOccurrenceOf (const String& substringToFind,
+    String upToLastOccurrenceOf (StringRef substringToFind,
                                  bool includeSubStringInResult,
                                  bool ignoreCase) const;
 
@@ -705,7 +703,7 @@ public:
         @param charactersToTrim     the set of characters to remove.
         @see trim, trimStart, trimCharactersAtEnd
     */
-    String trimCharactersAtStart (const String& charactersToTrim) const;
+    String trimCharactersAtStart (StringRef charactersToTrim) const;
 
     /** Returns a copy of this string, having removed a specified set of characters from its end.
         Characters are removed from the end of the string until it finds one that is not in the
@@ -713,7 +711,7 @@ public:
         @param charactersToTrim     the set of characters to remove.
         @see trim, trimEnd, trimCharactersAtStart
     */
-    String trimCharactersAtEnd (const String& charactersToTrim) const;
+    String trimCharactersAtEnd (StringRef charactersToTrim) const;
 
     //==============================================================================
     /** Returns an upper-case version of this string. */
@@ -740,7 +738,7 @@ public:
     */
     String replaceSection (int startIndex,
                            int numCharactersToReplace,
-                           const String& stringToInsert) const;
+                           StringRef stringToInsert) const;
 
     /** Replaces all occurrences of a substring with another string.
 
@@ -749,8 +747,8 @@ public:
 
         Note that this is a const method, and won't alter the string itself.
     */
-    String replace (const String& stringToReplace,
-                    const String& stringToInsertInstead,
+    String replace (StringRef stringToReplace,
+                    StringRef stringToInsertInstead,
                     bool ignoreCase = false) const;
 
     /** Returns a string with all occurrences of a character replaced with a different one. */
@@ -767,8 +765,8 @@ public:
 
         Note that this is a const method, and won't affect the string itself.
     */
-    String replaceCharacters (const String& charactersToReplace,
-                              const String& charactersToInsertInstead) const;
+    String replaceCharacters (StringRef charactersToReplace,
+                              StringRef charactersToInsertInstead) const;
 
     /** Returns a version of this string that only retains a fixed set of characters.
 
@@ -779,7 +777,7 @@ public:
 
         Note that this is a const method, and won't alter the string itself.
     */
-    String retainCharacters (const String& charactersToRetain) const;
+    String retainCharacters (StringRef charactersToRetain) const;
 
     /** Returns a version of this string with a set of characters removed.
 
@@ -790,14 +788,14 @@ public:
 
         Note that this is a const method, and won't alter the string itself.
     */
-    String removeCharacters (const String& charactersToRemove) const;
+    String removeCharacters (StringRef charactersToRemove) const;
 
     /** Returns a section from the start of the string that only contains a certain set of characters.
 
         This returns the leftmost section of the string, up to (and not including) the
         first character that doesn't appear in the string passed in.
     */
-    String initialSectionContainingOnly (const String& permittedCharacters) const;
+    String initialSectionContainingOnly (StringRef permittedCharacters) const;
 
     /** Returns a section from the start of the string that only contains a certain set of characters.
 
@@ -805,7 +803,7 @@ public:
         first character that occurs in the string passed in. (If none of the specified
         characters are found in the string, the return value will just be the original string).
     */
-    String initialSectionNotContaining (const String& charactersToStopAt) const;
+    String initialSectionNotContaining (StringRef charactersToStopAt) const;
 
     //==============================================================================
     /** Checks whether the string might be in quotation marks.
@@ -848,7 +846,7 @@ public:
         @param stringToRepeat         the string to repeat
         @param numberOfTimesToRepeat  how many times to repeat it
     */
-    static String repeatedString (const String& stringToRepeat,
+    static String repeatedString (StringRef stringToRepeat,
                                   int numberOfTimesToRepeat);
 
     /** Returns a copy of this string with the specified character repeatedly added to its
@@ -955,7 +953,6 @@ public:
     int getIntValue() const noexcept;
 
     /** Reads the value of the string as a decimal number (up to 64 bits in size).
-
         @returns the value of the string as a 64 bit signed base-10 integer.
     */
     int64 getLargeIntValue() const noexcept;
@@ -1034,7 +1031,7 @@ public:
         that is returned must not be stored anywhere, as it can be deleted whenever the
         string changes.
     */
-    inline const CharPointerType& getCharPointer() const noexcept    { return text; }
+    inline CharPointerType getCharPointer() const noexcept      { return text; }
 
     /** Returns a pointer to a UTF-8 version of this string.
 
@@ -1045,9 +1042,22 @@ public:
         To find out how many bytes you need to store this string as UTF-8, you can call
         CharPointer_UTF8::getBytesRequiredFor (myString.getCharPointer())
 
-        @see getCharPointer, toUTF16, toUTF32
+        @see toRawUTF8, getCharPointer, toUTF16, toUTF32
     */
     CharPointer_UTF8 toUTF8() const;
+
+    /** Returns a pointer to a UTF-8 version of this string.
+
+        Because it returns a reference to the string's internal data, the pointer
+        that is returned must not be stored anywhere, as it can be deleted whenever the
+        string changes.
+
+        To find out how many bytes you need to store this string as UTF-8, you can call
+        CharPointer_UTF8::getBytesRequiredFor (myString.getCharPointer())
+
+        @see getCharPointer, toUTF8, toUTF16, toUTF32
+    */
+    const char* toRawUTF8() const;
 
     /** Returns a pointer to a UTF-16 version of this string.
 
@@ -1086,6 +1096,9 @@ public:
     */
     const wchar_t* toWideCharPointer() const;
 
+    /** */
+    std::string toStdString() const;
+
     //==============================================================================
     /** Creates a String from a UTF-8 encoded buffer.
         If the size is < 0, it'll keep reading until it hits a zero.
@@ -1096,7 +1109,7 @@ public:
         The number returned does NOT include the trailing zero.
         @see toUTF8, copyToUTF8
     */
-    int getNumBytesAsUTF8() const noexcept;
+    size_t getNumBytesAsUTF8() const noexcept;
 
     //==============================================================================
     /** Copies the string to a buffer as UTF-8 characters.
@@ -1114,7 +1127,7 @@ public:
                                 end, and will return the number of bytes that were actually used.
         @see CharPointer_UTF8::writeWithDestByteLimit
     */
-    int copyToUTF8 (CharPointer_UTF8::CharType* destBuffer, int maxBufferSizeBytes) const noexcept;
+    size_t copyToUTF8 (CharPointer_UTF8::CharType* destBuffer, size_t maxBufferSizeBytes) const noexcept;
 
     /** Copies the string to a buffer as UTF-16 characters.
 
@@ -1131,7 +1144,7 @@ public:
                                 end, and will return the number of bytes that were actually used.
         @see CharPointer_UTF16::writeWithDestByteLimit
     */
-    int copyToUTF16 (CharPointer_UTF16::CharType* destBuffer, int maxBufferSizeBytes) const noexcept;
+    size_t copyToUTF16 (CharPointer_UTF16::CharType* destBuffer, size_t maxBufferSizeBytes) const noexcept;
 
     /** Copies the string to a buffer as UTF-32 characters.
 
@@ -1148,7 +1161,7 @@ public:
                                 end, and will return the number of bytes that were actually used.
         @see CharPointer_UTF32::writeWithDestByteLimit
     */
-    int copyToUTF32 (CharPointer_UTF32::CharType* destBuffer, int maxBufferSizeBytes) const noexcept;
+    size_t copyToUTF32 (CharPointer_UTF32::CharType* destBuffer, size_t maxBufferSizeBytes) const noexcept;
 
     //==============================================================================
     /** Increases the string's internally allocated storage.
@@ -1202,7 +1215,7 @@ private:
     explicit String (const PreallocationBytes&); // This constructor preallocates a certain amount of memory
     void appendFixedLength (const char* text, int numExtraChars);
     size_t getByteOffsetOfEnd() const noexcept;
-    JUCE_DEPRECATED (String (const String& stringToCopy, size_t charsToAllocate));
+    JUCE_DEPRECATED (String (const String&, size_t));
 
     // This private cast operator should prevent strings being accidentally cast
     // to bools (this is possible because the compiler can add an implicit cast
@@ -1277,11 +1290,12 @@ JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const char* strin
 /** Case-sensitive comparison of two strings. */
 JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const wchar_t* string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF8& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF8 string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF16& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF16 string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF32& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator== (const String& string1, const CharPointer_UTF32 string2) noexcept;
+
 /** Case-sensitive comparison of two strings. */
 JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const String& string2) noexcept;
 /** Case-sensitive comparison of two strings. */
@@ -1289,11 +1303,12 @@ JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const char* strin
 /** Case-sensitive comparison of two strings. */
 JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const wchar_t* string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF8& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF8 string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF16& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF16 string2) noexcept;
 /** Case-sensitive comparison of two strings. */
-JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF32& string2) noexcept;
+JUCE_API bool JUCE_CALLTYPE operator!= (const String& string1, const CharPointer_UTF32 string2) noexcept;
+
 /** Case-sensitive comparison of two strings. */
 JUCE_API bool JUCE_CALLTYPE operator>  (const String& string1, const String& string2) noexcept;
 /** Case-sensitive comparison of two strings. */
@@ -1310,7 +1325,7 @@ JUCE_API bool JUCE_CALLTYPE operator<= (const String& string1, const String& str
 template <class traits>
 std::basic_ostream <char, traits>& JUCE_CALLTYPE operator<< (std::basic_ostream <char, traits>& stream, const String& stringToWrite)
 {
-    return stream << stringToWrite.toUTF8().getAddress();
+    return stream << stringToWrite.toRawUTF8();
 }
 
 /** This operator allows you to write a juce String directly to std output streams.
@@ -1325,5 +1340,8 @@ std::basic_ostream <wchar_t, traits>& JUCE_CALLTYPE operator<< (std::basic_ostre
 /** Writes a string to an OutputStream as UTF8. */
 JUCE_API OutputStream& JUCE_CALLTYPE operator<< (OutputStream& stream, const String& stringToWrite);
 
+/** Writes a string to an OutputStream as UTF8. */
+JUCE_API OutputStream& JUCE_CALLTYPE operator<< (OutputStream& stream, StringRef stringToWrite);
 
-#endif   // __JUCE_STRING_JUCEHEADER__
+
+#endif   // JUCE_STRING_H_INCLUDED

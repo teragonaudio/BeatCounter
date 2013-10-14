@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -26,9 +25,9 @@
 class DocumentWindow::ButtonListenerProxy  : public ButtonListener // (can't use Button::Listener due to idiotic VC2005 bug)
 {
 public:
-    ButtonListenerProxy (DocumentWindow& owner_) : owner (owner_) {}
+    ButtonListenerProxy (DocumentWindow& w) : owner (w) {}
 
-    void buttonClicked (Button* button)
+    void buttonClicked (Button* button) override
     {
         if      (button == owner.getMinimiseButton())  owner.minimiseButtonPressed();
         else if (button == owner.getMaximiseButton())  owner.maximiseButtonPressed();
@@ -43,9 +42,9 @@ private:
 
 //==============================================================================
 DocumentWindow::DocumentWindow (const String& title,
-                                const Colour& backgroundColour,
-                                const int requiredButtons_,
-                                const bool addToDesktop_)
+                                Colour backgroundColour,
+                                int requiredButtons_,
+                                bool addToDesktop_)
     : ResizableWindow (title, backgroundColour, addToDesktop_),
       titleBarHeight (26),
       menuBarHeight (24),
@@ -166,8 +165,8 @@ void DocumentWindow::closeButtonPressed()
 
         If your app is centred around this window such that the whole app should quit when
         the window is closed, then you will probably want to use this method as an opportunity
-        to call JUCEApplication::quit(), and leave the window to be deleted later by your
-        JUCEApplication::shutdown() method. (Doing it this way means that your window will
+        to call JUCEApplicationBase::quit(), and leave the window to be deleted later by your
+        JUCEApplicationBase::shutdown() method. (Doing it this way means that your window will
         still get cleaned-up if the app is quit by some other means (e.g. a cmd-Q on the mac
         or closing it via the taskbar icon on Windows).
     */
@@ -203,19 +202,19 @@ void DocumentWindow::paint (Graphics& g)
 
     const Rectangle<int> titleBarArea (getTitleBarArea());
     g.reduceClipRegion (titleBarArea);
-    g.setOrigin (titleBarArea.getX(), titleBarArea.getY());
+    g.setOrigin (titleBarArea.getPosition());
 
     int titleSpaceX1 = 6;
     int titleSpaceX2 = titleBarArea.getWidth() - 6;
 
     for (int i = 0; i < 3; ++i)
     {
-        if (titleBarButtons[i] != nullptr)
+        if (Button* const b = titleBarButtons[i])
         {
             if (positionTitleBarButtonsOnLeft)
-                titleSpaceX1 = jmax (titleSpaceX1, titleBarButtons[i]->getRight() + (getWidth() - titleBarButtons[i]->getRight()) / 8);
+                titleSpaceX1 = jmax (titleSpaceX1, b->getRight() + (getWidth() - b->getRight()) / 8);
             else
-                titleSpaceX2 = jmin (titleSpaceX2, titleBarButtons[i]->getX() - (titleBarButtons[i]->getX() / 8));
+                titleSpaceX2 = jmin (titleSpaceX2, b->getX() - (b->getX() / 8));
         }
     }
 
@@ -232,8 +231,8 @@ void DocumentWindow::resized()
 {
     ResizableWindow::resized();
 
-    if (titleBarButtons[1] != nullptr)
-        titleBarButtons[1]->setToggleState (isFullScreen(), false);
+    if (Button* const b = getMaximiseButton())
+        b->setToggleState (isFullScreen(), dontSendNotification);
 
     const Rectangle<int> titleBarArea (getTitleBarArea());
 
@@ -311,25 +310,25 @@ void DocumentWindow::lookAndFeelChanged()
 
         for (int i = 0; i < 3; ++i)
         {
-            if (titleBarButtons[i] != nullptr)
+            if (Button* const b = titleBarButtons[i])
             {
                 if (buttonListener == nullptr)
                     buttonListener = new ButtonListenerProxy (*this);
 
-                titleBarButtons[i]->addListener (buttonListener);
-                titleBarButtons[i]->setWantsKeyboardFocus (false);
+                b->addListener (buttonListener);
+                b->setWantsKeyboardFocus (false);
 
                 // (call the Component method directly to avoid the assertion in ResizableWindow)
-                Component::addAndMakeVisible (titleBarButtons[i]);
+                Component::addAndMakeVisible (b);
             }
         }
 
-        if (getCloseButton() != nullptr)
+        if (Button* const b = getCloseButton())
         {
            #if JUCE_MAC
-            getCloseButton()->addShortcut (KeyPress ('w', ModifierKeys::commandModifier, 0));
+            b->addShortcut (KeyPress ('w', ModifierKeys::commandModifier, 0));
            #else
-            getCloseButton()->addShortcut (KeyPress (KeyPress::F4Key, ModifierKeys::altModifier, 0));
+            b->addShortcut (KeyPress (KeyPress::F4Key, ModifierKeys::altModifier, 0));
            #endif
         }
     }
@@ -349,8 +348,8 @@ void DocumentWindow::activeWindowStatusChanged()
     ResizableWindow::activeWindowStatusChanged();
 
     for (int i = numElementsInArray (titleBarButtons); --i >= 0;)
-        if (titleBarButtons[i] != nullptr)
-            titleBarButtons[i]->setEnabled (isActiveWindow());
+        if (Button* const b = titleBarButtons[i])
+            b->setEnabled (isActiveWindow());
 
     if (menuBar != nullptr)
         menuBar->setEnabled (isActiveWindow());

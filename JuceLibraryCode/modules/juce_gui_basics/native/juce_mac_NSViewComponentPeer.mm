@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -43,6 +42,23 @@ namespace juce {
 #endif
 
 //==============================================================================
+static CGFloat getMainScreenHeight() noexcept
+{
+    return [[[NSScreen screens] objectAtIndex: 0] frame].size.height;
+}
+
+static void flipScreenRect (NSRect& r) noexcept
+{
+    r.origin.y = getMainScreenHeight() - (r.origin.y + r.size.height);
+}
+
+static NSRect flippedScreenRect (NSRect r) noexcept
+{
+    flipScreenRect (r);
+    return r;
+}
+
+//==============================================================================
 class NSViewComponentPeer  : public ComponentPeer
 {
 public:
@@ -65,7 +81,7 @@ public:
         appFocusChangeCallback = appFocusChanged;
         isEventBlockedByModalComps = checkEventBlockedByModalComps;
 
-        NSRect r = NSMakeRect (0, 0, (CGFloat) component.getWidth(), (CGFloat) component.getHeight());
+        NSRect r = makeNSRect (component.getLocalBounds());
 
         view = [createViewInstance() initWithFrame: r];
         setOwner (view, this);
@@ -108,7 +124,7 @@ public:
         {
             r.origin.x = (CGFloat) component.getX();
             r.origin.y = (CGFloat) component.getY();
-            r.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - (r.origin.y + r.size.height);
+            flipScreenRect (r);
 
             window = [createWindowInstance() initWithContentRect: r
                                                        styleMask: getNSWindowStyleMask (windowStyleFlags)
@@ -174,9 +190,9 @@ public:
     }
 
     //==============================================================================
-    void* getNativeHandle() const    { return view; }
+    void* getNativeHandle() const override    { return view; }
 
-    void setVisible (bool shouldBeVisible)
+    void setVisible (bool shouldBeVisible) override
     {
         if (isSharedWindow)
         {
@@ -196,29 +212,37 @@ public:
         }
     }
 
-    void setTitle (const String& title)
+    void setTitle (const String& title) override
     {
         JUCE_AUTORELEASEPOOL
+        {
+            if (! isSharedWindow)
+                [window setTitle: juceStringToNS (title)];
+        }
+    }
 
+    bool setDocumentEditedStatus (bool edited) override
+    {
+        if (! hasNativeTitleBar())
+            return false;
+
+        [window setDocumentEdited: edited];
+        return true;
+    }
+
+    void setRepresentedFile (const File& file) override
+    {
         if (! isSharedWindow)
-            [window setTitle: juceStringToNS (title)];
+            [window setRepresentedFilename: juceStringToNS (file != File::nonexistent
+                                                                ? file.getFullPathName()
+                                                                : String::empty)];
     }
 
-    void setPosition (int x, int y)
-    {
-        setBounds (x, y, component.getWidth(), component.getHeight(), false);
-    }
-
-    void setSize (int w, int h)
-    {
-        setBounds (component.getX(), component.getY(), w, h, false);
-    }
-
-    void setBounds (int x, int y, int w, int h, bool isNowFullScreen)
+    void setBounds (const Rectangle<int>& newBounds, bool isNowFullScreen) override
     {
         fullScreen = isNowFullScreen;
 
-        NSRect r = NSMakeRect ((CGFloat) x, (CGFloat) y, (CGFloat) jmax (0, w), (CGFloat) jmax (0, h));
+        NSRect r = makeNSRect (newBounds);
 
         if (isSharedWindow)
         {
@@ -234,9 +258,7 @@ public:
         }
         else
         {
-            r.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - (r.origin.y + r.size.height);
-
-            [window setFrame: [window frameRectForContentRect: r]
+            [window setFrame: [window frameRectForContentRect: flippedScreenRect (r)]
                      display: true];
         }
     }
@@ -256,37 +278,32 @@ public:
             r.origin = [viewWindow convertBaseToScreen: r.origin];
            #endif
 
-            r.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - r.origin.y - r.size.height;
+            flipScreenRect (r);
         }
         else
         {
             r.origin.y = [[view superview] frame].size.height - r.origin.y - r.size.height;
         }
 
-        return Rectangle<int> (convertToRectInt (r));
+        return convertToRectInt (r);
     }
 
-    Rectangle<int> getBounds() const
+    Rectangle<int> getBounds() const override
     {
         return getBounds (! isSharedWindow);
     }
 
-    Point<int> getScreenPosition() const
+    Point<int> localToGlobal (Point<int> relativePosition) override
     {
-        return getBounds (true).getPosition();
+        return relativePosition + getBounds (true).getPosition();
     }
 
-    Point<int> localToGlobal (const Point<int>& relativePosition)
+    Point<int> globalToLocal (Point<int> screenPosition) override
     {
-        return relativePosition + getScreenPosition();
+        return screenPosition - getBounds (true).getPosition();
     }
 
-    Point<int> globalToLocal (const Point<int>& screenPosition)
-    {
-        return screenPosition - getScreenPosition();
-    }
-
-    void setAlpha (float newAlpha)
+    void setAlpha (float newAlpha) override
     {
         if (! isSharedWindow)
         {
@@ -311,7 +328,7 @@ public:
         }
     }
 
-    void setMinimised (bool shouldBeMinimised)
+    void setMinimised (bool shouldBeMinimised) override
     {
         if (! isSharedWindow)
         {
@@ -322,12 +339,12 @@ public:
         }
     }
 
-    bool isMinimised() const
+    bool isMinimised() const override
     {
         return [window isMiniaturized];
     }
 
-    void setFullScreen (bool shouldBeFullScreen)
+    void setFullScreen (bool shouldBeFullScreen) override
     {
         if (! isSharedWindow)
         {
@@ -350,33 +367,33 @@ public:
 
                     // (can't call the component's setBounds method because that'll reset our fullscreen flag)
                     if (r != component.getBounds() && ! r.isEmpty())
-                        setBounds (r.getX(), r.getY(), r.getWidth(), r.getHeight(), shouldBeFullScreen);
+                        setBounds (r, shouldBeFullScreen);
                 }
             }
         }
     }
 
-    bool isFullScreen() const
+    bool isFullScreen() const override
     {
         return fullScreen;
     }
 
-    bool contains (const Point<int>& position, bool trueIfInAChildWindow) const
+    bool contains (Point<int> localPos, bool trueIfInAChildWindow) const override
     {
-        if (! (isPositiveAndBelow (position.getX(), component.getWidth())
-                && isPositiveAndBelow (position.getY(), component.getHeight())))
-            return false;
-
         NSRect frameRect = [view frame];
 
-        NSView* v = [view hitTest: NSMakePoint (frameRect.origin.x + position.getX(),
-                                                frameRect.origin.y + frameRect.size.height - position.getY())];
+        if (! (isPositiveAndBelow (localPos.getX(), (int) frameRect.size.width)
+             && isPositiveAndBelow (localPos.getY(), (int) frameRect.size.height)))
+            return false;
+
+        NSView* v = [view hitTest: NSMakePoint (frameRect.origin.x + localPos.getX(),
+                                                frameRect.origin.y + frameRect.size.height - localPos.getY())];
 
         return trueIfInAChildWindow ? (v != nil)
                                     : (v == view);
     }
 
-    BorderSize<int> getFrameSize() const
+    BorderSize<int> getFrameSize() const override
     {
         BorderSize<int> b;
 
@@ -409,7 +426,7 @@ public:
         return (getStyleFlags() & windowHasTitleBar) != 0;
     }
 
-    bool setAlwaysOnTop (bool alwaysOnTop)
+    bool setAlwaysOnTop (bool alwaysOnTop) override
     {
         if (! isSharedWindow)
             [window setLevel: alwaysOnTop ? NSFloatingWindowLevel
@@ -417,7 +434,7 @@ public:
         return true;
     }
 
-    void toFront (bool makeActiveWindow)
+    void toFront (bool makeActiveWindow) override
     {
         if (isSharedWindow)
             [[view superview] addSubview: view
@@ -443,7 +460,7 @@ public:
         }
     }
 
-    void toBehind (ComponentPeer* other)
+    void toBehind (ComponentPeer* other) override
     {
         NSViewComponentPeer* const otherPeer = dynamic_cast <NSViewComponentPeer*> (other);
         jassert (otherPeer != nullptr); // wrong type of window?
@@ -464,14 +481,14 @@ public:
         }
     }
 
-    void setIcon (const Image&)
+    void setIcon (const Image&) override
     {
         // to do..
     }
 
-    StringArray getAvailableRenderingEngines()
+    StringArray getAvailableRenderingEngines() override
     {
-        StringArray s (ComponentPeer::getAvailableRenderingEngines());
+        StringArray s ("Software Renderer");
 
        #if USE_COREGRAPHICS_RENDERING
         s.add ("CoreGraphics Renderer");
@@ -480,12 +497,12 @@ public:
         return s;
     }
 
-    int getCurrentRenderingEngine() const
+    int getCurrentRenderingEngine() const override
     {
         return usingCoreGraphics ? 1 : 0;
     }
 
-    void setCurrentRenderingEngine (int index)
+    void setCurrentRenderingEngine (int index) override
     {
        #if USE_COREGRAPHICS_RENDERING
         if (usingCoreGraphics != (index > 0))
@@ -520,19 +537,23 @@ public:
 
     void redirectMouseMove (NSEvent* ev)
     {
-       #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
-        if ([NSWindow windowNumberAtPoint: [[ev window] convertBaseToScreen: [ev locationInWindow]]
-              belowWindowWithWindowNumber: 0] != [window windowNumber])
+        currentModifiers = currentModifiers.withoutMouseButtons();
+
+       #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+        if ([NSWindow respondsToSelector: @selector (windowNumberAtPoint:belowWindowWithWindowNumber:)]
+             && [NSWindow windowNumberAtPoint: [[ev window] convertBaseToScreen: [ev locationInWindow]]
+                  belowWindowWithWindowNumber: 0] != [window windowNumber])
         {
-            [[NSCursor arrowCursor] set];
+            // moved into another window which overlaps this one, so trigger an exit
+            handleMouseEvent (0, Point<int> (-1, -1), currentModifiers, getMouseTime (ev));
         }
         else
        #endif
         {
-            currentModifiers = currentModifiers.withoutMouseButtons();
             sendMouseEvent (ev);
-            showArrowCursorIfNeeded();
         }
+
+        showArrowCursorIfNeeded();
     }
 
     void redirectMouseEnter (NSEvent* ev)
@@ -604,6 +625,17 @@ public:
         handleMouseWheel (0, getMousePos (ev, view), getMouseTime (ev), wheel);
     }
 
+    void redirectMagnify (NSEvent* ev)
+    {
+       #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+        const float invScale = 1.0f - [ev magnification];
+
+        if (invScale != 0.0f)
+            handleMagnifyGesture (0, getMousePos (ev, view), getMouseTime (ev), 1.0f / invScale);
+       #endif
+        (void) ev;
+    }
+
     void sendMouseEvent (NSEvent* ev)
     {
         updateModifiers (ev);
@@ -615,9 +647,11 @@ public:
         const String unicode (nsStringToJuce ([ev characters]));
         const int keyCode = getKeyCodeFromEvent (ev);
 
-        //DBG ("unicode: " + unicode + " " + String::toHexString ((int) unicode[0]));
-        //String unmodified (nsStringToJuce ([ev charactersIgnoringModifiers]));
-        //DBG ("unmodified: " + unmodified + " " + String::toHexString ((int) unmodified[0]));
+       #if JUCE_DEBUG_KEYCODES
+        DBG ("unicode: " + unicode + " " + String::toHexString ((int) unicode[0]));
+        String unmodified (nsStringToJuce ([ev charactersIgnoringModifiers]));
+        DBG ("unmodified: " + unmodified + " " + String::toHexString ((int) unmodified[0]));
+       #endif
 
         if (keyCode != 0 || unicode.isNotEmpty())
         {
@@ -644,7 +678,8 @@ public:
                             break; // (these all seem to generate unwanted garbage unicode strings)
 
                         default:
-                            if (([ev modifierFlags] & NSCommandKeyMask) != 0)
+                            if (([ev modifierFlags] & NSCommandKeyMask) != 0
+                                 || (keyCode >= NSF1FunctionKey && keyCode <= NSF35FunctionKey))
                                 textCharacter = 0;
                             break;
                     }
@@ -655,11 +690,9 @@ public:
 
                 return used;
             }
-            else
-            {
-                if (handleKeyUpOrDown (false))
-                    return true;
-            }
+
+            if (handleKeyUpOrDown (false))
+                return true;
         }
 
         return false;
@@ -667,6 +700,10 @@ public:
 
     bool redirectKeyDown (NSEvent* ev)
     {
+        // (need to retain this in case a modal loop runs in handleKeyEvent and
+        // our event object gets lost)
+        const NSObjectRetainer<NSEvent> r (ev);
+
         updateKeysDown (ev, true);
         bool used = handleKeyEvent (ev, true);
 
@@ -694,6 +731,9 @@ public:
 
     void redirectModKeyChange (NSEvent* ev)
     {
+        // (need to retain this in case a modal loop runs and our event object gets lost)
+        const NSObjectRetainer<NSEvent> r (ev);
+
         keysCurrentlyDown.clear();
         handleKeyUpOrDown (true);
 
@@ -704,19 +744,12 @@ public:
    #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
     bool redirectPerformKeyEquivalent (NSEvent* ev)
     {
-        if ([ev type] == NSKeyDown)
-            return redirectKeyDown (ev);
-        else if ([ev type] == NSKeyUp)
-            return redirectKeyUp (ev);
+        if ([ev type] == NSKeyDown)   return redirectKeyDown (ev);
+        if ([ev type] == NSKeyUp)     return redirectKeyUp (ev);
 
         return false;
     }
    #endif
-
-    bool isOpaque()
-    {
-        return component.isOpaque();
-    }
 
     void drawRect (NSRect r)
     {
@@ -754,7 +787,7 @@ public:
             const int clipW = (int) (r.size.width  + 0.5f);
             const int clipH = (int) (r.size.height + 0.5f);
 
-            RectangleList clip;
+            RectangleList<int> clip;
             getClipRects (clip, offset, clipW, clipH);
 
             if (! clip.isEmpty())
@@ -781,7 +814,7 @@ public:
                 }
 
                 CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-                CGImageRef image = juce_createCoreGraphicsImage (temp, false, colourSpace, false);
+                CGImageRef image = juce_createCoreGraphicsImage (temp, colourSpace, false);
                 CGColorSpaceRelease (colourSpace);
                 CGContextDrawImage (cg, CGRectMake (r.origin.x, r.origin.y, clipW, clipH), image);
                 CGImageRelease (image);
@@ -837,6 +870,18 @@ public:
             window = [view window];
     }
 
+    void liveResizingStart()
+    {
+        if (constrainer != nullptr)
+            constrainer->resizeStart();
+    }
+
+    void liveResizingEnd()
+    {
+        if (constrainer != nullptr)
+            constrainer->resizeEnd();
+    }
+
     NSRect constrainRect (NSRect r)
     {
         if (constrainer != nullptr
@@ -845,13 +890,9 @@ public:
             #endif
             )
         {
-            NSRect current = [window frame];
-            current.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - current.origin.y - current.size.height;
+            Rectangle<int> pos      (convertToRectInt (flippedScreenRect (r)));
+            Rectangle<int> original (convertToRectInt (flippedScreenRect ([window frame])));
 
-            r.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - r.origin.y - r.size.height;
-
-            Rectangle<int> pos (convertToRectInt (r));
-            Rectangle<int> original (convertToRectInt (current));
             const Rectangle<int> screenBounds (Desktop::getInstance().getDisplays().getTotalBounds (true));
 
            #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
@@ -868,15 +909,12 @@ public:
             {
                 constrainer->checkBounds (pos, original, screenBounds,
                                           pos.getY() != original.getY() && pos.getBottom() == original.getBottom(),
-                                          pos.getX() != original.getX() && pos.getRight() == original.getRight(),
+                                          pos.getX() != original.getX() && pos.getRight()  == original.getRight(),
                                           pos.getY() == original.getY() && pos.getBottom() != original.getBottom(),
-                                          pos.getX() == original.getX() && pos.getRight() != original.getRight());
+                                          pos.getX() == original.getX() && pos.getRight()  != original.getRight());
             }
 
-            r.origin.x = pos.getX();
-            r.origin.y = [[[NSScreen screens] objectAtIndex: 0] frame].size.height - r.size.height - pos.getY();
-            r.size.width = pos.getWidth();
-            r.size.height = pos.getHeight();
+            r = flippedScreenRect (makeNSRect (pos));
         }
 
         return r;
@@ -884,10 +922,11 @@ public:
 
     static void showArrowCursorIfNeeded()
     {
-        MouseInputSource& mouse = Desktop::getInstance().getMainMouseSource();
+        Desktop& desktop = Desktop::getInstance();
+        MouseInputSource mouse = desktop.getMainMouseSource();
 
         if (mouse.getComponentUnderMouse() == nullptr
-             && Desktop::getInstance().findComponentAt (mouse.getScreenPosition()) == nullptr)
+             && desktop.findComponentAt (mouse.getScreenPosition()) == nullptr)
         {
             [[NSCursor arrowCursor] set];
         }
@@ -1085,13 +1124,13 @@ public:
         }
     }
 
-    bool isFocused() const
+    bool isFocused() const override
     {
         return isSharedWindow ? this == currentlyFocusedPeer
                               : [window isKeyWindow];
     }
 
-    void grabFocus()
+    void grabFocus() override
     {
         if (window != nil)
         {
@@ -1102,21 +1141,21 @@ public:
         }
     }
 
-    void textInputRequired (const Point<int>&) {}
+    void textInputRequired (const Point<int>&) override {}
 
     //==============================================================================
-    void repaint (const Rectangle<int>& area)
+    void repaint (const Rectangle<int>& area) override
     {
         if (insideDrawRect)
         {
             class AsyncRepaintMessage  : public CallbackMessage
             {
             public:
-                AsyncRepaintMessage (NSViewComponentPeer* const peer_, const Rectangle<int>& rect_)
-                    : peer (peer_), rect (rect_)
+                AsyncRepaintMessage (NSViewComponentPeer* const p, const Rectangle<int>& r)
+                    : peer (p), rect (r)
                 {}
 
-                void messageCallback()
+                void messageCallback() override
                 {
                     if (ComponentPeer::isValidPeer (peer))
                         peer->repaint (rect);
@@ -1136,7 +1175,7 @@ public:
         }
     }
 
-    void performAnyPendingRepaintsNow()
+    void performAnyPendingRepaintsNow() override
     {
         [view displayIfNeeded];
     }
@@ -1163,7 +1202,7 @@ private:
         object_setInstanceVariable (viewOrWindow, "owner", newOwner);
     }
 
-    void getClipRects (RectangleList& clip, const Point<int> offset, const int clipW, const int clipH)
+    void getClipRects (RectangleList<int>& clip, const Point<int> offset, const int clipW, const int clipH)
     {
         const NSRect* rects = nullptr;
         NSInteger numRects = 0;
@@ -1309,6 +1348,7 @@ struct JuceNSViewClass   : public ObjCClass <NSView>
         addMethod (@selector (otherMouseDragged:),            mouseDragged,               "v@:@");
         addMethod (@selector (otherMouseUp:),                 mouseUp,                    "v@:@");
         addMethod (@selector (scrollWheel:),                  scrollWheel,                "v@:@");
+        addMethod (@selector (magnifyWithEvent:),             magnify,                    "v@:@");
         addMethod (@selector (acceptsFirstMouse:),            acceptsFirstMouse,          "v@:@");
         addMethod (@selector (frameChanged:),                 frameChanged,               "v@:@");
         addMethod (@selector (viewDidMoveToWindow),           viewDidMoveToWindow,        "v@:");
@@ -1356,7 +1396,7 @@ private:
 
     static void mouseDown (id self, SEL s, NSEvent* ev)
     {
-        if (JUCEApplication::isStandaloneApp())
+        if (JUCEApplicationBase::isStandaloneApp())
             asyncMouseDown (self, s, ev);
         else
             // In some host situations, the host will stop modal loops from working
@@ -1369,7 +1409,7 @@ private:
 
     static void mouseUp (id self, SEL s, NSEvent* ev)
     {
-        if (JUCEApplication::isStandaloneApp())
+        if (JUCEApplicationBase::isStandaloneApp())
             asyncMouseUp (self, s, ev);
         else
             // In some host situations, the host will stop modal loops from working
@@ -1387,6 +1427,7 @@ private:
     static void mouseEntered   (id self, SEL, NSEvent* ev)   { if (NSViewComponentPeer* const p = getOwner (self)) p->redirectMouseEnter (ev); }
     static void mouseExited    (id self, SEL, NSEvent* ev)   { if (NSViewComponentPeer* const p = getOwner (self)) p->redirectMouseExit  (ev); }
     static void scrollWheel    (id self, SEL, NSEvent* ev)   { if (NSViewComponentPeer* const p = getOwner (self)) p->redirectMouseWheel (ev); }
+    static void magnify        (id self, SEL, NSEvent* ev)   { if (NSViewComponentPeer* const p = getOwner (self)) p->redirectMagnify    (ev); }
 
     static BOOL acceptsFirstMouse (id, SEL, NSEvent*)        { return YES; }
 
@@ -1397,7 +1438,7 @@ private:
     static BOOL isOpaque (id self, SEL)
     {
         NSViewComponentPeer* const owner = getOwner (self);
-        return owner == nullptr || owner->isOpaque();
+        return owner == nullptr || owner->getComponent().isOpaque();
     }
 
     //==============================================================================
@@ -1518,9 +1559,11 @@ private:
 
     static NSRange markedRange (id self, SEL)
     {
-        NSViewComponentPeer* const owner = getOwner (self);
-        return owner->stringBeingComposed.isNotEmpty() ? NSMakeRange (0, (NSUInteger) owner->stringBeingComposed.length())
-                                                       : NSMakeRange (NSNotFound, 0);
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            if (owner->stringBeingComposed.isNotEmpty())
+                return NSMakeRange (0, (NSUInteger) owner->stringBeingComposed.length());
+
+        return NSMakeRange (NSNotFound, 0);
     }
 
     static NSRange selectedRange (id self, SEL)
@@ -1543,17 +1586,8 @@ private:
     static NSRect firstRectForCharacterRange (id self, SEL, NSRange)
     {
         if (NSViewComponentPeer* const owner = getOwner (self))
-        {
             if (Component* const comp = dynamic_cast <Component*> (owner->findCurrentTextInputTarget()))
-            {
-                const Rectangle<int> bounds (comp->getScreenBounds());
-
-                return NSMakeRect (bounds.getX(),
-                                   [[[NSScreen screens] objectAtIndex: 0] frame].size.height - bounds.getY(),
-                                   bounds.getWidth(),
-                                   bounds.getHeight());
-            }
-        }
+                return flippedScreenRect (makeNSRect (comp->getScreenBounds()));
 
         return NSZeroRect;
     }
@@ -1571,10 +1605,9 @@ private:
     #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
     static BOOL performKeyEquivalent (id self, SEL, NSEvent* ev)
     {
-        NSViewComponentPeer* const owner = getOwner (self);
-
-        if (owner != nullptr && owner->redirectPerformKeyEquivalent (ev))
-            return true;
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            if (owner->redirectPerformKeyEquivalent (ev))
+                return true;
 
         objc_super s = { self, [NSView class] };
         return objc_msgSendSuper (&s, @selector (performKeyEquivalent:), ev) != nil;
@@ -1611,12 +1644,11 @@ private:
 
     static NSDragOperation draggingUpdated (id self, SEL, id <NSDraggingInfo> sender)
     {
-        NSViewComponentPeer* const owner = getOwner (self);
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            if (owner->sendDragCallback (0, sender))
+                return NSDragOperationCopy | NSDragOperationMove | NSDragOperationGeneric;
 
-        if (owner != nullptr && owner->sendDragCallback (0, sender))
-            return NSDragOperationCopy | NSDragOperationMove | NSDragOperationGeneric;
-        else
-            return NSDragOperationNone;
+        return NSDragOperationNone;
     }
 
     static void draggingEnded (id self, SEL s, id <NSDraggingInfo> sender)
@@ -1630,7 +1662,7 @@ private:
             owner->sendDragCallback (1, sender);
     }
 
-    static BOOL prepareForDragOperation (id self, SEL, id <NSDraggingInfo>)
+    static BOOL prepareForDragOperation (id, SEL, id <NSDraggingInfo>)
     {
         return YES;
     }
@@ -1658,6 +1690,8 @@ struct JuceNSWindowClass   : public ObjCClass <NSWindow>
         addMethod (@selector (windowWillResize:toSize:),      windowWillResize,      @encode (NSSize), "@:@", @encode (NSSize));
         addMethod (@selector (zoom:),                         zoom,                  "v@:@");
         addMethod (@selector (windowWillMove:),               windowWillMove,        "v@:@");
+        addMethod (@selector (windowWillStartLiveResize:),    windowWillStartLiveResize, "v@:@");
+        addMethod (@selector (windowDidEndLiveResize:),       windowDidEndLiveResize, "v@:@");
 
        #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
         addProtocol (@protocol (NSWindowDelegate));
@@ -1738,10 +1772,21 @@ private:
 
     static void windowWillMove (id self, SEL, NSNotification*)
     {
-        NSViewComponentPeer* const owner = getOwner (self);
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            if (owner->hasNativeTitleBar())
+                owner->sendModalInputAttemptIfBlocked();
+    }
 
-        if (owner != nullptr && owner->hasNativeTitleBar())
-            owner->sendModalInputAttemptIfBlocked();
+    static void windowWillStartLiveResize (id self, SEL, NSNotification*)
+    {
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            owner->liveResizingStart();
+    }
+
+    static void windowDidEndLiveResize (id self, SEL, NSNotification*)
+    {
+        if (NSViewComponentPeer* const owner = getOwner (self))
+            owner->liveResizingEnd();
     }
 };
 
@@ -1798,9 +1843,15 @@ void ModifierKeys::updateCurrentModifiers() noexcept
 
 
 //==============================================================================
-void Desktop::createMouseInputSources()
+bool MouseInputSource::SourceList::addSource()
 {
-    mouseSources.add (new MouseInputSource (0, true));
+    if (sources.size() == 0)
+    {
+        addSource (0, true);
+        return true;
+    }
+
+    return false;
 }
 
 //==============================================================================
@@ -1843,6 +1894,8 @@ void Desktop::setKioskComponent (Component* kioskComp, bool enableOrDisable, boo
         }
     }
    #elif JUCE_SUPPORT_CARBON
+    (void) kioskComp; (void) enableOrDisable; (void) allowMenusAndBars;
+
     if (enableOrDisable)
     {
         SetSystemUIMode (kUIModeAllSuppressed, allowMenusAndBars ? kUIOptionAutoShowMenuBar : 0);
@@ -1853,6 +1906,8 @@ void Desktop::setKioskComponent (Component* kioskComp, bool enableOrDisable, boo
         SetSystemUIMode (kUIModeNormal, 0);
     }
    #else
+    (void) kioskComp; (void) enableOrDisable; (void) allowMenusAndBars;
+
     // If you're targeting OSes earlier than 10.6 and want to use this feature,
     // you'll need to enable JUCE_SUPPORT_CARBON.
     jassertfalse;

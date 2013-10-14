@@ -1,30 +1,28 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
 
-Label::Label (const String& name,
-              const String& labelText)
+Label::Label (const String& name, const String& labelText)
     : Component (name),
       textValue (labelText),
       lastTextValue (labelText),
@@ -56,7 +54,7 @@ Label::~Label()
 
 //==============================================================================
 void Label::setText (const String& newText,
-                     const bool broadcastChangeMessage)
+                     const NotificationType notification)
 {
     hideEditor (true);
 
@@ -71,7 +69,7 @@ void Label::setText (const String& newText,
         if (ownerComponent != nullptr)
             componentMovedOrResized (*ownerComponent, true, true);
 
-        if (broadcastChangeMessage)
+        if (notification != dontSendNotification)
             callChangeListeners();
     }
 }
@@ -86,7 +84,7 @@ String Label::getText (const bool returnActiveEditorContents) const
 void Label::valueChanged (Value&)
 {
     if (lastTextValue != textValue.toString())
-        setText (textValue.toString(), true);
+        setText (textValue.toString(), sendNotification);
 }
 
 //==============================================================================
@@ -99,7 +97,7 @@ void Label::setFont (const Font& newFont)
     }
 }
 
-const Font& Label::getFont() const noexcept
+Font Label::getFont() const noexcept
 {
     return font;
 }
@@ -116,7 +114,7 @@ void Label::setEditable (const bool editOnSingleClick,
     setFocusContainer (editOnSingleClick || editOnDoubleClick);
 }
 
-void Label::setJustificationType (const Justification& newJustification)
+void Label::setJustificationType (Justification newJustification)
 {
     if (justification != newJustification)
     {
@@ -161,9 +159,11 @@ void Label::attachToComponent (Component* owner, const bool onLeft)
 
 void Label::componentMovedOrResized (Component& component, bool /*wasMoved*/, bool /*wasResized*/)
 {
+    const Font f (getLookAndFeel().getLabelFont (*this));
+
     if (leftOfOwnerComp)
     {
-        setSize (jmin (getFont().getStringWidth (textValue.toString()) + 8, component.getX()),
+        setSize (jmin (f.getStringWidth (textValue.toString()) + 8, component.getX()),
                  component.getHeight());
 
         setTopRightPosition (component.getX(), component.getY());
@@ -171,7 +171,7 @@ void Label::componentMovedOrResized (Component& component, bool /*wasMoved*/, bo
     else
     {
         setSize (component.getWidth(),
-                 8 + roundToInt (getFont().getHeight()));
+                 8 + roundToInt (f.getHeight()));
 
         setTopLeftPosition (component.getX(), component.getY() - getHeight());
     }
@@ -179,8 +179,8 @@ void Label::componentMovedOrResized (Component& component, bool /*wasMoved*/, bo
 
 void Label::componentParentHierarchyChanged (Component& component)
 {
-    if (component.getParentComponent() != nullptr)
-        component.getParentComponent()->addChildComponent (this);
+    if (Component* parent = component.getParentComponent())
+        parent->addChildComponent (this);
 }
 
 void Label::componentVisibilityChanged (Component& component)
@@ -207,6 +207,10 @@ void Label::showEditor()
         editor->setText (getText(), false);
         editor->addListener (this);
         editor->grabKeyboardFocus();
+
+        if (editor == nullptr) // may be deleted by a callback
+            return;
+
         editor->setHighlightedRegion (Range<int> (0, textValue.toString().length()));
 
         resized();
@@ -285,7 +289,7 @@ bool Label::isBeingEdited() const noexcept
 TextEditor* Label::createEditorComponent()
 {
     TextEditor* const ed = new TextEditor (getName());
-    ed->setFont (font);
+    ed->applyFontToAllText (getLookAndFeel().getLabelFont (*this));
     copyAllExplicitColoursTo (*ed);
     return ed;
 }
@@ -357,16 +361,13 @@ class LabelKeyboardFocusTraverser   : public KeyboardFocusTraverser
 public:
     LabelKeyboardFocusTraverser() {}
 
-    Component* getNextComponent (Component* current)
-    {
-        return KeyboardFocusTraverser::getNextComponent (dynamic_cast <TextEditor*> (current) != nullptr
-                                                            ? current->getParentComponent() : current);
-    }
+    Component* getNextComponent (Component* c)     { return KeyboardFocusTraverser::getNextComponent (getComp (c)); }
+    Component* getPreviousComponent (Component* c) { return KeyboardFocusTraverser::getPreviousComponent (getComp (c)); }
 
-    Component* getPreviousComponent (Component* current)
+    static Component* getComp (Component* current)
     {
-        return KeyboardFocusTraverser::getPreviousComponent (dynamic_cast <TextEditor*> (current) != nullptr
-                                                                ? current->getParentComponent() : current);
+        return dynamic_cast <TextEditor*> (current) != nullptr
+                 ? current->getParentComponent() : current;
     }
 };
 

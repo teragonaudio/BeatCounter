@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-11 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -78,7 +77,7 @@ void ApplicationCommandManager::registerAllCommandsForTarget (ApplicationCommand
 {
     if (target != nullptr)
     {
-        Array <CommandID> commandIDs;
+        Array<CommandID> commandIDs;
         target->getAllCommands (commandIDs);
 
         for (int i = 0; i < commandIDs.size(); ++i)
@@ -100,7 +99,7 @@ void ApplicationCommandManager::removeCommand (const CommandID commandID)
             commands.remove (i);
             triggerAsyncUpdate();
 
-            const Array <KeyPress> keys (keyMappings->getKeyPressesAssignedToCommand (commandID));
+            const Array<KeyPress> keys (keyMappings->getKeyPressesAssignedToCommand (commandID));
 
             for (int j = keys.size(); --j >= 0;)
                 keyMappings->removeKeyPress (keys.getReference (j));
@@ -125,17 +124,19 @@ const ApplicationCommandInfo* ApplicationCommandManager::getCommandForID (const 
 
 String ApplicationCommandManager::getNameOfCommand (const CommandID commandID) const noexcept
 {
-    const ApplicationCommandInfo* const ci = getCommandForID (commandID);
+    if (const ApplicationCommandInfo* const ci = getCommandForID (commandID))
+        return ci->shortName;
 
-    return ci != nullptr ? ci->shortName : String::empty;
+    return String::empty;
 }
 
 String ApplicationCommandManager::getDescriptionOfCommand (const CommandID commandID) const noexcept
 {
-    const ApplicationCommandInfo* const ci = getCommandForID (commandID);
+    if (const ApplicationCommandInfo* const ci = getCommandForID (commandID))
+        return ci->description.isNotEmpty() ? ci->description
+                                            : ci->shortName;
 
-    return ci != nullptr ? (ci->description.isNotEmpty() ? ci->description : ci->shortName)
-                         : String::empty;
+    return String::empty;
 }
 
 StringArray ApplicationCommandManager::getCommandCategories() const
@@ -150,7 +151,7 @@ StringArray ApplicationCommandManager::getCommandCategories() const
 
 Array<CommandID> ApplicationCommandManager::getCommandsInCategory (const String& categoryName) const
 {
-    Array <CommandID> results;
+    Array<CommandID> results;
 
     for (int i = 0; i < commands.size(); ++i)
         if (commands.getUnchecked(i)->categoryName == categoryName)
@@ -247,11 +248,13 @@ ApplicationCommandTarget* ApplicationCommandManager::findDefaultComponentTarget(
 
     if (c == nullptr && Process::isForegroundProcess())
     {
+        Desktop& desktop = Desktop::getInstance();
+
         // getting a bit desperate now: try all desktop comps..
-        for (int i = Desktop::getInstance().getNumComponents(); --i >= 0;)
-            if (ApplicationCommandTarget* const target = findTargetForComponent (Desktop::getInstance().getComponent (i)
-                                                                                    ->getPeer()->getLastFocusedSubcomponent()))
-                return target;
+        for (int i = desktop.getNumComponents(); --i >= 0;)
+            if (ComponentPeer* const peer = desktop.getComponent(i)->getPeer())
+                if (ApplicationCommandTarget* const target = findTargetForComponent (peer->getLastFocusedSubcomponent()))
+                    return target;
     }
 
     if (c != nullptr)
@@ -261,8 +264,8 @@ ApplicationCommandTarget* ApplicationCommandManager::findDefaultComponentTarget(
         // still be passed up to the top level window anyway, so let's send it to the
         // content comp.
         if (ResizableWindow* const resizableWindow = dynamic_cast <ResizableWindow*> (c))
-            if (resizableWindow->getContentComponent() != nullptr)
-                c = resizableWindow->getContentComponent();
+            if (Component* const content = resizableWindow->getContentComponent())
+                c = content;
 
         if (ApplicationCommandTarget* const target = findTargetForComponent (c))
             return target;

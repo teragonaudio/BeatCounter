@@ -27,7 +27,7 @@
     <array>
       <dict>
         <key>name</key>
-        <string>BeatCounter</string>
+        <string>Teragon Audio: BeatCounter</string>
         <key>description</key>
         <string>BeatCounter</string>
         <key>factoryFunction</key>

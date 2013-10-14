@@ -5,6 +5,9 @@
     <Filter Include="BeatCounter">
       <UniqueIdentifier>{66738183-4705-2D18-F9C2-18AAF5EEB5A6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BeatCounter\Components">
+      <UniqueIdentifier>{904FF234-E511-52E6-1505-610F547C3215}</UniqueIdentifier>
+    </Filter>
     <Filter Include="BeatCounter\Source">
       <UniqueIdentifier>{7AEE64B5-1FD1-1029-6DDC-5B99DA70A8B1}</UniqueIdentifier>
     </Filter>
@@ -256,6 +259,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnob.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageSlider.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ResourceCache.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\Resources.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.cpp">
+      <Filter>BeatCounter\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\BeatCounterAudioProcessor.cpp">
       <Filter>BeatCounter\Source</Filter>
     </ClCompile>
@@ -266,6 +287,9 @@
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.cpp">
+      <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.cpp">
@@ -284,6 +308,9 @@
       <Filter>Juce Modules\juce_audio_basics\midi</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.cpp">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_BufferingAudioSource.cpp">
@@ -344,6 +371,9 @@
       <Filter>Juce Modules\juce_audio_processors\format</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.mm">
+      <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.cpp">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_VSTPluginFormat.cpp">
@@ -412,6 +442,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_ChildProcess.cpp">
       <Filter>Juce Modules\juce_core\threads</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_HighResolutionTimer.cpp">
+      <Filter>Juce Modules\juce_core\threads</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_ReadWriteLock.cpp">
       <Filter>Juce Modules\juce_core\threads</Filter>
     </ClCompile>
@@ -450,6 +483,9 @@
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\files\juce_TemporaryFile.cpp">
       <Filter>Juce Modules\juce_core\files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\network\juce_IPAddress.cpp">
+      <Filter>Juce Modules\juce_core\network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\network\juce_MACAddress.cpp">
       <Filter>Juce Modules\juce_core\network</Filter>
@@ -700,12 +736,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\geometry\juce_PathStrokeType.cpp">
       <Filter>Juce Modules\juce_graphics\geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\geometry\juce_RectangleList.cpp">
-      <Filter>Juce Modules\juce_graphics\geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\placement\juce_Justification.cpp">
-      <Filter>Juce Modules\juce_graphics\placement</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\placement\juce_RectanglePlacement.cpp">
       <Filter>Juce Modules\juce_graphics\placement</Filter>
     </ClCompile>
@@ -737,6 +767,9 @@
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_GraphicsContext.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_freetype_Fonts.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_Fonts.cpp">
@@ -782,6 +815,9 @@
       <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseEvent.cpp">
+      <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseInactivityDetector.cpp">
       <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseInputSource.cpp">
@@ -1183,6 +1219,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
@@ -1245,13 +1284,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnob.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageSlider.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PushButton.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ResourceCache.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\Resources.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\TeragonGuiComponents.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ToggleButton.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\BeatCounterAudioProcessor.h">
-      <Filter>BeatCounter\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EditorInterface.h">
-      <Filter>BeatCounter\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EditorViewController.h">
       <Filter>BeatCounter\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainEditorView.h">
@@ -1261,6 +1321,9 @@
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h">
+      <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.h">
@@ -1282,6 +1345,9 @@
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_IIRFilter.h">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_Reverb.h">
@@ -1377,9 +1443,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.h">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_DirectXPluginFormat.h">
-      <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_processors\format_types\juce_LADSPAPluginFormat.h">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
     </ClInclude>
@@ -1437,6 +1500,9 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_StringPool.h">
       <Filter>Juce Modules\juce_core\text</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_StringRef.h">
+      <Filter>Juce Modules\juce_core\text</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_TextDiff.h">
       <Filter>Juce Modules\juce_core\text</Filter>
     </ClInclude>
@@ -1459,6 +1525,9 @@
       <Filter>Juce Modules\juce_core\memory</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\memory\juce_ByteOrder.h">
+      <Filter>Juce Modules\juce_core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\memory\juce_ContainerDeletePolicy.h">
       <Filter>Juce Modules\juce_core\memory</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\memory\juce_HeapBlock.h">
@@ -1542,6 +1611,9 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_DynamicLibrary.h">
       <Filter>Juce Modules\juce_core\threads</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_HighResolutionTimer.h">
+      <Filter>Juce Modules\juce_core\threads</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\threads\juce_InterProcessLock.h">
       <Filter>Juce Modules\juce_core\threads</Filter>
     </ClInclude>
@@ -1607,6 +1679,9 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\files\juce_TemporaryFile.h">
       <Filter>Juce Modules\juce_core\files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\network\juce_IPAddress.h">
+      <Filter>Juce Modules\juce_core\network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\network\juce_MACAddress.h">
       <Filter>Juce Modules\juce_core\network</Filter>
@@ -1738,6 +1813,9 @@
       <Filter>Juce Modules\juce_events\messages</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_events\messages\juce_DeletedAtShutdown.h">
+      <Filter>Juce Modules\juce_events\messages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_events\messages\juce_Initialisation.h">
       <Filter>Juce Modules\juce_events\messages</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_events\messages\juce_Message.h">
@@ -1944,6 +2022,9 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseEvent.h">
       <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseInactivityDetector.h">
+      <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\mouse\juce_MouseInputSource.h">
       <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
     </ClInclude>
@@ -2063,6 +2144,12 @@
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\menus\juce_PopupMenu.h">
       <Filter>Juce Modules\juce_gui_basics\menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\layout\juce_AnimatedPosition.h">
+      <Filter>Juce Modules\juce_gui_basics\layout</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\layout\juce_AnimatedPositionBehaviours.h">
+      <Filter>Juce Modules\juce_gui_basics\layout</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\layout\juce_ComponentAnimator.h">
       <Filter>Juce Modules\juce_gui_basics\layout</Filter>
@@ -2272,9 +2359,6 @@
       <Filter>Juce Modules\juce_gui_basics\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\application\juce_Application.h">
-      <Filter>Juce Modules\juce_gui_basics\application</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\application\juce_Initialisation.h">
       <Filter>Juce Modules\juce_gui_basics\application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_MultiTouchMapper.h">

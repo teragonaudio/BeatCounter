@@ -1,7 +1,7 @@
 build
 *.pbxuser
 *.perspectivev3
-vstsdk2.4/*
+Third-Party/vstsdk2.4/*
 *.ncb
 *.suo
 *.user

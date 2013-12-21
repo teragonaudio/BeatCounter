@@ -10,163 +10,42 @@
 
 #include "BeatCounterAudioProcessor.h"
 #include "MainEditorView.h"
-#include "Resources.h"
 
 static char const *const kStorageName = "BeatCounterStorage";
 
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
-    tolerance = kParamToleranceDefaultValue;
-    periodSizeInSeconds = kParamPeriodDefaultValue;
-    periodSizeInSamples = 0;
-    autofilterEnabled = true;
-    autofilterFrequency = kParamAutofilterDefaultValue;
-    linkWithHostTempo = false;
+    parameters.add(new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue));
+    parameters.add(new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue));
+    parameters.add(new BooleanParameter("Autofilter", true));
+    parameters.add(new FrequencyParameter("Autofilter Frequency", kParamAutofilterMinValue, kParamAutofilterMaxValue, kParamAutofilterDefaultValue));
+    parameters.add(new BooleanParameter("Match Host Tempo", false));
+    parameters.add(new VoidParameter("Reset"));
+    parameters.add(new VoidParameter("Beat Triggered"));
+    parameters.add(new FloatParameter("Current BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
+    parameters.add(new FloatParameter("Running BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
     reset();
 }
 
-BeatCounterAudioProcessor::~BeatCounterAudioProcessor()
-{
+int BeatCounterAudioProcessor::getNumParameters() {
+    return parameters.size();
 }
 
-float BeatCounterAudioProcessor::getParameterScaled (float rawValue, float minValue, float maxValue) const
-{
-    return (rawValue - minValue) / (maxValue - minValue);
+float BeatCounterAudioProcessor::getParameter(int index) {
+    return (float)parameters[index]->getScaledValue();
 }
 
-float BeatCounterAudioProcessor::getParameterFrequency (double rawValue, float minValue, float maxValue) const
-{
-    return (float const)((log(rawValue) - log(minValue)) / (log(maxValue) - log(minValue)));
+void BeatCounterAudioProcessor::setParameter(int index, float newValue) {
+    parameters.setScaled(index, newValue);
 }
 
-//==============================================================================
-float BeatCounterAudioProcessor::getParameter (int index)
-{
-    switch (index) {
-        case kParamTolerance:
-            return getParameterScaled((float)tolerance, kParamToleranceMinValue, kParamToleranceMaxValue);
-        case kParamPeriod:
-            return getParameterScaled((float)periodSizeInSeconds, kParamPeriodMinValue, kParamPeriodMaxValue);
-        case kParamAutofilterEnabled:
-            return autofilterEnabled ? 1.0f : 0.0f;
-        case kParamAutofilterFrequency:
-            return getParameterFrequency(autofilterFrequency, kParamAutofilterMinValue, kParamAutofilterMaxValue);
-        case kParamLinkToHostTempo:
-            return linkWithHostTempo ? 1.0f : 0.0f;
-        default:
-            break;
-    }
-
-    // Only reached for special parameters
-    return 0.0f;
+const String BeatCounterAudioProcessor::getParameterName(int index) {
+    return parameters[index]->getName();
 }
 
-void BeatCounterAudioProcessor::setParameterScaled(double *destination, float scaledValue, float minValue, float maxValue)
-{
-    *destination = scaledValue * (maxValue - minValue) + minValue;
-}
-
-void BeatCounterAudioProcessor::setParameterFrequency(double *destination, float scaledValue, float minValue, float maxValue)
-{
-    *destination = exp(scaledValue * (log(maxValue) - log(minValue)) + log(minValue));
-}
-
-void BeatCounterAudioProcessor::setParameter (int index, float newValue)
-{
-    switch (index) {
-        case kParamTolerance:
-            setParameterScaled(&tolerance, newValue, kParamToleranceMinValue, kParamToleranceMaxValue);
-            break;
-        case kParamPeriod:
-            setParameterScaled(&periodSizeInSeconds, newValue, kParamPeriodMinValue, kParamPeriodMaxValue);
-            periodSizeInSamples = 0;
-            break;
-        case kParamAutofilterEnabled:
-            autofilterEnabled = (newValue > 0.5f);
-            break;
-        case kParamAutofilterFrequency:
-            setParameterFrequency(&autofilterFrequency, newValue, kParamAutofilterMinValue, kParamAutofilterMaxValue);
-            autofilterConstant = 0.0;
-            break;
-        case kParamLinkToHostTempo:
-            linkWithHostTempo = (newValue > 0.5f);
-            break;
-        default:
-            break;
-    }
-}
-
-String BeatCounterAudioProcessor::getParameterNameForStorage(int index) const
-{
-    switch (index) {
-        case kParamTolerance:
-            return "Tolerance";
-        case kParamPeriod:
-            return "Period";
-        case kParamAutofilterEnabled:
-            return "AutofilterOn";
-        case kParamAutofilterFrequency:
-            return "AutofilterFrequency";
-        case kParamLinkToHostTempo:
-            return "LinkHostTempo";
-        default:
-            return String::empty;
-    }
-}
-
-const String BeatCounterAudioProcessor::getParameterName (int index)
-{
-    switch (index) {
-        case kParamTolerance:
-            return "Tolerance";
-        case kParamPeriod:
-            return "Period";
-        case kParamAutofilterEnabled:
-            return "Autofilter On";
-        case kParamAutofilterFrequency:
-            return "Autofilter Frequency";
-        case kParamLinkToHostTempo:
-            return "Link to Host Tempo";
-        default:
-            return String::empty;
-    }
-}
-
-const String BeatCounterAudioProcessor::getParameterText (int index)
-{
-    switch (index) {
-        case kParamTolerance:
-            return String::formatted("%.0f", tolerance);
-        case kParamPeriod:
-            return String::formatted("%.1f", periodSizeInSeconds);
-        case kParamAutofilterEnabled:
-            return autofilterEnabled ? "On" : "Off";
-        case kParamAutofilterFrequency:
-            return String::formatted("%.2f", autofilterFrequency);
-        case kParamLinkToHostTempo:
-            return linkWithHostTempo ? "On" : "Off";
-        default:
-            return String::empty;
-    }
-}
-
-bool BeatCounterAudioProcessor::isParameterStored(int index) const
-{
-    switch (index) {
-        case kParamTolerance:
-            return true;
-        case kParamPeriod:
-            return true;
-        case kParamAutofilterEnabled:
-            return true;
-        case kParamAutofilterFrequency:
-            return true;
-        case kParamLinkToHostTempo:
-            return true;
-        default:
-            return false;
-    }
+const String BeatCounterAudioProcessor::getParameterText(int index) {
+    return parameters[index]->getDisplayText();
 }
 
 //==============================================================================
@@ -178,10 +57,6 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     samplesToSkip = kDownsampleFactor;
     currentBpm = 0.0f;
     runningBpm = 0.0f;
-}
-
-void BeatCounterAudioProcessor::releaseResources()
-{
 }
 
 void BeatCounterAudioProcessor::reset()
@@ -256,6 +131,9 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                         currentBpm = bpm;
                         bpmHistory.push_back(bpm);
 
+                        parameters.set("Beat Triggered", 1.0f);
+                        parameters.set("Current BPM", currentBpm);
+
                         // The sample rate is not known when a JUCE plugin is initialized, so grab it lazily here
                         if(periodSizeInSamples == 0) {
                             periodSizeInSamples = (unsigned long)(periodSizeInSeconds * getSampleRate());
@@ -278,6 +156,7 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
                             runningBpm /= (double)bpmHistory.size();
                             bpmHistory.clear();
                             numSamplesProcessed = 0;
+                            parameters.set("Running BPM", runningBpm);
                         }
                     }
                     else {
@@ -305,6 +184,35 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     }
 }
 
+void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
+    if(parameter->getName() == "Reset") {
+        reset();
+    }
+    else if(parameter->getName() == "Autofilter") {
+        autofilterEnabled = parameter->getValue() > 0.5;
+    }
+    else if(parameter->getName() == "Tolerance") {
+        tolerance = parameter->getValue();
+    }
+    else if(parameter->getName() == "Autofilter Frequency") {
+        autofilterFrequency = parameter->getValue();
+        // Yeah, you'd think that it would make sense to cache these values here, given that it's
+        // just the period size * sample rate, however the sample rate isn't necessarily available
+        // to the plugin unless playback has started (and afterwards, it is guaranteed not to change
+        // until playback stops). So this must instead be cached and calculated in processBlock().
+        // So instead we just set their values to 0, which will force processBlock() to recalculate
+        // them. Same goes for the period size below.
+        autofilterConstant = 0.0;
+    }
+    else if(parameter->getName() == "Match Host Tempo") {
+        linkWithHostTempo = parameter->getValue() > 0.5;
+    }
+    else if(parameter->getName() == "Period") {
+        periodSizeInSeconds = parameters["Period"]->getValue();
+        periodSizeInSamples = 0;
+    }
+}
+
 double BeatCounterAudioProcessor::calculateAutofilterConstant(double sampleRate, double frequency) const
 {
     return sampleRate / (2.0f * M_PI * frequency);
@@ -328,10 +236,9 @@ double BeatCounterAudioProcessor::getHostTempo() const
 void BeatCounterAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
     XmlElement xml(kStorageName);
-    for (int i = 0; i < kNumParams; ++i) {
-        if (isParameterStored(i)) {
-            xml.setAttribute(getParameterNameForStorage(i), (double)getParameter(i));
-        }
+    for (int i = 0; i < parameters.size(); ++i) {
+        PluginParameter* parameter = parameters[i];
+        xml.setAttribute(parameter->getSafeName().c_str(), parameter->getValue());
     }
     copyXmlToBinary(xml, destData);
 }
@@ -340,56 +247,15 @@ void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeI
 {
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if (xmlState != 0 && xmlState->hasTagName(kStorageName)) {
-        for (int i = 0; i < kNumParams; i++) {
-            if (isParameterStored(i)) {
-                setParameter(i, (float) xmlState->getDoubleAttribute(getParameterNameForStorage(i)));
-            }
+        for(int i = 0; i < parameters.size(); i++) {
+            PluginParameter* parameter = parameters[i];
+            parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
         }
         reset();
     }
 }
 
 //==============================================================================
-void BeatCounterAudioProcessor::onToleranceChanged(double value)
-{
-    tolerance = value;
-}
-
-void BeatCounterAudioProcessor::onFilterButtonPressed(bool isEnabled)
-{
-    setParameter(kParamAutofilterEnabled, isEnabled ? 1.0 : 0.0);
-}
-
-void BeatCounterAudioProcessor::onFilterFrequencyChanged(double value)
-{
-    autofilterFrequency = value;
-    autofilterConstant = 0.0;
-}
-
-void BeatCounterAudioProcessor::onLinkButtonPressed(bool isEnabled)
-{
-    setParameter(kParamLinkToHostTempo, isEnabled ? 1.0 : 0.0);
-}
-
-void BeatCounterAudioProcessor::onResetButtonPressed(bool isEnabled)
-{
-    reset();
-}
-
-bool BeatCounterAudioProcessor::getLinkButtonState() const {
-    return linkWithHostTempo;
-}
-
-bool BeatCounterAudioProcessor::getFilterButtonState() const {
-    return autofilterEnabled;
-}
-
-void BeatCounterAudioProcessor::onEditorClosed() {
-}
-
-
-//==============================================================================
-// This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BeatCounterAudioProcessor();

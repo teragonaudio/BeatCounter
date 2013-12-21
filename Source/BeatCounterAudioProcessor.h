@@ -14,29 +14,19 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginParameters.h"
 
-static const double kMaxAutofilterFrequency = 400.0f;
-static const double kMinAutofilterFrequency = 50.0f;
+using namespace teragon;
+
 // Effectively downsamples input from 44.1kHz -> 11kHz
 static const long kDownsampleFactor = 4;
 static const double kSilenceThreshold = 0.1;
-static const double kDefaultTempo = 0.0;
 static const double kMinimumTempo = 60.0;
 static const double kMaximumTempo = 180.0;
+static const double kDefaultTempo = 120.0;
 static const double kHostTempoLinkToleranceInBpm = 16.0;
 
-enum Parameters {
-    kParamTolerance,
-    kParamPeriod,
-    kParamAutofilterEnabled,
-    kParamAutofilterFrequency,
-    kParamLinkToHostTempo,
-
-    kNumParams
-};
-
-static const float kParamToleranceMinValue = 1.0f;
-static const float kParamToleranceMaxValue = 100.0f;
-static const float kParamToleranceDefaultValue = 75.0f;
+static const int kParamToleranceMinValue = 1;
+static const int kParamToleranceMaxValue = 100;
+static const int kParamToleranceDefaultValue = 75;
 static const float kParamPeriodMinValue = 1.0f;
 static const float kParamPeriodMaxValue = 10.0f;
 static const float kParamPeriodDefaultValue = 2.0f;
@@ -45,16 +35,15 @@ static const float kParamAutofilterMaxValue = 500.0f;
 static const float kParamAutofilterDefaultValue = 450.0f;
 
 //==============================================================================
-class BeatCounterAudioProcessor : public AudioProcessor
-{
+class BeatCounterAudioProcessor : public AudioProcessor, PluginParameterObserver {
 public:
     //==============================================================================
     BeatCounterAudioProcessor();
-    ~BeatCounterAudioProcessor();
+    ~BeatCounterAudioProcessor() {}
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock);
-    void releaseResources();
+    void releaseResources() {}
     void reset();
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
@@ -65,8 +54,7 @@ public:
     //==============================================================================
     const String getName() const { return JucePlugin_Name; }
 
-    int getNumParameters() { return kNumParams; }
-
+    int getNumParameters();
     float getParameter (int index);
     void setParameter (int index, float newValue);
 
@@ -94,29 +82,16 @@ public:
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
 
-    //==============================================================================
-    void onToleranceChanged(double value);
-    void onFilterButtonPressed(bool isEnabled);
-    void onFilterFrequencyChanged(double value);
-    void onLinkButtonPressed(bool isEnabled);
-    void onResetButtonPressed(bool isEnabled);
-    bool getFilterButtonState() const;
-    bool getLinkButtonState() const;
-    void onEditorClosed();
+    // PluginParameterObserver methods
+    virtual bool isRealtimePriority() const { return true; }
+    virtual void onParameterUpdated(const PluginParameter *parameter);
 
 private:
-    String getParameterNameForStorage(int index) const;
-    float getParameterScaled(float rawValue, float minValue, float maxValue) const;
-    float getParameterFrequency(double rawValue, float minValue, float maxValue) const;
-    void setParameterScaled(double *destination, float scaledValue, float minValue, float maxValue);
-    void setParameterFrequency(double *destination, float scaledValue, float minValue, float maxValue);
-    bool isParameterStored(int index) const;
-
     double calculateAutofilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 
 private:
-    teragon::PluginParameterSet parameters;
+    ThreadsafePluginParameterSet parameters;
 
     // Variables used by the autofilter
     bool autofilterEnabled;

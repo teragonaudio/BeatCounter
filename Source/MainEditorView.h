@@ -23,7 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "BeatCounterAudioProcessor.h"
-#include "PluginParameters.h"
+#include "TeragonGuiComponents.h"
 #include "Resources.h"
 //[/Headers]
 
@@ -41,7 +41,7 @@ class MainEditorView  : public AudioProcessorEditor
 {
 public:
     //==============================================================================
-    MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::PluginParameterSet& p, teragon::ResourceCache *r);
+    MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::ThreadsafePluginParameterSet& p, teragon::ResourceCache *r);
     ~MainEditorView();
 
     //==============================================================================
@@ -51,28 +51,23 @@ public:
     void paint (Graphics& g);
     void resized();
 
-    // Binary resources:
-    static const char* beatlightAnimation1_png;
-    static const int beatlightAnimation1_pngSize;
-    static const char* beatlightAnimation5_png;
-    static const int beatlightAnimation5_pngSize;
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    teragon::PluginParameterSet &parameters;
+    teragon::ThreadsafePluginParameterSet &parameters;
     teragon::ResourceCache *resources;
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<Label> currentBpmLabel;
     ScopedPointer<Label> runningBpmLabel;
-    ScopedPointer<ImageComponent> beatIndicatorLight;
-    ScopedPointer<Component> hostTempoButton;
-    ScopedPointer<Component> resetButton;
-    ScopedPointer<Component> toleranceKnob;
-    ScopedPointer<Component> lopassFilterFreqKnob;
-    ScopedPointer<Component> enableLopassFilterButton;
+    ScopedPointer<teragon::IndicatorLight> beatIndicatorLight;
+    ScopedPointer<teragon::PushButton> hostTempoButton;
+    ScopedPointer<teragon::ToggleButton> resetButton;
+    ScopedPointer<teragon::ImageKnobLarge> toleranceKnob;
+    ScopedPointer<teragon::ImageKnobSmall> autofilterFrequencyKnob;
+    ScopedPointer<teragon::PushButton> autofilterButton;
 
 
     //==============================================================================

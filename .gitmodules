@@ -1,6 +1,3 @@
 [submodule "Third-Party/TeragonGuiComponents"]
 	path = Third-Party/TeragonGuiComponents
 	url = git@github.com:teragonaudio/TeragonGuiComponents.git
-[submodule "Third-Party/PluginParameters"]
-	path = Third-Party/PluginParameters
-	url = git@github.com:teragonaudio/PluginParameters.git

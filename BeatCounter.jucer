@@ -1,36 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="pkoRjr" name="BeatCounter" projectType="audioplug" version="2.0.0"
+<JUCERPROJECT id="pkoRjr" name="BeatCounter" projectType="audioplug" version="2.1.0"
               bundleIdentifier="com.teragonaudio.BeatCounter" buildVST="1"
               buildAU="1" pluginName="BeatCounter" pluginDesc="BeatCounter"
               pluginManufacturer="Teragon Audio" pluginManufacturerCode="Tera"
               pluginCode="BtCt" pluginChannelConfigs="{1, 1}, {2, 2}" pluginIsSynth="0"
               pluginWantsMidiIn="0" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="1"
               pluginTailLength="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="BeatCounterAU"
-              pluginAUViewClass="BeatCounterAU_V1" pluginRTASCategory="" aaxIdentifier="com.yourcompany.BeatCounter"
+              pluginAUViewClass="BeatCounterAU_V1" pluginRTASCategory="" aaxIdentifier="com.teragonaudio.BeatCounter"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
               companyName="Teragon Audio" includeBinaryInAppConfig="1">
   <MAINGROUP id="UdUnEf" name="BeatCounter">
-    <GROUP id="{080FF247-6BBE-F359-7257-D75699F0114B}" name="Components">
-      <FILE id="AXVjAu" name="ImageKnob.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.cpp"/>
-      <FILE id="d4tpPH" name="ImageKnob.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.h"/>
-      <FILE id="uZxPCe" name="ImageSlider.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.cpp"/>
-      <FILE id="xnKBap" name="ImageSlider.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.h"/>
-      <FILE id="xmQJ14" name="IndicatorLight.cpp" compile="1" resource="0"
+    <GROUP id="{0BA4A5C2-83C6-E5A5-888D-4FA311FBF3B8}" name="Components">
+      <FILE id="HSG3cD" name="AnimationConstants.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/AnimationConstants.h"/>
+      <FILE id="SHtGqT" name="EllipsizedLabel.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/EllipsizedLabel.h"/>
+      <FILE id="eJxSqi" name="ImageKnob.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.cpp"/>
+      <FILE id="TVY779" name="ImageKnob.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnob.h"/>
+      <FILE id="qjkgqG" name="ImageKnobLarge.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnobLarge.h"/>
+      <FILE id="VisO9T" name="ImageKnobSmall.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/ImageKnobSmall.h"/>
+      <FILE id="RzNohF" name="ImageSlider.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.cpp"/>
+      <FILE id="BthEXw" name="ImageSlider.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ImageSlider.h"/>
+      <FILE id="KUzADx" name="IndicatorLight.cpp" compile="1" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.cpp"/>
-      <FILE id="PvWeBg" name="IndicatorLight.h" compile="0" resource="0"
+      <FILE id="Qg6aMK" name="IndicatorLight.h" compile="0" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h"/>
-      <FILE id="tCE0Kf" name="PushButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/PushButton.h"/>
-      <FILE id="OussLs" name="ResourceCache.cpp" compile="1" resource="0"
+      <FILE id="tJk5lw" name="PluginParameterComponent.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h"/>
+      <FILE id="sMWAgN" name="PushButton.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/PushButton.cpp"/>
+      <FILE id="XrNZ3o" name="PushButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/PushButton.h"/>
+      <FILE id="d9RW4P" name="ResourceCache.cpp" compile="1" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.cpp"/>
-      <FILE id="PoNEgH" name="ResourceCache.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.h"/>
-      <FILE id="jSkoyr" name="Resources.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/Resources.cpp"/>
-      <FILE id="GvVZdL" name="Resources.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/Resources.h"/>
-      <FILE id="RKOAox" name="TeragonGuiComponents.h" compile="0" resource="0"
+      <FILE id="tiKgjW" name="ResourceCache.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ResourceCache.h"/>
+      <FILE id="XYK1tD" name="Resources.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/Resources.cpp"/>
+      <FILE id="gkJ5nd" name="Resources.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/Resources.h"/>
+      <FILE id="YvtMJa" name="StatusBar.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/StatusBar.cpp"/>
+      <FILE id="Nyt9LO" name="StatusBar.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/StatusBar.h"/>
+      <FILE id="pzENcF" name="TeragonGuiComponents.h" compile="0" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/TeragonGuiComponents.h"/>
-      <FILE id="jXmrfl" name="ThinButton.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ThinButton.cpp"/>
-      <FILE id="lLItcG" name="ThinButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ThinButton.h"/>
-      <FILE id="FqR7Vu" name="ToggleButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ToggleButton.h"/>
+      <FILE id="gxycr8" name="ThinButton.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ThinButton.cpp"/>
+      <FILE id="O7h5cB" name="ThinButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ThinButton.h"/>
+      <FILE id="NSIoFt" name="ToggleButton.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/ToggleButton.h"/>
+    </GROUP>
+    <GROUP id="{49EFCF0F-2E58-2A36-0473-1DF67041C996}" name="PluginParameters">
+      <FILE id="KVCR6p" name="BooleanParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/BooleanParameter.h"/>
+      <FILE id="wH71Rn" name="DecibelParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/DecibelParameter.h"/>
+      <FILE id="Tlqkhz" name="Event.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/Event.h"/>
+      <FILE id="VW7mtv" name="EventDispatcher.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/EventDispatcher.h"/>
+      <FILE id="oFynKA" name="FloatParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FloatParameter.h"/>
+      <FILE id="QpwPav" name="FrequencyParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/FrequencyParameter.h"/>
+      <FILE id="u18awm" name="IntegerParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/IntegerParameter.h"/>
+      <FILE id="An1jfo" name="PluginParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameter.h"/>
+      <FILE id="P5ILSt" name="PluginParameters.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameters.h"/>
+      <FILE id="y42W8I" name="PluginParameterSet.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/PluginParameterSet.h"/>
+      <GROUP id="{49A91CBF-D407-46F8-CFB4-5FC358DDEEB3}" name="readerwriterqueue">
+        <FILE id="v1Cnbr" name="atomicops.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/atomicops.h"/>
+        <FILE id="EwHdj1" name="readerwriterqueue.h" compile="0" resource="0"
+              file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/readerwriterqueue/readerwriterqueue.h"/>
+      </GROUP>
+      <FILE id="R3TUfA" name="StringParameter.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/StringParameter.h"/>
+      <FILE id="OMNgE9" name="ThreadsafePluginParameterSet.h" compile="0"
+            resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/ThreadsafePluginParameterSet.h"/>
+      <GROUP id="{4B34AFB2-D6AB-5F53-F9F1-BBC3279E6DC7}" name="tinythread">
+        <GROUP id="{71E74880-BA41-3F52-3C1B-DF8FD990AF01}" name="source">
+          <FILE id="UTIKh1" name="fast_mutex.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/fast_mutex.h"/>
+          <FILE id="PjLu2s" name="tinythread.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.cpp"/>
+          <FILE id="xhtj5R" name="tinythread.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/tinythread/source/tinythread.h"/>
+        </GROUP>
+      </GROUP>
+      <FILE id="zk9qpq" name="VoidParameter.h" compile="0" resource="0" file="Third-Party/TeragonGuiComponents/Components/PluginParameters/include/VoidParameter.h"/>
     </GROUP>
     <GROUP id="{8094F2E0-6E2F-95DB-1977-1759C6EF0A66}" name="Source">
       <FILE id="XEg7NH" name="BeatCounterAudioProcessor.cpp" compile="1"
@@ -59,7 +110,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="Third-Party/vstsdk2.4"
                postbuildCommand="&#13;&#10;# This script takes the build product and copies it to the AU, VST, and RTAS folders, depending on &#13;&#10;# which plugin types you've built&#13;&#10;&#13;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#13;&#10;&#13;&#10;# this looks inside the binary to detect which platforms are needed.. &#13;&#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#13;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#13;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#13;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetEffectDescriptions' | wc -l&#96;&#13;&#10;&#13;&#10;if [ $copyAU -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#13;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#13;&#10;  if [ -d &quot;$AU&quot; ]; then &#13;&#10;    rm -r &quot;$AU&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST folder...&quot;&#13;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#13;&#10;  if [ -d &quot;$VST&quot; ]; then &#13;&#10;    rm -r &quot;$VST&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyRTAS -gt 0 ]; then&#13;&#10;  echo &quot;Copying to RTAS folder...&quot;&#13;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#13;&#10;  if [ -d &quot;$RTAS&quot; ]; then&#13;&#10;    rm -r &quot;$RTAS&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyAAX -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AAX folder...&quot;&#13;&#10;&#13;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#13;&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#13;&#10;      rm -r &quot;$AAX1&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -r &quot;$original&quot; &quot;$AAX1&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#13;&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#13;&#10;      rm -r &quot;$AAX2&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -r &quot;$original&quot; &quot;$AAX2&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;"
-               extraCompilerFlags="-I../../Third-Party/PluginParameters/include -I../../Third-Party/TeragonGuiComponents/Components/Source">
+               extraCompilerFlags="-I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include"
+               extraDefs="ENABLE_MULTITHREADED=1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="BeatCounter"/>
@@ -79,7 +131,8 @@
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2010 targetFolder="Builds/VisualStudio2010" libraryType="1" vstFolder="Third-Party\vstsdk2.4">
+    <VS2010 targetFolder="Builds/VisualStudio2010" libraryType="1" vstFolder="Third-Party\vstsdk2.4"
+            extraDefs="ENABLE_MULTITHREADED=1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="BeatCounter"/>
@@ -100,7 +153,8 @@
       </MODULEPATHS>
     </VS2010>
     <LINUX_MAKE targetFolder="Builds/Linux" vstFolder="Third-Party/vstsdk2.4"
-                extraCompilerFlags="-I../../Third-Party/PluginParameters/include -I../../Third-Party/TeragonGuiComponents/Components/Source">
+                extraCompilerFlags="-I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include"
+                extraDefs="ENABLE_MULTITHREADED=1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="BeatCounter"/>

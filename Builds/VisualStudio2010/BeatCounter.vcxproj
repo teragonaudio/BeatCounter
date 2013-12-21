@@ -18,12 +18,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
-    <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
@@ -54,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\Third-Party\vstsdk2.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2010_78A501D=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;ENABLE_MULTITHREADED=1;JUCER_VS2010_78A501D=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -95,7 +93,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\Third-Party\vstsdk2.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2010_78A501D=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_MULTITHREADED=1;JUCER_VS2010_78A501D=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -130,9 +128,12 @@
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnob.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageSlider.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.cpp"/>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PushButton.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ResourceCache.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\Resources.cpp"/>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\StatusBar.cpp"/>
     <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.cpp"/>
+    <ClCompile Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\tinythread.cpp"/>
     <ClCompile Include="..\..\Source\BeatCounterAudioProcessor.cpp"/>
     <ClCompile Include="..\..\Source\MainEditorView.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -372,7 +373,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\xml\juce_XmlElement.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\json\juce_JSON.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\javascript\juce_Javascript.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\javascript\juce_JSON.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\zip\juce_GZIPCompressorOutputStream.cpp">
@@ -406,6 +410,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_android_Threads.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_linux_CommonFile.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_linux_Files.cpp">
@@ -873,6 +880,15 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V1.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V2.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\filebrowser\juce_DirectoryContentsDisplayComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -966,9 +982,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\documents\juce_FileBasedDocument.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\lookandfeel\juce_OldSchoolLookAndFeel.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\misc\juce_BubbleMessageComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1039,15 +1052,38 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_plugin_client\VST\juce_VST_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\AnimationConstants.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\EllipsizedLabel.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnob.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnobLarge.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnobSmall.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageSlider.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PluginParameterComponent.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PushButton.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ResourceCache.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\Resources.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\StatusBar.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\TeragonGuiComponents.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ThinButton.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ToggleButton.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\BooleanParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\DecibelParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\Event.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\EventDispatcher.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\FloatParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\FrequencyParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\IntegerParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameters.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\PluginParameterSet.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\readerwriterqueue\atomicops.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\readerwriterqueue\readerwriterqueue.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\StringParameter.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\ThreadsafePluginParameterSet.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\fast_mutex.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\tinythread\source\tinythread.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\PluginParameters\include\VoidParameter.h"/>
     <ClInclude Include="..\..\Source\BeatCounterAudioProcessor.h"/>
     <ClInclude Include="..\..\Source\MainEditorView.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
@@ -1192,7 +1228,8 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\system\juce_TargetPlatform.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\xml\juce_XmlDocument.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\xml\juce_XmlElement.h"/>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\json\juce_JSON.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\javascript\juce_Javascript.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\javascript\juce_JSON.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\zip\juce_GZIPCompressorOutputStream.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\zip\juce_GZIPDecompressorInputStream.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\zip\juce_ZipFile.h"/>
@@ -1376,6 +1413,9 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\properties\juce_SliderPropertyComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\properties\juce_TextPropertyComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V1.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V2.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\filebrowser\juce_DirectoryContentsDisplayComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\filebrowser\juce_DirectoryContentsList.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_basics\filebrowser\juce_FileBrowserComponent.h"/>
@@ -1409,7 +1449,6 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_ActiveXControlComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_NSViewComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_UIViewComponent.h"/>
-    <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\lookandfeel\juce_OldSchoolLookAndFeel.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\misc\juce_AppleRemote.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\misc\juce_BubbleMessageComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\misc\juce_ColourSelector.h"/>

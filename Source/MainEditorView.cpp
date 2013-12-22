@@ -32,22 +32,6 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
       parameters(p),
       resources(r)
 {
-    addAndMakeVisible (currentBpmLabel = new Label ("Current BPM Label",
-                                                    "---.--"));
-    currentBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.00f, Font::plain));
-    currentBpmLabel->setJustificationType (Justification::centredLeft);
-    currentBpmLabel->setEditable (false, false, false);
-    currentBpmLabel->setColour (TextEditor::textColourId, Colours::black);
-    currentBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    addAndMakeVisible (runningBpmLabel = new Label ("Running BPM Label",
-                                                    "---.--"));
-    runningBpmLabel->setFont (Font (Font::getDefaultMonospacedFontName(), 24.00f, Font::plain));
-    runningBpmLabel->setJustificationType (Justification::centredLeft);
-    runningBpmLabel->setEditable (false, false, false);
-    runningBpmLabel->setColour (TextEditor::textColourId, Colours::black);
-    runningBpmLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
     addAndMakeVisible (beatIndicatorLight = new teragon::IndicatorLight (parameters,
                                                                          "Beat Triggered",
                                                                          resources));
@@ -78,6 +62,13 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
                                                                    resources));
     autofilterButton->setName ("enable autofilter");
 
+    addAndMakeVisible (currentBpmLabel = new teragon::ParameterLabel());
+    currentBpmLabel->setName ("current bpm label");
+
+    addAndMakeVisible (runningBpmLabel = new teragon::ParameterLabel (parameters,
+                                                                      "Running BPM"));
+    runningBpmLabel->setName ("running bpm label");
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -94,14 +85,14 @@ MainEditorView::~MainEditorView()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    currentBpmLabel = nullptr;
-    runningBpmLabel = nullptr;
     beatIndicatorLight = nullptr;
     hostTempoButton = nullptr;
     resetButton = nullptr;
     toleranceKnob = nullptr;
     autofilterFrequencyKnob = nullptr;
     autofilterButton = nullptr;
+    currentBpmLabel = nullptr;
+    runningBpmLabel = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -123,14 +114,14 @@ void MainEditorView::paint (Graphics& g)
 
 void MainEditorView::resized()
 {
-    currentBpmLabel->setBounds (104, 24, 88, 24);
-    runningBpmLabel->setBounds (104, 56, 88, 24);
     beatIndicatorLight->setBounds (191, 104, 24, 24);
     hostTempoButton->setBounds (18, 104, 70, 40);
     resetButton->setBounds (104, 104, 70, 40);
     toleranceKnob->setBounds (341, 18, 113, 113);
     autofilterFrequencyKnob->setBounds (245, 18, 66, 66);
     autofilterButton->setBounds (243, 104, 70, 40);
+    currentBpmLabel->setBounds (40, 24, 104, 24);
+    runningBpmLabel->setBounds (80, 64, 104, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -156,16 +147,6 @@ BEGIN_JUCER_METADATA
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="472" initialHeight="162">
   <BACKGROUND backgroundColour="ff000000"/>
-  <LABEL name="Current BPM Label" id="4e3ed08c8c5358ee" memberName="currentBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="104 24 88 24" edTextCol="ff000000"
-         edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
-         bold="0" italic="0" justification="33"/>
-  <LABEL name="Running BPM Label" id="bb007035ee015793" memberName="runningBpmLabel"
-         virtualName="" explicitFocusOrder="0" pos="104 56 88 24" edTextCol="ff000000"
-         edBkgCol="0" labelText="---.--" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default monospaced font" fontsize="24"
-         bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="BeatIndicatorLight" id="9597f0a11978ce24" memberName="beatIndicatorLight"
                     virtualName="teragon::IndicatorLight" explicitFocusOrder="0"
                     pos="191 104 24 24" class="Component" params="parameters,&#10;&quot;Beat Triggered&quot;,&#10;resources"/>
@@ -184,6 +165,12 @@ BEGIN_JUCER_METADATA
   <GENERICCOMPONENT name="enable autofilter" id="3734e39975c01330" memberName="autofilterButton"
                     virtualName="teragon::PushButton" explicitFocusOrder="0" pos="243 104 70 40"
                     class="Component" params="parameters,&#10;&quot;Autofilter&quot;,&#10;resources"/>
+  <GENERICCOMPONENT name="current bpm label" id="97bbaab7b99b9c83" memberName="currentBpmLabel"
+                    virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
+                    pos="40 24 104 24" class="Component" params=""/>
+  <GENERICCOMPONENT name="running bpm label" id="9e8fda42544a544" memberName="runningBpmLabel"
+                    virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
+                    pos="80 64 104 24" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

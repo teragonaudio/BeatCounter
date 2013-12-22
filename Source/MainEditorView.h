@@ -60,14 +60,14 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Label> currentBpmLabel;
-    ScopedPointer<Label> runningBpmLabel;
     ScopedPointer<teragon::IndicatorLight> beatIndicatorLight;
     ScopedPointer<teragon::PushButton> hostTempoButton;
     ScopedPointer<teragon::ToggleButton> resetButton;
     ScopedPointer<teragon::ImageKnobLarge> toleranceKnob;
     ScopedPointer<teragon::ImageKnobSmall> autofilterFrequencyKnob;
     ScopedPointer<teragon::PushButton> autofilterButton;
+    ScopedPointer<teragon::ParameterLabel> currentBpmLabel;
+    ScopedPointer<teragon::ParameterLabel> runningBpmLabel;
 
 
     //==============================================================================

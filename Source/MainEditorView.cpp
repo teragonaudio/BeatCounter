@@ -89,6 +89,9 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
 
     //[Constructor] You can add your own custom stuff here..
     statusBar->subscribeToParameters();
+    statusBar->ignoreParameter("Current BPM");
+    statusBar->ignoreParameter("Running BPM");
+    statusBar->ignoreParameter("Beat Triggered");
     //[/Constructor]
 }
 

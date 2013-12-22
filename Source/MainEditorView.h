@@ -51,6 +51,9 @@ public:
     void paint (Graphics& g);
     void resized();
 
+    // Binary resources:
+    static const char* background_png;
+    static const int background_pngSize;
 
 
 private:
@@ -68,6 +71,9 @@ private:
     ScopedPointer<teragon::PushButton> autofilterButton;
     ScopedPointer<teragon::ParameterLabel> currentBpmLabel;
     ScopedPointer<teragon::ParameterLabel> runningBpmLabel;
+    ScopedPointer<teragon::ImageKnobLarge> periodKnob;
+    ScopedPointer<teragon::StatusBar> statusBar;
+    Image cachedImage_background_png;
 
 
     //==============================================================================

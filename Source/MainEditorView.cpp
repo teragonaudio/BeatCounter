@@ -92,6 +92,10 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     statusBar->ignoreParameter("Current BPM");
     statusBar->ignoreParameter("Running BPM");
     statusBar->ignoreParameter("Beat Triggered");
+    currentBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    currentBpmLabel->setJustificationType(Justification::centredLeft);
+    runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    runningBpmLabel->setJustificationType(Justification::centredLeft);
     //[/Constructor]
 }
 
@@ -133,13 +137,13 @@ void MainEditorView::paint (Graphics& g)
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     g.drawText ("Current BPM:",
-                24, 18, 112, 32,
+                30, 18, 112, 32,
                 Justification::centredLeft, true);
 
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     g.drawText ("Running BPM:",
-                24, 52, 112, 32,
+                30, 52, 112, 32,
                 Justification::centredLeft, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -184,10 +188,10 @@ BEGIN_JUCER_METADATA
                  fixedSize="1" initialWidth="581" initialHeight="210">
   <BACKGROUND backgroundColour="ff000000">
     <IMAGE pos="0 0 581 210" resource="background_png" opacity="1" mode="0"/>
-    <TEXT pos="24 18 112 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
+    <TEXT pos="30 18 112 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
           fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="24 52 112 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
+    <TEXT pos="30 52 112 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
           fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
           justification="33"/>
   </BACKGROUND>

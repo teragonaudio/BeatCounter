@@ -30,9 +30,9 @@ static const int kParamToleranceDefaultValue = 75;
 static const float kParamPeriodMinValue = 1.0f;
 static const float kParamPeriodMaxValue = 10.0f;
 static const float kParamPeriodDefaultValue = 2.0f;
-static const float kParamAutofilterMinValue = 50.0f;
-static const float kParamAutofilterMaxValue = 500.0f;
-static const float kParamAutofilterDefaultValue = 450.0f;
+static const float kParamFilterMinValue = 50.0f;
+static const float kParamFilterMaxValue = 500.0f;
+static const float kParamFilterDefaultValue = 450.0f;
 
 //==============================================================================
 class BeatCounterAudioProcessor : public AudioProcessor, PluginParameterObserver {
@@ -87,17 +87,17 @@ public:
     virtual void onParameterUpdated(const PluginParameter *parameter);
 
 private:
-    double calculateAutofilterConstant(double sampleRate, double frequency) const;
+    double calculateFilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 
 private:
     ThreadsafePluginParameterSet parameters;
 
-    // Variables used by the autofilter
-    bool autofilterEnabled;
-    double autofilterOutput;
-    double autofilterConstant;
-    double autofilterFrequency;
+    // Variables used by the lopass filter
+    bool filterEnabled;
+    double filterOutput;
+    double filterConstant;
+    double filterFrequency;
 
     // How loud a beat must be, relative to the highest known amplitude, in order to trigger the start of beat state
     double tolerance;

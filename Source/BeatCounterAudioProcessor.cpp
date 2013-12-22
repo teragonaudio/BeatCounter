@@ -18,9 +18,9 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
     parameters.add(new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue));
     parameters.add(new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue));
-    parameters.add(new BooleanParameter("Autofilter", true));
-    parameters.add(new FrequencyParameter("Autofilter Frequency", kParamAutofilterMinValue, kParamAutofilterMaxValue, kParamAutofilterDefaultValue));
-    parameters.add(new BooleanParameter("Match Host Tempo", false));
+    parameters.add(new BooleanParameter("Filter", true));
+    parameters.add(new FrequencyParameter("Filter Frequency", kParamFilterMinValue, kParamFilterMaxValue, kParamFilterDefaultValue));
+    parameters.add(new BooleanParameter("Use Host Tempo", false));
     parameters.add(new VoidParameter("Reset"));
     parameters.add(new VoidParameter("Beat Triggered"));
     parameters.add(new FloatParameter("Current BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
@@ -62,8 +62,8 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 void BeatCounterAudioProcessor::reset()
 {
     bpmHistory.clear();
-    autofilterOutput = 0.0f;
-    autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
+    filterOutput = 0.0f;
+    filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency);
     numSamplesProcessed = 0;
     highestAmplitude = 0.0;
     highestAmplitudeInPeriod = 0.0;
@@ -80,14 +80,14 @@ void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
         float currentSample = *buffer.getSampleData(0, i);
         double currentSampleAmplitude;
 
-        if(autofilterEnabled) {
+        if(filterEnabled) {
             // This relies on the sample rate which may not be available during initialization
-            if(autofilterConstant == 0.0) {
-                autofilterConstant = calculateAutofilterConstant(getSampleRate(), autofilterFrequency);
+            if(filterConstant == 0.0) {
+                filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency);
             }
             // Basic lowpass filter (feedback)
-            autofilterOutput += (currentSample - autofilterOutput) / autofilterConstant;
-            currentSampleAmplitude = fabs(autofilterOutput);
+            filterOutput += (currentSample - filterOutput) / filterConstant;
+            currentSampleAmplitude = fabs(filterOutput);
         }
         else {
             currentSampleAmplitude = fabs(currentSample);
@@ -188,23 +188,23 @@ void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parame
     if(parameter->getName() == "Reset") {
         reset();
     }
-    else if(parameter->getName() == "Autofilter") {
-        autofilterEnabled = parameter->getValue() > 0.5;
+    else if(parameter->getName() == "Filter") {
+        filterEnabled = parameter->getValue() > 0.5;
     }
     else if(parameter->getName() == "Tolerance") {
         tolerance = parameter->getValue();
     }
-    else if(parameter->getName() == "Autofilter Frequency") {
-        autofilterFrequency = parameter->getValue();
+    else if(parameter->getName() == "Filter Frequency") {
+        filterFrequency = parameter->getValue();
         // Yeah, you'd think that it would make sense to cache these values here, given that it's
         // just the period size * sample rate, however the sample rate isn't necessarily available
         // to the plugin unless playback has started (and afterwards, it is guaranteed not to change
         // until playback stops). So this must instead be cached and calculated in processBlock().
         // So instead we just set their values to 0, which will force processBlock() to recalculate
         // them. Same goes for the period size below.
-        autofilterConstant = 0.0;
+        filterConstant = 0.0;
     }
-    else if(parameter->getName() == "Match Host Tempo") {
+    else if(parameter->getName() == "Use Host Tempo") {
         linkWithHostTempo = parameter->getValue() > 0.5;
     }
     else if(parameter->getName() == "Period") {
@@ -213,7 +213,7 @@ void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parame
     }
 }
 
-double BeatCounterAudioProcessor::calculateAutofilterConstant(double sampleRate, double frequency) const
+double BeatCounterAudioProcessor::calculateFilterConstant(double sampleRate, double frequency) const
 {
     return sampleRate / (2.0f * M_PI * frequency);
 }

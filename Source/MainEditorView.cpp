@@ -38,7 +38,7 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     beatIndicatorLight->setName ("BeatIndicatorLight");
 
     addAndMakeVisible (hostTempoButton = new teragon::PushButton (parameters,
-                                                                  "Match Host Tempo",
+                                                                  "Use Host Tempo",
                                                                   resources));
     hostTempoButton->setName ("host tempo button");
 

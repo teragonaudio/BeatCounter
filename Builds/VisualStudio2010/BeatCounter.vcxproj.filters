@@ -1335,6 +1335,9 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.h">
       <Filter>BeatCounter\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ParameterLabel.h">
+      <Filter>BeatCounter\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PluginParameterComponent.h">
       <Filter>BeatCounter\Components</Filter>
     </ClInclude>

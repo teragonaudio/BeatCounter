@@ -28,6 +28,8 @@
             file="Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.cpp"/>
       <FILE id="Qg6aMK" name="IndicatorLight.h" compile="0" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h"/>
+      <FILE id="SeK1UU" name="ParameterLabel.h" compile="0" resource="0"
+            file="Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.h"/>
       <FILE id="tJk5lw" name="PluginParameterComponent.h" compile="0" resource="0"
             file="Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h"/>
       <FILE id="sMWAgN" name="PushButton.cpp" compile="1" resource="0" file="Third-Party/TeragonGuiComponents/Components/Source/PushButton.cpp"/>

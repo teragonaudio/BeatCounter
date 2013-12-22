@@ -1059,6 +1059,7 @@
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageKnobSmall.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ImageSlider.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\IndicatorLight.h"/>
+    <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ParameterLabel.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PluginParameterComponent.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\PushButton.h"/>
     <ClInclude Include="..\..\Third-Party\TeragonGuiComponents\Components\Source\ResourceCache.h"/>

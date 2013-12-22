@@ -2458,6 +2458,12 @@
     <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/IndicatorLight.h" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.cpp">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/ParameterLabel.h" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h">
       <sourceFolder url="file://$MODULE_DIR$/../../Third-Party/TeragonGuiComponents/Components/Source/PluginParameterComponent.h" isTestSource="false" />
     </content>

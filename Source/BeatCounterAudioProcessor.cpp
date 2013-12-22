@@ -79,6 +79,9 @@ void BeatCounterAudioProcessor::reset()
     numSamplesSinceLastBeat = 0;
     currentBpm = 0.0;
     runningBpm = 0.0;
+    parameters.set("Current BPM", currentBpm);
+    parameters.set("Running BPM", runningBpm);
+    parameters.processRealtimeEvents();
 }
 
 void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {

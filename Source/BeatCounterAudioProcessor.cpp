@@ -16,22 +16,29 @@ static char const *const kStorageName = "BeatCounterStorage";
 //==============================================================================
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
-    parameters.add(new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue));
-    parameters["Tolerance"]->addObserver(this);
-    parameters.add(new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue));
-    parameters["Period"]->addObserver(this);
-    parameters.add(new BooleanParameter("Filter", true));
-    parameters["Filter"]->addObserver(this);
-    parameters.add(new FrequencyParameter("Filter Frequency", kParamFilterMinValue, kParamFilterMaxValue, kParamFilterDefaultValue));
-    parameters["Filter Frequency"]->addObserver(this);
-    parameters.add(new BooleanParameter("Use Host Tempo", false));
-    parameters["Use Host Tempo"]->addObserver(this);
+    tolerance = new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue);
+    parameters.add(tolerance);
+
+    period = new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue);
+    parameters.add(period);
+
+    filterEnabled = new BooleanParameter("Filter", true);
+    parameters.add(filterEnabled);
+
+    filterFrequency = new FrequencyParameter("Filter Frequency", kParamFilterMinValue, kParamFilterMaxValue, kParamFilterDefaultValue);
+    filterFrequency->addObserver(this);
+    parameters.add(filterFrequency);
+
+    useHostTempo = new BooleanParameter("Use Host Tempo", false);
+    parameters.add(useHostTempo);
+
     parameters.add(new VoidParameter("Reset"));
     parameters["Reset"]->addObserver(this);
 
     parameters.add(new VoidParameter("Beat Triggered"));
     parameters.add(new FloatParameter("Current BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
     parameters.add(new FloatParameter("Running BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
+
     reset();
 }
 
@@ -62,26 +69,26 @@ void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float) maximumAllowedBpm));
     samplesToSkip = kDownsampleFactor;
-    currentBpm = 0.0f;
-    runningBpm = 0.0f;
+    parameters.set("Current BPM", 0.0);
+    parameters.set("Running BPM", 0.0);
+    runningBpm = 0.0;
 }
 
 void BeatCounterAudioProcessor::reset()
 {
     bpmHistory.clear();
     filterOutput = 0.0f;
-    filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency);
+    filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency->getValue());
     numSamplesProcessed = 0;
     highestAmplitude = 0.0;
     highestAmplitudeInPeriod = 0.0;
     currentlyInsideBeat = false;
     beatLengthRunningAverage = 0;
     numSamplesSinceLastBeat = 0;
-    currentBpm = 0.0;
-    runningBpm = 0.0;
-    parameters.set("Current BPM", currentBpm);
-    parameters.set("Running BPM", runningBpm);
+    parameters.set("Current BPM", 0.0);
+    parameters.set("Running BPM", 0.0);
     parameters.processRealtimeEvents();
+    runningBpm = 0.0;
 }
 
 void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
@@ -94,7 +101,7 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         if(filterEnabled) {
             // This relies on the sample rate which may not be available during initialization
             if(filterConstant == 0.0) {
-                filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency);
+                filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency->getValue());
             }
             // Basic lowpass filter (feedback)
             filterOutput += (currentSample - filterOutput) / filterConstant;
@@ -118,7 +125,7 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         if(--samplesToSkip <= 0) {
 
             // Beat amplitude trigger has been detected
-            if(highestAmplitudeInPeriod >= (highestAmplitude * tolerance / 100.0) &&
+            if(highestAmplitudeInPeriod >= (highestAmplitude * tolerance->getValue() / 100.0) &&
                     highestAmplitudeInPeriod > kSilenceThreshold) {
 
                 // First sample inside of a beat?
@@ -139,22 +146,15 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 
                     // Check to see that this tempo is within the limits allowed
                     if(bpm > minimumAllowedBpm && bpm < maximumAllowedBpm) {
-                        currentBpm = bpm;
                         bpmHistory.push_back(bpm);
-
                         parameters.set("Beat Triggered", 1.0f);
-                        parameters.set("Current BPM", currentBpm);
-
-                        // The sample rate is not known when a JUCE plugin is initialized, so grab it lazily here
-                        if(periodSizeInSamples == 0) {
-                            periodSizeInSamples = (unsigned long)(periodSizeInSeconds * getSampleRate());
-                        }
+                        parameters.set("Current BPM", bpm);
 
                         // Do total BPM and Reset?
-                        if(numSamplesProcessed > periodSizeInSamples) {
+                        if(numSamplesProcessed > period->getValue() * getSampleRate()) {
                             // Take advantage of this trigger point to do a tempo check and adjust the minimum
                             // and maximum BPM ranges accordingly.
-                            if(linkWithHostTempo) {
+                            if(useHostTempo->getValue()) {
                                 minimumAllowedBpm = getHostTempo() - kHostTempoLinkToleranceInBpm;
                                 maximumAllowedBpm = getHostTempo() + kHostTempoLinkToleranceInBpm;
                                 cooldownPeriodInSamples = (unsigned long)(getSampleRate() * (60.0 / maximumAllowedBpm));
@@ -199,28 +199,14 @@ void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parame
     if(parameter->getName() == "Reset") {
         reset();
     }
-    else if(parameter->getName() == "Filter") {
-        filterEnabled = parameter->getValue() > 0.5;
-    }
-    else if(parameter->getName() == "Tolerance") {
-        tolerance = parameter->getValue();
-    }
     else if(parameter->getName() == "Filter Frequency") {
-        filterFrequency = parameter->getValue();
         // Yeah, you'd think that it would make sense to cache these values here, given that it's
         // just the period size * sample rate, however the sample rate isn't necessarily available
         // to the plugin unless playback has started (and afterwards, it is guaranteed not to change
         // until playback stops). So this must instead be cached and calculated in processBlock().
         // So instead we just set their values to 0, which will force processBlock() to recalculate
-        // them. Same goes for the period size below.
+        // them.
         filterConstant = 0.0;
-    }
-    else if(parameter->getName() == "Use Host Tempo") {
-        linkWithHostTempo = parameter->getValue() > 0.5;
-    }
-    else if(parameter->getName() == "Period") {
-        periodSizeInSeconds = parameters["Period"]->getValue();
-        periodSizeInSamples = 0;
     }
 }
 

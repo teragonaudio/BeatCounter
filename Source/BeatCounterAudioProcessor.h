@@ -93,27 +93,21 @@ private:
 private:
     ThreadsafePluginParameterSet parameters;
 
+    // Cached parameters
+    IntegerParameter *tolerance;
+    FloatParameter *period;
+    BooleanParameter *filterEnabled;
+    FrequencyParameter *filterFrequency;
+    BooleanParameter *useHostTempo;
+
     // Variables used by the lopass filter
-    bool filterEnabled;
     double filterOutput;
     double filterConstant;
-    double filterFrequency;
-
-    // How loud a beat must be, relative to the highest known amplitude, in order to trigger the start of beat state
-    double tolerance;
-    // Current BPM shown in GUI
-    double currentBpm;
-    // Running BPM shown in GUI
-    double runningBpm;
-    // How often to calculate total BPM (user parameter)
-    double periodSizeInSeconds;
-    // How often to calculate total BPM (used internally)
-    unsigned long periodSizeInSamples;
-    // If true, constrain minimum and maximum BPM ranges to be near the current tempo of the host
-    bool linkWithHostTempo;
 
     // Used to calculate the running BPM
     std::vector<double> bpmHistory;
+    // Running BPM shown in GUI
+    double runningBpm;
     // State of the processing algorithm, will be true if the current sample is part of the beat
     bool currentlyInsideBeat;
     // Highest known amplitude found since initialization (or reset)

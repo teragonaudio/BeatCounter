@@ -81,8 +81,9 @@ void BeatCounterAudioProcessor::reset()
     runningBpm = 0.0;
 }
 
-void BeatCounterAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
-{
+void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+    parameters.processRealtimeEvents();
+
     for(int i = 0; i < buffer.getNumSamples(); ++i) {
         float currentSample = *buffer.getSampleData(0, i);
         double currentSampleAmplitude;

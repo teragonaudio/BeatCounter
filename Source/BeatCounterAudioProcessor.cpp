@@ -17,11 +17,18 @@ static char const *const kStorageName = "BeatCounterStorage";
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
     parameters.add(new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue));
+    parameters["Tolerance"]->addObserver(this);
     parameters.add(new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue));
+    parameters["Period"]->addObserver(this);
     parameters.add(new BooleanParameter("Filter", true));
+    parameters["Filter"]->addObserver(this);
     parameters.add(new FrequencyParameter("Filter Frequency", kParamFilterMinValue, kParamFilterMaxValue, kParamFilterDefaultValue));
+    parameters["Filter Frequency"]->addObserver(this);
     parameters.add(new BooleanParameter("Use Host Tempo", false));
+    parameters["Use Host Tempo"]->addObserver(this);
     parameters.add(new VoidParameter("Reset"));
+    parameters["Reset"]->addObserver(this);
+
     parameters.add(new VoidParameter("Beat Triggered"));
     parameters.add(new FloatParameter("Current BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
     parameters.add(new FloatParameter("Running BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));

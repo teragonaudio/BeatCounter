@@ -46,7 +46,11 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
     version.append(" verison ").append(ProjectInfo::versionString);
     parameters.set("Version", version);
 
+    // Set some sane default starting values
     reset();
+
+    // Apply parameter changes immediately
+    parameters.processRealtimeEvents();
 }
 
 int BeatCounterAudioProcessor::getNumParameters() {

@@ -34,53 +34,49 @@ static const float kParamFilterMinValue = 50.0f;
 static const float kParamFilterMaxValue = 500.0f;
 static const float kParamFilterDefaultValue = 450.0f;
 
-//==============================================================================
 class BeatCounterAudioProcessor : public AudioProcessor, PluginParameterObserver {
 public:
-    //==============================================================================
     BeatCounterAudioProcessor();
     ~BeatCounterAudioProcessor() {}
 
-    //==============================================================================
-    void prepareToPlay (double sampleRate, int samplesPerBlock);
+    // Playback
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void releaseResources() {}
     void reset();
-    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
+    void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
-    //==============================================================================
+    // Editor
     AudioProcessorEditor* createEditor();
     bool hasEditor() const { return true; }
 
-    //==============================================================================
-    const String getName() const { return JucePlugin_Name; }
-
+    // Parameter handling
     int getNumParameters();
-    float getParameter (int index);
-    void setParameter (int index, float newValue);
+    float getParameter(int index);
+    void setParameter(int index, float newValue);
+    const String getParameterName(int index);
+    const String getParameterText(int index);
 
-    const String getParameterName (int index);
-    const String getParameterText (int index);
-
-    const String getInputChannelName (int channelIndex) const { return String(channelIndex + 1); }
-    const String getOutputChannelName (int channelIndex) const { return String(channelIndex + 1); }
-    bool isInputChannelStereoPair (int index) const { return true; }
-    bool isOutputChannelStereoPair (int index) const { return true; }
-
+    // Plugin configuration and basic properties
+    const String getName() const { return JucePlugin_Name; }
+    const String getInputChannelName(int channelIndex) const { return String(channelIndex + 1); }
+    const String getOutputChannelName(int channelIndex) const { return String(channelIndex + 1); }
+    bool isInputChannelStereoPair(int index) const { return true; }
+    bool isOutputChannelStereoPair(int index) const { return true; }
     bool acceptsMidi() const { return true; }
     bool producesMidi() const { return true; }
     bool silenceInProducesSilenceOut() const { return true; }
     double getTailLengthSeconds() const { return 0.0; }
 
-    //==============================================================================
+    // Program support (not needed by this plugin)
     int getNumPrograms() { return 0; }
     int getCurrentProgram() { return 0; }
-    void setCurrentProgram (int index) {}
-    const String getProgramName (int index) { return String::empty; }
-    void changeProgramName (int index, const String& newName) {}
+    void setCurrentProgram(int index) {}
+    const String getProgramName(int index) { return String::empty; }
+    void changeProgramName(int index, const String& newName) {}
 
-    //==============================================================================
-    void getStateInformation (MemoryBlock& destData);
-    void setStateInformation (const void* data, int sizeInBytes);
+    // State restore
+    void getStateInformation(MemoryBlock& destData);
+    void setStateInformation(const void* data, int sizeInBytes);
 
     // PluginParameterObserver methods
     virtual bool isRealtimePriority() const { return true; }

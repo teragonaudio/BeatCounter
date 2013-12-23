@@ -13,9 +13,7 @@
 
 static char const *const kStorageName = "BeatCounterStorage";
 
-//==============================================================================
-BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
-{
+BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor() {
     tolerance = new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue);
     tolerance->setUnit("%");
     parameters.add(tolerance);
@@ -72,20 +70,17 @@ const String BeatCounterAudioProcessor::getParameterText(int index) {
     return parameters[index]->getDisplayText();
 }
 
-//==============================================================================
-void BeatCounterAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
-{
+void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     minimumAllowedBpm = kMinimumTempo;
     maximumAllowedBpm = kMaximumTempo;
-    cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float) maximumAllowedBpm));
+    cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float)maximumAllowedBpm));
     samplesToSkip = kDownsampleFactor;
     parameters.set("Current BPM", 0.0);
     parameters.set("Running BPM", 0.0);
     runningBpm = 0.0;
 }
 
-void BeatCounterAudioProcessor::reset()
-{
+void BeatCounterAudioProcessor::reset() {
     bpmHistory.clear();
     filterOutput = 0.0f;
     filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency->getValue());
@@ -101,7 +96,7 @@ void BeatCounterAudioProcessor::reset()
     runningBpm = 0.0;
 }
 
-void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) {
+void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
     parameters.processRealtimeEvents();
 
     for(int i = 0; i < buffer.getNumSamples(); ++i) {
@@ -136,7 +131,7 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 
             // Beat amplitude trigger has been detected
             if(highestAmplitudeInPeriod >= (highestAmplitude * tolerance->getValue() / 100.0) &&
-                    highestAmplitudeInPeriod > kSilenceThreshold) {
+                highestAmplitudeInPeriod > kSilenceThreshold) {
 
                 // First sample inside of a beat?
                 if(!currentlyInsideBeat && numSamplesSinceLastBeat > cooldownPeriodInSamples) {
@@ -220,16 +215,14 @@ void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parame
     }
 }
 
-double BeatCounterAudioProcessor::calculateFilterConstant(double sampleRate, double frequency) const
-{
+double BeatCounterAudioProcessor::calculateFilterConstant(double sampleRate, double frequency) const {
     return sampleRate / (2.0f * M_PI * frequency);
 }
 
-double BeatCounterAudioProcessor::getHostTempo() const
-{
+double BeatCounterAudioProcessor::getHostTempo() const {
     double result = kDefaultTempo;
 
-    AudioPlayHead* playHead = getPlayHead();
+    AudioPlayHead *playHead = getPlayHead();
     if(playHead != NULL) {
         AudioPlayHead::CurrentPositionInfo currentPosition;
         playHead->getCurrentPosition(currentPosition);
@@ -239,36 +232,31 @@ double BeatCounterAudioProcessor::getHostTempo() const
     return result;
 }
 
-//==============================================================================
-void BeatCounterAudioProcessor::getStateInformation (MemoryBlock& destData)
-{
+void BeatCounterAudioProcessor::getStateInformation(MemoryBlock &destData) {
     XmlElement xml(kStorageName);
-    for (int i = 0; i < parameters.size(); ++i) {
-        PluginParameter* parameter = parameters[i];
+    for(int i = 0; i < parameters.size(); ++i) {
+        PluginParameter *parameter = parameters[i];
         xml.setAttribute(parameter->getSafeName().c_str(), parameter->getValue());
     }
     copyXmlToBinary(xml, destData);
 }
 
-void BeatCounterAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+void BeatCounterAudioProcessor::setStateInformation(const void *data, int sizeInBytes) {
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-    if (xmlState != 0 && xmlState->hasTagName(kStorageName)) {
+    if(xmlState != 0 && xmlState->hasTagName(kStorageName)) {
         for(int i = 0; i < parameters.size(); i++) {
-            PluginParameter* parameter = parameters[i];
+            PluginParameter *parameter = parameters[i];
             parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
         }
         reset();
+        parameters.processRealtimeEvents();
     }
 }
 
-//==============================================================================
-AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
-    return new BeatCounterAudioProcessor();
+AudioProcessorEditor *BeatCounterAudioProcessor::createEditor() {
+    return new MainEditorView(this, parameters, Resources::getCache());
 }
 
-AudioProcessorEditor* BeatCounterAudioProcessor::createEditor()
-{
-    return new MainEditorView(this, parameters, Resources::getCache());
+AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
+    return new BeatCounterAudioProcessor();
 }

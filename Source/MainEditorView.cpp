@@ -79,6 +79,10 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
                                                            resources));
     statusBar->setName ("status bar");
 
+    addAndMakeVisible (versionLabel = new teragon::ParameterLabel (parameters,
+                                                                   "Version"));
+    versionLabel->setName ("version label");
+
     cachedImage_background_png = ImageCache::getFromMemory (background_png, background_pngSize);
 
     //[UserPreSize]
@@ -92,10 +96,15 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     statusBar->ignoreParameter("Current BPM");
     statusBar->ignoreParameter("Running BPM");
     statusBar->ignoreParameter("Beat Triggered");
+
     currentBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     currentBpmLabel->setJustificationType(Justification::centredLeft);
     runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     runningBpmLabel->setJustificationType(Justification::centredLeft);
+
+    versionLabel->setFont(Font(Font::getDefaultMonospacedFontName(), StatusBar::kFontSize, Font::plain));
+    versionLabel->setJustificationType(Justification::centredLeft);
+    versionLabel->setJustificationType(Justification::centredRight);
     //[/Constructor]
 }
 
@@ -114,6 +123,7 @@ MainEditorView::~MainEditorView()
     runningBpmLabel = nullptr;
     periodKnob = nullptr;
     statusBar = nullptr;
+    versionLabel = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -162,6 +172,7 @@ void MainEditorView::resized()
     runningBpmLabel->setBounds (144, 52, 60, 32);
     periodKnob->setBounds (451, 10, 113, 113);
     statusBar->setBounds (24, 160, 240, 30);
+    versionLabel->setBounds (316, 174, 240, 16);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -225,6 +236,9 @@ BEGIN_JUCER_METADATA
   <GENERICCOMPONENT name="status bar" id="9122dba0def79a70" memberName="statusBar"
                     virtualName="teragon::StatusBar" explicitFocusOrder="0" pos="24 160 240 30"
                     class="Component" params="parameters,&#10;resources"/>
+  <GENERICCOMPONENT name="version label" id="376d73655e351d97" memberName="versionLabel"
+                    virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
+                    pos="316 174 240 16" class="Component" params="parameters,&#10;&quot;Version&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

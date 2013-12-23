@@ -73,6 +73,7 @@ private:
     ScopedPointer<teragon::ParameterLabel> runningBpmLabel;
     ScopedPointer<teragon::ImageKnobLarge> periodKnob;
     ScopedPointer<teragon::StatusBar> statusBar;
+    ScopedPointer<teragon::ParameterLabel> versionLabel;
     Image cachedImage_background_png;
 
 

@@ -17,9 +17,11 @@ static char const *const kStorageName = "BeatCounterStorage";
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
 {
     tolerance = new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue);
+    tolerance->setUnit("%");
     parameters.add(tolerance);
 
     period = new FloatParameter("Period", kParamPeriodMinValue, kParamPeriodMaxValue, kParamPeriodDefaultValue);
+    period->setUnit("sec");
     parameters.add(period);
 
     filterEnabled = new BooleanParameter("Filter", true);

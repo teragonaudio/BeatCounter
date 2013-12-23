@@ -114,8 +114,6 @@ private:
     double highestAmplitude;
     // Highest known amplitude found within a period
     double highestAmplitudeInPeriod;
-    // Running total of all amplitudes within a downsampled region
-    double totalRunningAmplitudex;
     // Running average of the number of samples found between beats. Used to calculate the actual BPM.
     double beatLengthRunningAverage;
     // Used to calculate the BPM in combination with beatLengthRunningAverage

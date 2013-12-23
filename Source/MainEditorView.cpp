@@ -102,7 +102,7 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     runningBpmLabel->setJustificationType(Justification::centredLeft);
 
-    versionLabel->setFont(Font(Font::getDefaultMonospacedFontName(), StatusBar::kFontSize, Font::plain));
+    versionLabel->setFont(StatusBar::getFont());
     versionLabel->setJustificationType(Justification::centredLeft);
     versionLabel->setJustificationType(Justification::centredRight);
     //[/Constructor]

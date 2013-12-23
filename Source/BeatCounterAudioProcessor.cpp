@@ -41,10 +41,9 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor()
     parameters.add(new FloatParameter("Current BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
     parameters.add(new FloatParameter("Running BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
 
-    parameters.add(new StringParameter("Version"));
     ParameterString version = ProjectInfo::projectName;
     version.append(" verison ").append(ProjectInfo::versionString);
-    parameters.set("Version", version);
+    parameters.add(new StringParameter("Version", version));
 
     // Set some sane default starting values
     reset();

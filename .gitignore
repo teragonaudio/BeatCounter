@@ -25,9 +25,6 @@ nbproject/*
 *.log
 *.tlog
 *.lastbuildstate
-*.sln
-*.vcxproj
-*.filters
 *.pdb
 *.ilk
 *.cache

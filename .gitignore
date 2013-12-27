@@ -1,9 +1,51 @@
-build
-*.pbxuser
+# Temporary files
+*.swp
+*~
+*.o
+*.so
+*.obj
+
+# Build directories
+Builds/MacOSX/build
+
+# Test output
+test/out/*
+Debug/*
+test/Debug/*
+Release/*
+test/Release/*
+
+# Stuff from various IDE's
+*.build
+test/*.build
+.idea/*
+*.xcodeproj
 *.perspectivev3
-Third-Party/vstsdk2.4/*
-*.ncb
-*.suo
+*.pbxuser
 *.user
-project.xcworkspace
+*.sdf
+*.opensdf
+*.suo
+nbproject/*
+*.log
+*.tlog
+*.lastbuildstate
+*.sln
+*.vcxproj
+*.filters
+*.pdb
+*.ilk
+*.cache
 workspace.xml
+
+# Vim helpers
+tags
+cscope.out
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+Makefile.in
+*.cmake

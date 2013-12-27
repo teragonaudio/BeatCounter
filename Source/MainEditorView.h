@@ -41,7 +41,7 @@ class MainEditorView  : public AudioProcessorEditor
 {
 public:
     //==============================================================================
-    MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::ThreadsafePluginParameterSet& p, teragon::ResourceCache *r);
+    MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::ConcurrentParameterSet& p, teragon::ResourceCache *r);
     ~MainEditorView();
 
     //==============================================================================
@@ -58,7 +58,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    teragon::ThreadsafePluginParameterSet &parameters;
+    teragon::ConcurrentParameterSet &parameters;
     teragon::ResourceCache *resources;
     //[/UserVariables]
 

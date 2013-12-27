@@ -11,6 +11,10 @@
 #include "BeatCounterAudioProcessor.h"
 #include "MainEditorView.h"
 
+// Needed for M_PI on Windows
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 static char const *const kStorageName = "BeatCounterStorage";
 
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor() {
@@ -200,7 +204,7 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuff
     }
 }
 
-void BeatCounterAudioProcessor::onParameterUpdated(const PluginParameter *parameter) {
+void BeatCounterAudioProcessor::onParameterUpdated(const Parameter *parameter) {
     if(parameter->getName() == "Reset") {
         reset();
     }
@@ -235,7 +239,7 @@ double BeatCounterAudioProcessor::getHostTempo() const {
 void BeatCounterAudioProcessor::getStateInformation(MemoryBlock &destData) {
     XmlElement xml(kStorageName);
     for(int i = 0; i < parameters.size(); ++i) {
-        PluginParameter *parameter = parameters[i];
+        Parameter *parameter = parameters[i];
         xml.setAttribute(parameter->getSafeName().c_str(), parameter->getValue());
     }
     copyXmlToBinary(xml, destData);
@@ -245,7 +249,7 @@ void BeatCounterAudioProcessor::setStateInformation(const void *data, int sizeIn
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if(xmlState != 0 && xmlState->hasTagName(kStorageName)) {
         for(int i = 0; i < parameters.size(); i++) {
-            PluginParameter *parameter = parameters[i];
+            Parameter *parameter = parameters[i];
             parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
         }
         reset();

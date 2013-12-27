@@ -27,7 +27,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::ThreadsafePluginParameterSet& p, teragon::ResourceCache *r)
+MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon::ConcurrentParameterSet& p, teragon::ResourceCache *r)
     : AudioProcessorEditor(ownerFilter),
       parameters(p),
       resources(r)
@@ -146,13 +146,13 @@ void MainEditorView::paint (Graphics& g)
 
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
-    g.drawText ("Current BPM:",
+    g.drawText (TRANS("Current BPM:"),
                 30, 18, 112, 32,
                 Justification::centredLeft, true);
 
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
-    g.drawText ("Running BPM:",
+    g.drawText (TRANS("Running BPM:"),
                 30, 52, 112, 32,
                 Justification::centredLeft, true);
 
@@ -193,7 +193,7 @@ void MainEditorView::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainEditorView" componentName=""
-                 parentClasses="public AudioProcessorEditor" constructorParams="BeatCounterAudioProcessor* ownerFilter, teragon::ThreadsafePluginParameterSet&amp; p, teragon::ResourceCache *r"
+                 parentClasses="public AudioProcessorEditor" constructorParams="BeatCounterAudioProcessor* ownerFilter, teragon::ConcurrentParameterSet&amp; p, teragon::ResourceCache *r"
                  variableInitialisers="AudioProcessorEditor(ownerFilter),&#10;parameters(p),&#10;resources(r)"
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="581" initialHeight="210">

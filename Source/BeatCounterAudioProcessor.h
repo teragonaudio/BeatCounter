@@ -34,7 +34,7 @@ static const float kParamFilterMinValue = 50.0f;
 static const float kParamFilterMaxValue = 500.0f;
 static const float kParamFilterDefaultValue = 450.0f;
 
-class BeatCounterAudioProcessor : public AudioProcessor, PluginParameterObserver {
+class BeatCounterAudioProcessor : public AudioProcessor, ParameterObserver {
 public:
     BeatCounterAudioProcessor();
     ~BeatCounterAudioProcessor() {}
@@ -80,14 +80,14 @@ public:
 
     // PluginParameterObserver methods
     virtual bool isRealtimePriority() const { return true; }
-    virtual void onParameterUpdated(const PluginParameter *parameter);
+    virtual void onParameterUpdated(const Parameter *parameter);
 
 private:
     double calculateFilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 
 private:
-    ThreadsafePluginParameterSet parameters;
+    ConcurrentParameterSet parameters;
 
     // Cached parameters
     IntegerParameter *tolerance;

@@ -7,13 +7,8 @@
 
 # Build directories
 Builds/MacOSX/build
-
-# Test output
-test/out/*
-Debug/*
-test/Debug/*
-Release/*
-test/Release/*
+Builds/VisualStudio2013/Debug/*
+Builds/VisualStudio2013/Release/*
 
 # Stuff from various IDE's
 *.build

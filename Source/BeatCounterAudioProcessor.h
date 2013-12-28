@@ -60,8 +60,8 @@ public:
     const String getName() const { return JucePlugin_Name; }
     const String getInputChannelName(int channelIndex) const { return String(channelIndex + 1); }
     const String getOutputChannelName(int channelIndex) const { return String(channelIndex + 1); }
-    bool isInputChannelStereoPair(int index) const { return true; }
-    bool isOutputChannelStereoPair(int index) const { return true; }
+    bool isInputChannelStereoPair(int) const { return true; }
+    bool isOutputChannelStereoPair(int) const { return true; }
     bool acceptsMidi() const { return true; }
     bool producesMidi() const { return true; }
     bool silenceInProducesSilenceOut() const { return true; }
@@ -70,9 +70,9 @@ public:
     // Program support (not needed by this plugin)
     int getNumPrograms() { return 0; }
     int getCurrentProgram() { return 0; }
-    void setCurrentProgram(int index) {}
-    const String getProgramName(int index) { return String::empty; }
-    void changeProgramName(int index, const String& newName) {}
+    void setCurrentProgram(int) {}
+    const String getProgramName(int) { return String::empty; }
+    void changeProgramName(int, const String&) {}
 
     // State restore
     void getStateInformation(MemoryBlock& destData);

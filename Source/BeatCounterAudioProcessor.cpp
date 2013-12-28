@@ -74,7 +74,7 @@ const String BeatCounterAudioProcessor::getParameterText(int index) {
     return parameters[index]->getDisplayText();
 }
 
-void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
+void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int) {
     minimumAllowedBpm = kMinimumTempo;
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float)maximumAllowedBpm));
@@ -100,7 +100,7 @@ void BeatCounterAudioProcessor::reset() {
     runningBpm = 0.0;
 }
 
-void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
+void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &) {
     parameters.processRealtimeEvents();
 
     for(int i = 0; i < buffer.getNumSamples(); ++i) {
@@ -238,7 +238,7 @@ double BeatCounterAudioProcessor::getHostTempo() const {
 
 void BeatCounterAudioProcessor::getStateInformation(MemoryBlock &destData) {
     XmlElement xml(kStorageName);
-    for(int i = 0; i < parameters.size(); ++i) {
+    for(size_t i = 0; i < parameters.size(); ++i) {
         Parameter *parameter = parameters[i];
         xml.setAttribute(parameter->getSafeName().c_str(), parameter->getValue());
     }
@@ -248,7 +248,7 @@ void BeatCounterAudioProcessor::getStateInformation(MemoryBlock &destData) {
 void BeatCounterAudioProcessor::setStateInformation(const void *data, int sizeInBytes) {
     ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
     if(xmlState != 0 && xmlState->hasTagName(kStorageName)) {
-        for(int i = 0; i < parameters.size(); i++) {
+        for(size_t i = 0; i < parameters.size(); i++) {
             Parameter *parameter = parameters[i];
             parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
         }

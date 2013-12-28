@@ -5,17 +5,17 @@
 DEPFLAGS := $(if $(word 2, $(TARGET_ARCH)), , -MMD)
 
 ifndef CONFIG
-  CONFIG=Debug
+  CONFIG=Debug-i386
 endif
 
-ifeq ($(CONFIG),Debug)
+ifeq ($(CONFIG),Debug-i386)
   BINDIR := build
   LIBDIR := build
-  OBJDIR := build/intermediate/Debug
+  OBJDIR := build/intermediate/Debug-i386
   OUTDIR := build
 
   ifeq ($(TARGET_ARCH),)
-    TARGET_ARCH := -march=native
+    TARGET_ARCH := -m32
   endif
 
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -I /usr/include -I /usr/include/freetype2 -I ../../Third-Party/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules
@@ -28,14 +28,14 @@ ifeq ($(CONFIG),Debug)
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
 endif
 
-ifeq ($(CONFIG),Release)
+ifeq ($(CONFIG),Release-i386)
   BINDIR := build
   LIBDIR := build
-  OBJDIR := build/intermediate/Release
+  OBJDIR := build/intermediate/Release-i386
   OUTDIR := build
 
   ifeq ($(TARGET_ARCH),)
-    TARGET_ARCH := -march=native
+    TARGET_ARCH := -m32
   endif
 
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -I /usr/include -I /usr/include/freetype2 -I ../../Third-Party/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules

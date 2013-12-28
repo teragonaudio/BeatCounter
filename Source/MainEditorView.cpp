@@ -97,9 +97,9 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     statusBar->ignoreParameter("Running BPM");
     statusBar->ignoreParameter("Beat Triggered");
 
-    currentBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    currentBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 16.0f, Font::plain));
     currentBpmLabel->setJustificationType(Justification::centredRight);
-    runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 16.0f, Font::plain));
     runningBpmLabel->setJustificationType(Justification::centredRight);
 
     versionLabel->setFont(StatusBar::getFont());
@@ -144,15 +144,15 @@ void MainEditorView::paint (Graphics& g)
                  0, 0, cachedImage_background_png.getWidth(), cachedImage_background_png.getHeight());
 
     g.setColour (Colours::black);
-    g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultMonospacedFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("Current BPM:"),
-                24, 18, 130, 32,
+                26, 18, 130, 32,
                 Justification::centredLeft, true);
 
     g.setColour (Colours::black);
-    g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultMonospacedFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("Running BPM:"),
-                24, 52, 130, 32,
+                26, 52, 130, 32,
                 Justification::centredLeft, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -167,8 +167,8 @@ void MainEditorView::resized()
     toleranceKnob->setBounds (329, 10, 113, 113);
     autofilterFrequencyKnob->setBounds (241, 53, 66, 66);
     autofilterButton->setBounds (239, 10, 72, 40);
-    currentBpmLabel->setBounds (145, 18, 64, 32);
-    runningBpmLabel->setBounds (145, 52, 64, 32);
+    currentBpmLabel->setBounds (143, 18, 64, 32);
+    runningBpmLabel->setBounds (143, 52, 64, 32);
     periodKnob->setBounds (451, 10, 113, 113);
     statusBar->setBounds (24, 160, 240, 30);
     versionLabel->setBounds (316, 174, 240, 16);
@@ -198,11 +198,11 @@ BEGIN_JUCER_METADATA
                  fixedSize="1" initialWidth="581" initialHeight="210">
   <BACKGROUND backgroundColour="ff000000">
     <IMAGE pos="0 0 581 210" resource="background_png" opacity="1" mode="0"/>
-    <TEXT pos="24 18 130 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
-          fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
+    <TEXT pos="26 18 130 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
+          fontname="Default monospaced font" fontsize="16" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="24 52 130 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
-          fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
+    <TEXT pos="26 52 130 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
+          fontname="Default monospaced font" fontsize="16" bold="0" italic="0"
           justification="33"/>
   </BACKGROUND>
   <GENERICCOMPONENT name="BeatIndicatorLight" id="9597f0a11978ce24" memberName="beatIndicatorLight"
@@ -225,10 +225,10 @@ BEGIN_JUCER_METADATA
                     class="Component" params="parameters,&#10;&quot;Filter&quot;,&#10;resources"/>
   <GENERICCOMPONENT name="current bpm label" id="97bbaab7b99b9c83" memberName="currentBpmLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
-                    pos="145 18 64 32" class="Component" params="parameters,&#10;&quot;Current BPM&quot;"/>
+                    pos="143 18 64 32" class="Component" params="parameters,&#10;&quot;Current BPM&quot;"/>
   <GENERICCOMPONENT name="running bpm label" id="9e8fda42544a544" memberName="runningBpmLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
-                    pos="145 52 64 32" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
+                    pos="143 52 64 32" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
   <GENERICCOMPONENT name="period knob" id="ce2c6ebfd58d7073" memberName="periodKnob"
                     virtualName="teragon::ImageKnobLarge" explicitFocusOrder="0"
                     pos="451 10 113 113" class="Component" params="parameters,&#10;&quot;Period&quot;,&#10;resources"/>

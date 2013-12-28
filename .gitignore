@@ -9,6 +9,9 @@
 Builds/MacOSX/build
 Builds/VisualStudio2013/Debug/*
 Builds/VisualStudio2013/Release/*
+Builds/VisualStudio2013/x64/*
+Builds/VisualStudio2013/Debug-x64/*
+Builds/VisualStudio2013/Release-x64/*
 
 # Stuff from various IDE's
 *.build

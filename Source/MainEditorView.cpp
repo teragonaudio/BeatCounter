@@ -98,12 +98,11 @@ MainEditorView::MainEditorView (BeatCounterAudioProcessor* ownerFilter, teragon:
     statusBar->ignoreParameter("Beat Triggered");
 
     currentBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
-    currentBpmLabel->setJustificationType(Justification::centredLeft);
+    currentBpmLabel->setJustificationType(Justification::centredRight);
     runningBpmLabel->setFont(Font(Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
-    runningBpmLabel->setJustificationType(Justification::centredLeft);
+    runningBpmLabel->setJustificationType(Justification::centredRight);
 
     versionLabel->setFont(StatusBar::getFont());
-    versionLabel->setJustificationType(Justification::centredLeft);
     versionLabel->setJustificationType(Justification::centredRight);
     //[/Constructor]
 }
@@ -147,13 +146,13 @@ void MainEditorView::paint (Graphics& g)
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     g.drawText (TRANS("Current BPM:"),
-                30, 18, 112, 32,
+                24, 18, 130, 32,
                 Justification::centredLeft, true);
 
     g.setColour (Colours::black);
     g.setFont (Font (Font::getDefaultMonospacedFontName(), 18.00f, Font::plain));
     g.drawText (TRANS("Running BPM:"),
-                30, 52, 112, 32,
+                24, 52, 130, 32,
                 Justification::centredLeft, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -168,8 +167,8 @@ void MainEditorView::resized()
     toleranceKnob->setBounds (329, 10, 113, 113);
     autofilterFrequencyKnob->setBounds (241, 53, 66, 66);
     autofilterButton->setBounds (239, 10, 72, 40);
-    currentBpmLabel->setBounds (144, 18, 60, 32);
-    runningBpmLabel->setBounds (144, 52, 60, 32);
+    currentBpmLabel->setBounds (145, 18, 64, 32);
+    runningBpmLabel->setBounds (145, 52, 64, 32);
     periodKnob->setBounds (451, 10, 113, 113);
     statusBar->setBounds (24, 160, 240, 30);
     versionLabel->setBounds (316, 174, 240, 16);
@@ -199,10 +198,10 @@ BEGIN_JUCER_METADATA
                  fixedSize="1" initialWidth="581" initialHeight="210">
   <BACKGROUND backgroundColour="ff000000">
     <IMAGE pos="0 0 581 210" resource="background_png" opacity="1" mode="0"/>
-    <TEXT pos="30 18 112 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
+    <TEXT pos="24 18 130 32" fill="solid: ff000000" hasStroke="0" text="Current BPM:"
           fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="30 52 112 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
+    <TEXT pos="24 52 130 32" fill="solid: ff000000" hasStroke="0" text="Running BPM:"
           fontname="Default monospaced font" fontsize="18" bold="0" italic="0"
           justification="33"/>
   </BACKGROUND>
@@ -226,10 +225,10 @@ BEGIN_JUCER_METADATA
                     class="Component" params="parameters,&#10;&quot;Filter&quot;,&#10;resources"/>
   <GENERICCOMPONENT name="current bpm label" id="97bbaab7b99b9c83" memberName="currentBpmLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
-                    pos="144 18 60 32" class="Component" params="parameters,&#10;&quot;Current BPM&quot;"/>
+                    pos="145 18 64 32" class="Component" params="parameters,&#10;&quot;Current BPM&quot;"/>
   <GENERICCOMPONENT name="running bpm label" id="9e8fda42544a544" memberName="runningBpmLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
-                    pos="144 52 60 32" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
+                    pos="145 52 64 32" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
   <GENERICCOMPONENT name="period knob" id="ce2c6ebfd58d7073" memberName="periodKnob"
                     virtualName="teragon::ImageKnobLarge" explicitFocusOrder="0"
                     pos="451 10 113 113" class="Component" params="parameters,&#10;&quot;Period&quot;,&#10;resources"/>

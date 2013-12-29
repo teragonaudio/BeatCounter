@@ -119,7 +119,7 @@
                extraCompilerFlags="-I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include"
                extraDefs="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitIntel"
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="Native"
                        isDebug="1" optimisation="1" targetName="BeatCounter" cppLibType="libc++"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
                        isDebug="0" optimisation="3" targetName="BeatCounter" cppLibType="libc++"/>

@@ -54,6 +54,7 @@ public:
     void setParameter(int index, float newValue);
     const String getParameterName(int index);
     const String getParameterText(int index);
+    bool isMetaParameter(int index) const;
 
     // Plugin configuration and basic properties
     const String getName() const { return JucePlugin_Name; }

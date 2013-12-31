@@ -94,6 +94,10 @@ void BeatCounterAudioProcessor::clearBpmHistory() {
     runningBpm = 0.0;
 }
 
+bool BeatCounterAudioProcessor::isMetaParameter(int index) const {
+    return (dynamic_cast<VoidParameter *>(parameters[index]) == nullptr);
+}
+
 void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &) {
     parameters.processRealtimeEvents();
 

@@ -59,7 +59,7 @@ float BeatCounterAudioProcessor::getParameter(int index) {
 }
 
 void BeatCounterAudioProcessor::setParameter(int index, float newValue) {
-    parameters.setScaled(index, newValue);
+    parameters.setScaled((const size_t)index, newValue);
 }
 
 const String BeatCounterAudioProcessor::getParameterName(int index) {

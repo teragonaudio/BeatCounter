@@ -41,8 +41,7 @@ public:
 
     // Playback
     void prepareToPlay(double sampleRate, int samplesPerBlock);
-    void releaseResources() {}
-    void reset();
+    void releaseResources();
     void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
     // Editor
@@ -83,6 +82,7 @@ public:
     virtual void onParameterUpdated(const Parameter *parameter);
 
 private:
+    void clearBpmHistory();
     double calculateFilterConstant(double sampleRate, double frequency) const;
     double getHostTempo() const;
 

@@ -47,11 +47,7 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor() {
     version.append(" verison ").append(ProjectInfo::versionString);
     parameters.add(new StringParameter("Version", version));
 
-    // Set some sane default starting values
-    reset();
-
-    // Apply parameter changes immediately
-    parameters.processRealtimeEvents();
+    parameters.pause();
 }
 
 int BeatCounterAudioProcessor::getNumParameters() {
@@ -79,15 +75,13 @@ void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int) {
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float)maximumAllowedBpm));
     samplesToSkip = kDownsampleFactor;
-    parameters.set("Current BPM", 0.0);
-    parameters.set("Running BPM", 0.0);
-    runningBpm = 0.0;
+    clearBpmHistory();
+    // parameters.resume();
 }
 
-void BeatCounterAudioProcessor::reset() {
+void BeatCounterAudioProcessor::clearBpmHistory() {
     bpmHistory.clear();
     filterOutput = 0.0f;
-    filterConstant = calculateFilterConstant(getSampleRate(), filterFrequency->getValue());
     numSamplesProcessed = 0;
     highestAmplitude = 0.0;
     highestAmplitudeInPeriod = 0.0;
@@ -204,9 +198,13 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuff
     }
 }
 
+void BeatCounterAudioProcessor::releaseResources() {
+    parameters.pause();
+}
+
 void BeatCounterAudioProcessor::onParameterUpdated(const Parameter *parameter) {
     if(parameter->getName() == "Reset") {
-        reset();
+        clearBpmHistory();
     }
     else if(parameter->getName() == "Filter Frequency") {
         // Yeah, you'd think that it would make sense to cache these values here, given that it's
@@ -252,7 +250,6 @@ void BeatCounterAudioProcessor::setStateInformation(const void *data, int sizeIn
             Parameter *parameter = parameters[i];
             parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
         }
-        reset();
         parameters.processRealtimeEvents();
     }
 }

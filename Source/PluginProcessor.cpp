@@ -11,9 +11,11 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#if WIN32
 // Needed for M_PI on Windows
 #define _USE_MATH_DEFINES
 #include <math.h>
+#endif
 
 BeatCounterAudioProcessor::BeatCounterAudioProcessor() : TeragonPluginBase(), ParameterObserver() {
     tolerance = new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue);

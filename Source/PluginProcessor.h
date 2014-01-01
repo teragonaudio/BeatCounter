@@ -12,6 +12,7 @@
 #define __PLUGINPROCESSOR_H_1E83B8E4__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "TeragonPluginBase.h"
 #include "PluginParameters.h"
 
 using namespace teragon;
@@ -34,49 +35,17 @@ static const float kParamFilterMinValue = 50.0f;
 static const float kParamFilterMaxValue = 500.0f;
 static const float kParamFilterDefaultValue = 450.0f;
 
-class BeatCounterAudioProcessor : public AudioProcessor, ParameterObserver {
+class BeatCounterAudioProcessor : public TeragonPluginBase, ParameterObserver {
 public:
     BeatCounterAudioProcessor();
     ~BeatCounterAudioProcessor() {}
 
-    // Playback
+    const String getName() const { return JucePlugin_Name; }
+    AudioProcessorEditor* createEditor();
+
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void releaseResources();
     void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
-
-    // Editor
-    AudioProcessorEditor* createEditor();
-    bool hasEditor() const { return true; }
-
-    // Parameter handling
-    int getNumParameters();
-    float getParameter(int index);
-    void setParameter(int index, float newValue);
-    const String getParameterName(int index);
-    const String getParameterText(int index);
-    bool isMetaParameter(int index) const;
-
-    // Plugin configuration and basic properties
-    const String getName() const { return JucePlugin_Name; }
-    const String getInputChannelName(int channelIndex) const { return String(channelIndex + 1); }
-    const String getOutputChannelName(int channelIndex) const { return String(channelIndex + 1); }
-    bool isInputChannelStereoPair(int) const { return true; }
-    bool isOutputChannelStereoPair(int) const { return true; }
-    bool acceptsMidi() const { return true; }
-    bool producesMidi() const { return true; }
-    bool silenceInProducesSilenceOut() const { return true; }
-    double getTailLengthSeconds() const { return 0.0; }
-
-    // Program support (not needed by this plugin)
-    int getNumPrograms() { return 0; }
-    int getCurrentProgram() { return 0; }
-    void setCurrentProgram(int) {}
-    const String getProgramName(int) { return String::empty; }
-    void changeProgramName(int, const String&) {}
-
-    // State restore
-    void getStateInformation(MemoryBlock& destData);
-    void setStateInformation(const void* data, int sizeInBytes);
 
     // PluginParameterObserver methods
     virtual bool isRealtimePriority() const { return true; }
@@ -88,8 +57,6 @@ private:
     double getHostTempo() const;
 
 private:
-    ConcurrentParameterSet parameters;
-
     // Cached parameters
     IntegerParameter *tolerance;
     FloatParameter *period;

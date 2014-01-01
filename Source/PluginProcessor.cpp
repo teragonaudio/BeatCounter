@@ -15,9 +15,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-static char const *const kStorageName = "BeatCounterStorage";
-
-BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor() {
+BeatCounterAudioProcessor::BeatCounterAudioProcessor() : TeragonPluginBase(), ParameterObserver() {
     tolerance = new IntegerParameter("Tolerance", kParamToleranceMinValue, kParamToleranceMaxValue, kParamToleranceDefaultValue);
     tolerance->setUnit("%");
     parameters.add(tolerance);
@@ -50,33 +48,13 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : AudioProcessor() {
     parameters.pause();
 }
 
-int BeatCounterAudioProcessor::getNumParameters() {
-    return parameters.size();
-}
-
-float BeatCounterAudioProcessor::getParameter(int index) {
-    return (float)parameters[index]->getScaledValue();
-}
-
-void BeatCounterAudioProcessor::setParameter(int index, float newValue) {
-    parameters.setScaled((const size_t)index, newValue);
-}
-
-const String BeatCounterAudioProcessor::getParameterName(int index) {
-    return parameters[index]->getName();
-}
-
-const String BeatCounterAudioProcessor::getParameterText(int index) {
-    return parameters[index]->getDisplayText();
-}
-
-void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int) {
+void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    TeragonPluginBase::prepareToPlay(sampleRate, samplesPerBlock);
     minimumAllowedBpm = kMinimumTempo;
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float)maximumAllowedBpm));
     samplesToSkip = kDownsampleFactor;
     clearBpmHistory();
-    // parameters.resume();
 }
 
 void BeatCounterAudioProcessor::clearBpmHistory() {
@@ -90,16 +68,11 @@ void BeatCounterAudioProcessor::clearBpmHistory() {
     numSamplesSinceLastBeat = 0;
     parameters.set("Current BPM", 0.0);
     parameters.set("Running BPM", 0.0);
-    parameters.processRealtimeEvents();
     runningBpm = 0.0;
 }
 
-bool BeatCounterAudioProcessor::isMetaParameter(int index) const {
-    return (dynamic_cast<VoidParameter *>(parameters[index]) == nullptr);
-}
-
-void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &) {
-    parameters.processRealtimeEvents();
+void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuffer &midiMessages) {
+    TeragonPluginBase::processBlock(buffer, midiMessages);
 
     for(int i = 0; i < buffer.getNumSamples(); ++i) {
         float currentSample = *buffer.getSampleData(0, i);
@@ -203,7 +176,8 @@ void BeatCounterAudioProcessor::processBlock(AudioSampleBuffer &buffer, MidiBuff
 }
 
 void BeatCounterAudioProcessor::releaseResources() {
-    parameters.pause();
+    TeragonPluginBase::releaseResources();
+    clearBpmHistory();
 }
 
 void BeatCounterAudioProcessor::onParameterUpdated(const Parameter *parameter) {
@@ -236,26 +210,6 @@ double BeatCounterAudioProcessor::getHostTempo() const {
     }
 
     return result;
-}
-
-void BeatCounterAudioProcessor::getStateInformation(MemoryBlock &destData) {
-    XmlElement xml(kStorageName);
-    for(size_t i = 0; i < parameters.size(); ++i) {
-        Parameter *parameter = parameters[i];
-        xml.setAttribute(parameter->getSafeName().c_str(), parameter->getValue());
-    }
-    copyXmlToBinary(xml, destData);
-}
-
-void BeatCounterAudioProcessor::setStateInformation(const void *data, int sizeInBytes) {
-    ScopedPointer<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-    if(xmlState != 0 && xmlState->hasTagName(kStorageName)) {
-        for(size_t i = 0; i < parameters.size(); i++) {
-            Parameter *parameter = parameters[i];
-            parameters.set(parameter, xmlState->getDoubleAttribute(parameter->getSafeName().c_str()));
-        }
-        parameters.processRealtimeEvents();
-    }
 }
 
 AudioProcessorEditor *BeatCounterAudioProcessor::createEditor() {

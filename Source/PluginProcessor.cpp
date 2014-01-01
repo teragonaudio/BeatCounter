@@ -8,8 +8,8 @@
   ==============================================================================
 */
 
-#include "BeatCounterAudioProcessor.h"
-#include "MainEditorView.h"
+#include "PluginProcessor.h"
+#include "PluginEditor.h"
 
 // Needed for M_PI on Windows
 #define _USE_MATH_DEFINES

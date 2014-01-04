@@ -147,7 +147,7 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <LINUX_MAKE targetFolder="Builds/Linux" vstFolder="Third-Party/vstsdk2.4"
-                extraCompilerFlags="-I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include"
+                extraCompilerFlags="-std=c++11 -I../../Third-Party/TeragonGuiComponents/Components/PluginParameters/include -I../../Third-Party/TeragonGuiComponents/Components/Plugin -I../../Third-Party/TeragonGuiComponents/Components/Source"
                 extraDefs="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug-i386" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"

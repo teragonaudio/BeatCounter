@@ -67,6 +67,8 @@ void BeatCounterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
     maximumAllowedBpm = kMaximumTempo;
     cooldownPeriodInSamples = (unsigned long)(sampleRate * (60.0f / (float)maximumAllowedBpm));
     samplesToSkip = kDownsampleFactor;
+    filterOutput = 0.0;
+    filterConstant = 0.0;
     clearBpmHistory();
 }
 

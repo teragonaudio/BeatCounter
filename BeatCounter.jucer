@@ -151,13 +151,16 @@
                 extraDefs="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug-i386" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="BeatCounter" linuxArchitecture="-m32"/>
+                       targetName="BeatCounter" linuxArchitecture="-m32" binaryPath="Builds/Linux/Debug-i386"/>
         <CONFIGURATION name="Release-i386" libraryPath="/usr/X11R6/lib/" isDebug="0"
-                       optimisation="3" targetName="BeatCounter" linuxArchitecture="-m32"/>
+                       optimisation="3" targetName="BeatCounter" linuxArchitecture="-m32"
+                       binaryPath="Builds/Linux/Release-i386"/>
         <CONFIGURATION name="Debug-x86_64" libraryPath="/usr/X11R6/lib/" isDebug="1"
-                       optimisation="1" targetName="BeatCounter" linuxArchitecture="-m64"/>
+                       optimisation="1" targetName="BeatCounter" linuxArchitecture="-m64"
+                       binaryPath="Builds/Linux/Debug-x86_64"/>
         <CONFIGURATION name="Release-x86_64" libraryPath="/usr/X11R6/lib/" isDebug="0"
-                       optimisation="3" targetName="BeatCounter" linuxArchitecture="-m64"/>
+                       optimisation="3" targetName="BeatCounter" linuxArchitecture="-m64"
+                       binaryPath="Builds/Linux/Release-x86_64"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode/modules"/>

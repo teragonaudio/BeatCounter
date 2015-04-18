@@ -17,3 +17,6 @@ CMakeScripts
 Makefile
 Makefile.in
 *.cmake
+
+# IDE files
+.idea

@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -17,8 +17,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_A1856FAF8960A11E__
-#define __JUCE_HEADER_A1856FAF8960A11E__
+#ifndef __JUCE_HEADER_5923D766B0EEC11__
+#define __JUCE_HEADER_5923D766B0EEC11__
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -87,12 +87,12 @@ private:
     ScopedPointer<teragon::IndicatorLight> beatIndicatorLight;
     ScopedPointer<teragon::PushButton> hostTempoButton;
     ScopedPointer<teragon::ToggleButton> resetButton;
-    ScopedPointer<teragon::ImageKnobLarge> toleranceKnob;
+    ScopedPointer<teragon::ImageKnobSmall> toleranceKnob;
     ScopedPointer<teragon::ImageKnobSmall> autofilterFrequencyKnob;
     ScopedPointer<teragon::PushButton> autofilterButton;
     ScopedPointer<teragon::ParameterLabel> currentBpmLabel;
     ScopedPointer<teragon::ParameterLabel> runningBpmLabel;
-    ScopedPointer<teragon::ImageKnobLarge> periodKnob;
+    ScopedPointer<teragon::ImageKnobSmall> periodKnob;
     ScopedPointer<teragon::StatusBar> statusBar;
     ScopedPointer<teragon::ParameterLabel> versionLabel;
     Image cachedImage_background_png;
@@ -105,4 +105,4 @@ private:
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_A1856FAF8960A11E__
+#endif   // __JUCE_HEADER_5923D766B0EEC11__

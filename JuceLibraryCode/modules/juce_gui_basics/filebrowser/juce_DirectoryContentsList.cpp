@@ -115,8 +115,7 @@ void DirectoryContentsList::setFileFilter (const FileFilter* newFileFilter)
 }
 
 //==============================================================================
-bool DirectoryContentsList::getFileInfo (const int index,
-                                         FileInfo& result) const
+bool DirectoryContentsList::getFileInfo (const int index, FileInfo& result) const
 {
     const ScopedLock sl (fileListLock);
 
@@ -136,7 +135,7 @@ File DirectoryContentsList::getFile (const int index) const
     if (const FileInfo* const info = files [index])
         return root.getChildFile (info->filename);
 
-    return File::nonexistent;
+    return File();
 }
 
 bool DirectoryContentsList::contains (const File& targetFile) const
@@ -222,7 +221,7 @@ struct FileInfoComparator
             return first->isDirectory ? -1 : 1;
        #endif
 
-        return first->filename.compareIgnoreCase (second->filename);
+        return first->filename.compareNatural (second->filename);
     }
 };
 

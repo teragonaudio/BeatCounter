@@ -22,16 +22,27 @@
   ==============================================================================
 */
 
-FileFilter::FileFilter (const String& filterDescription)
-    : description (filterDescription)
+AnimatedAppComponent::AnimatedAppComponent()
+    : lastUpdateTime (Time::getCurrentTime()), totalUpdates (0)
 {
+    setOpaque (true);
 }
 
-FileFilter::~FileFilter()
+void AnimatedAppComponent::setFramesPerSecond (int framesPerSecond)
 {
+    jassert (framesPerSecond > 0 && framesPerSecond < 1000);
+    startTimerHz (framesPerSecond);
 }
 
-const String& FileFilter::getDescription() const noexcept
+int AnimatedAppComponent::getMillisecondsSinceLastUpdate() const noexcept
 {
-    return description;
+    return (int) (Time::getCurrentTime() - lastUpdateTime).inMilliseconds();
+}
+
+void AnimatedAppComponent::timerCallback()
+{
+    ++totalUpdates;
+    update();
+    repaint();
+    lastUpdateTime = Time::getCurrentTime();
 }

@@ -30,11 +30,13 @@
  using namespace juce;
 #endif
 
+#if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
     const char* const  projectName    = "BeatCounter";
     const char* const  versionString  = "2.1.0";
     const int          versionNumber  = 0x20100;
 }
+#endif
 
 #endif   // __APPHEADERFILE_PKORJR__

@@ -22,52 +22,42 @@
   ==============================================================================
 */
 
-#ifndef JUCE_FILEFILTER_H_INCLUDED
-#define JUCE_FILEFILTER_H_INCLUDED
+#ifndef JUCE_LUACODETOKENISER_H_INCLUDED
+#define JUCE_LUACODETOKENISER_H_INCLUDED
 
 
 //==============================================================================
 /**
-    Interface for deciding which files are suitable for something.
-
-    For example, this is used by DirectoryContentsList to select which files
-    go into the list.
-
-    @see WildcardFileFilter, DirectoryContentsList, FileListComponent, FileBrowserComponent
 */
-class JUCE_API  FileFilter
+class JUCE_API  LuaTokeniser   : public CodeTokeniser
 {
 public:
     //==============================================================================
-    /** Creates a filter with the given description.
-
-        The description can be returned later with the getDescription() method.
-    */
-    FileFilter (const String& filterDescription);
-
-    /** Destructor. */
-    virtual ~FileFilter();
+    LuaTokeniser();
+    ~LuaTokeniser();
 
     //==============================================================================
-    /** Returns the description that the filter was created with. */
-    const String& getDescription() const noexcept;
+    int readNextToken (CodeDocument::Iterator&) override;
+    CodeEditorComponent::ColourScheme getDefaultColourScheme() override;
 
+    /** The token values returned by this tokeniser. */
+    enum TokenType
+    {
+        tokenType_error = 0,
+        tokenType_comment,
+        tokenType_keyword,
+        tokenType_operator,
+        tokenType_identifier,
+        tokenType_integer,
+        tokenType_float,
+        tokenType_string,
+        tokenType_bracket,
+        tokenType_punctuation
+    };
+
+private:
     //==============================================================================
-    /** Should return true if this file is suitable for inclusion in whatever context
-        the object is being used.
-    */
-    virtual bool isFileSuitable (const File& file) const = 0;
-
-    /** Should return true if this directory is suitable for inclusion in whatever context
-        the object is being used.
-    */
-    virtual bool isDirectorySuitable (const File& file) const = 0;
-
-
-protected:
-    //==============================================================================
-    String description;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LuaTokeniser)
 };
 
-
-#endif   // JUCE_FILEFILTER_H_INCLUDED
+#endif   // JUCE_LUACODETOKENISER_H_INCLUDED

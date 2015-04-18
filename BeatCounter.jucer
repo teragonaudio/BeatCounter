@@ -8,8 +8,9 @@
               pluginWantsMidiIn="0" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="1"
               pluginTailLength="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="BeatCounterAU"
               pluginAUViewClass="BeatCounterAU_V1" pluginRTASCategory="" aaxIdentifier="com.teragonaudio.BeatCounter"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
-              companyName="Teragon Audio" includeBinaryInAppConfig="1">
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
+              companyName="Teragon Audio" includeBinaryInAppConfig="1" buildVST3="0"
+              buildRTAS="0" buildAAX="0">
   <MAINGROUP id="UdUnEf" name="BeatCounter">
     <GROUP id="{0BA4A5C2-83C6-E5A5-888D-4FA311FBF3B8}" name="Components">
       <GROUP id="{D7D35FCA-50C8-6B42-531E-C3BA8AE3DB6D}" name="Plugin">

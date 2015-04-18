@@ -55,7 +55,7 @@ BeatCounterAudioProcessor::BeatCounterAudioProcessor() : TeragonPluginBase(), Pa
     parameters.add(new FloatParameter("Running BPM", kMinimumTempo, kMaximumTempo, kDefaultTempo));
 
     ParameterString version = ProjectInfo::projectName;
-    version.append(" verison ").append(ProjectInfo::versionString);
+    version.append(" version ").append(ProjectInfo::versionString);
     parameters.add(new StringParameter("Version", version));
 
     parameters.pause();

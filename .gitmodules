@@ -1,3 +1,6 @@
 [submodule "Third-Party/TeragonGuiComponents"]
 	path = Third-Party/TeragonGuiComponents
 	url = https://github.com/teragonaudio/TeragonGuiComponents.git
+[submodule "Builds/CMakeJuce"]
+	path = Builds/CMakeJuce
+	url = https://github.com/teragonaudio/CMakeJuce.git

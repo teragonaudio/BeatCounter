@@ -182,7 +182,7 @@ void MainEditorView::resized()
     autofilterFrequencyKnob->setBounds (237, 10, 66, 66);
     autofilterButton->setBounds (337, 106, 72, 40);
     currentBpmLabel->setBounds (23, 19, 184, 64);
-    runningBpmLabel->setBounds (23, 113, 184, 64);
+    runningBpmLabel->setBounds (23, 114, 184, 64);
     periodKnob->setBounds (436, 10, 66, 66);
     statusBar->setBounds (237, 160, 227, 30);
     versionLabel->setBounds (272, 174, 224, 16);
@@ -236,7 +236,7 @@ BEGIN_JUCER_METADATA
                     pos="23 19 184 64" class="Component" params="parameters,&#10;&quot;Current BPM&quot;"/>
   <GENERICCOMPONENT name="running bpm label" id="9e8fda42544a544" memberName="runningBpmLabel"
                     virtualName="teragon::ParameterLabel" explicitFocusOrder="0"
-                    pos="23 113 184 64" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
+                    pos="23 114 184 64" class="Component" params="parameters,&#10;&quot;Running BPM&quot;"/>
   <GENERICCOMPONENT name="period knob" id="ce2c6ebfd58d7073" memberName="periodKnob"
                     virtualName="teragon::ImageKnobSmall" explicitFocusOrder="0"
                     pos="436 10 66 66" class="Component" params="parameters,&#10;&quot;Period&quot;,&#10;resources"/>
